@@ -28,3 +28,16 @@ class LandCommand implements FlightCommand {
         flight.land();
     }
 }
+
+class HoldCommand implements FlightCommand {
+    private Flight flight;
+
+    public HoldCommand(Flight flight) {
+        this.flight = flight;
+    }
+
+    @Override
+    public void execute() {
+        flight.hold();
+    }
+}
