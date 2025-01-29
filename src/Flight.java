@@ -1,5 +1,6 @@
-public abstract class Flight {
+public abstract class Flight implements Subscriber {
     private String flightNumber;
+    private WeatherBroker broker;
     private FlightState state;
     private int fuel = 100;
 
@@ -12,7 +13,34 @@ public abstract class Flight {
     public Flight (String flightNumber) {
         this.flightNumber = flightNumber;
         this.state = new OnRunwayState();
+        this.broker = WeatherBroker.getInstance();
+
+        if(shouldSubscribeToWeather()) {
+            subscribeToWeatherTopics();
+        }
     }
+
+      protected boolean shouldSubscribeToWeather() {
+        return true;  
+    }
+
+    private void subscribeToWeatherTopics() {
+        broker.subscribe("WEATHER.STORM", this);
+        broker.subscribe("WEATHER.SUNNY", this);
+        broker.subscribe("WEATHER.FOG", this);
+    }
+
+        @Override
+    public void receive(String topic, String message) {
+        System.out.println(getType() + " " + flightNumber + " received " + topic + ": " + message);
+        
+        // If there's a storm and the flight is in the air, go into holding pattern
+        if (topic.equals("WEATHER.STORM") && state instanceof InAirState) {
+            System.out.println(getType() + " " + flightNumber + " holding at current location due to storm");
+            hold();
+        }
+    }
+
 
     public void setState(FlightState state){
         this.state = state;
