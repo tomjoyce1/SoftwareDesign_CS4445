@@ -1,15 +1,13 @@
-public class Flight {
-    private int planeNumber;
+public abstract class Flight {
+    private String flightNumber;
 
-    public Flight(int planeNumber) {
-        this.planeNumber = planeNumber;
+    public String getFlightNumber() {
+        return flightNumber;
     }
+    
+    public abstract String getType();
 
-    public void takeOff() {
-        System.out.println(planeNumber + " is taking off");
-    }
-
-    public void land() {
-        System.out.println(planeNumber + " is landing");
+    public Flight (String flightNumber) {
+        this.flightNumber = flightNumber;
     }
 }
