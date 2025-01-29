@@ -4,6 +4,11 @@ public class MilitaryFlight extends Flight {
         return "MilitaryFlight";
     }
 
+    @Override
+    protected boolean shouldSubscribeToWeather() {
+        return false;
+    }
+
     public MilitaryFlight(String flightNumber) {
         super(flightNumber);
     }
