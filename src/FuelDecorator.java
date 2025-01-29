@@ -7,7 +7,6 @@ public class FuelDecorator extends FlightDecorator {
 
     @Override
     public void consumeFuel() {
-        // Simply consume fuel at our custom rate
         int currentFuel = decoratedFlight.getFuel();
         decoratedFlight.setFuel(currentFuel - fuelConsumptionRate);
     }

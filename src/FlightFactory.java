@@ -3,12 +3,14 @@ public class FlightFactory {
         switch (type) {
             case PRIVATE:
                 return new PrivateFlight(flightNumber);
-            case CARGO:
-                return new CargoFlight(flightNumber);
+            case PASSENGER:
+                return new PassengerFlight(flightNumber);
             case MILITARY:
                 return new MilitaryFlight(flightNumber);
+            case CARGO:
+                return new CargoFlight(flightNumber);
             default:
-                throw new IllegalArgumentException("Unknown flight type");
+                return null;
         }
     }
 }
