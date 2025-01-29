@@ -1,5 +1,6 @@
 public abstract class Flight {
     private String flightNumber;
+    private FlightState state;
 
     public String getFlightNumber() {
         return flightNumber;
@@ -9,17 +10,25 @@ public abstract class Flight {
 
     public Flight (String flightNumber) {
         this.flightNumber = flightNumber;
+        this.state = new OnRunwayState();
+    }
+
+    public void setState(FlightState state){
+        this.state = state;
+    }
+    public String getState(){
+        return state.getStateName();
     }
 
     public void takeOff() {
-        System.out.println("Taking off");
+        state.takeOff(this);
     }
 
     public void land() {
-        System.out.println("Landing");
+        state.land(this);
     }
     
     public void hold() {
-        System.out.println("Holding");
+        state.hold(this);
     }
 }
