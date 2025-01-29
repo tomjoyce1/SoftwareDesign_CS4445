@@ -7,5 +7,4 @@ public class CargoFlight extends Flight {
     public CargoFlight(String flightNumber) {
         super(flightNumber);
     }
-    
 }

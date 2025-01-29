@@ -1,8 +1,4 @@
-
 public class FlightFactory {
-
-  
-
     public static Flight createFlight(FlightType type, String flightNumber) {
         switch (type) {
             case PRIVATE:
