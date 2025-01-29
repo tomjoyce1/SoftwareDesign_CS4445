@@ -18,4 +18,8 @@ public abstract class Flight {
     public void land() {
         System.out.println("Landing");
     }
+    
+    public void hold() {
+        System.out.println("Holding");
+    }
 }
