@@ -1,11 +1,12 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
+ 
 public class Main {
     private static WeatherStation weatherStation;
     private static List<Flight> flights;
     private static Scanner scanner;
+    private static final InterceptorDispatcher dispatcher = new InterceptorDispatcher();
 
     public static void main(String[] args) {
         initialize();
@@ -13,6 +14,7 @@ public class Main {
     }
 
     private static void initialize() {
+        dispatcher.addInterceptor(new LoggingInterceptor());
         weatherStation = new WeatherStation();
         flights = new ArrayList<>();
         scanner = new Scanner(System.in);
@@ -24,6 +26,7 @@ public class Main {
         while (running) {
             displayMenu();
             String choice = scanner.nextLine().toUpperCase();
+            dispatcher.dispatch(choice);
             
             switch (choice) {
                 case "1":
@@ -66,6 +69,8 @@ public class Main {
         
         System.out.print("Enter flight number: ");
         String flightNumber = scanner.nextLine().toUpperCase();
+        dispatcher.dispatch("Flight number is " + flightNumber + ", type is " + typeStr);
+
         
         try {
             FlightType type = FlightType.valueOf(typeStr);
@@ -87,6 +92,7 @@ public class Main {
         System.out.print("Enter flight number to control: ");
         String flightNumber = scanner.nextLine().toUpperCase();
         
+        
         Flight selectedFlight = flights.stream()
                 .filter(f -> f.getFlightNumber().equals(flightNumber))
                 .findFirst()
@@ -104,6 +110,8 @@ public class Main {
         System.out.print("Choose action: ");
         
         String action = scanner.nextLine();
+        dispatcher.dispatch("Controlling " + flightNumber + action);
+
         FlightCommand command = null;
         
         switch (action) {
@@ -134,6 +142,8 @@ public class Main {
         String choice = scanner.nextLine();
         System.out.print("Enter weather details: ");
         String details = scanner.nextLine();
+        dispatcher.dispatch(choice + details);
+
         
         switch (choice) {
             case "1":
