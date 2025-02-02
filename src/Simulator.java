@@ -22,11 +22,7 @@ public class Simulator {
         flights = new ArrayList<>();
         scanner = new Scanner(System.in);
         System.out.println("=== Airport Control System ===");
-        commands.put("1", new CreateFlightCommand(flights, scanner, dispatcher));
-        commands.put("2", new ControlFlightCommand(flights, scanner, dispatcher));
-        commands.put("3", new UpdateWeatherCommand(weatherStation, scanner, dispatcher));
-        commands.put("4", new ListFlightsCommand(flights));
-        commands.put("Q", new QuitCommand());
+        setUpCommands();
     }
 
     private static void runGameLoop() {
@@ -47,6 +43,14 @@ public class Simulator {
             }
         }
         scanner.close();
+    }
+
+    private static void setUpCommands() {
+        commands.put("1", new CreateFlightCommand(flights, scanner, dispatcher));
+        commands.put("2", new ControlFlightCommand(flights, scanner, dispatcher));
+        commands.put("3", new UpdateWeatherCommand(weatherStation, scanner, dispatcher));
+        commands.put("4", new ListFlightsCommand(flights));
+        commands.put("Q", new QuitCommand());
     }
 
     private static void displayMenu() {
