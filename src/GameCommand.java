@@ -1,9 +1,8 @@
 import java.util.List;
 import java.util.Scanner;
 
-interface GameCommand {
-    void execute();
-}
+@FunctionalInterface
+interface GameCommand extends Command {}
 
 class CreateFlightCommand implements GameCommand {
     private List<Flight> flights;
@@ -22,7 +21,7 @@ class CreateFlightCommand implements GameCommand {
         System.out.println("Flight types: PRIVATE, PASSENGER, MILITARY, CARGO");
         System.out.print("Enter flight type: ");
         String typeStr = scanner.nextLine().toUpperCase();
-        
+
         System.out.print("Enter flight number: ");
         String flightNumber = scanner.nextLine().toUpperCase();
         dispatcher.dispatch("Flight number is " + flightNumber + ", type is " + typeStr);
@@ -156,10 +155,10 @@ class ListFlightsCommand implements GameCommand {
         }
 
         for (Flight flight : flights) {
-            System.out.printf("%s %s - Status: %s%n", 
-                flight.getType(), 
-                flight.getFlightNumber(), 
-                flight.getState());
+            System.out.printf("%s %s - Status: %s%n",
+                    flight.getType(),
+                    flight.getFlightNumber(),
+                    flight.getState());
         }
     }
 }
