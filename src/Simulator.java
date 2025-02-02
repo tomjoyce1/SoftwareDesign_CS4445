@@ -12,11 +12,11 @@ public class Simulator {
     private static final Map<String, GameCommand> commands = new HashMap<>();
 
     public static void startSimulation() {
-        initialize();
+        initialise();
         runGameLoop();  
     } 
 
-    private static void initialize() {
+    private static void initialise() {
         dispatcher.addInterceptor(new LoggingInterceptor());
         weatherStation = new WeatherStation();
         flights = new ArrayList<>();
