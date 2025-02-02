@@ -1,4 +1,6 @@
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -10,6 +12,7 @@ public class LoggingInterceptor implements Interceptor {
 
     static {
         try {
+            Files.createDirectories(Paths.get("../logOutput"));
             fh = new FileHandler("../logOutput/logfileOutput.log", true); 
             logger.addHandler(fh);
 
