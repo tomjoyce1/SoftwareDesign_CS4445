@@ -4,7 +4,8 @@ import java.util.Map;
 import java.util.Scanner;
 
 @FunctionalInterface
-interface GameCommand extends Command {}
+interface GameCommand extends Command {
+}
 
 class CreateFlightCommand implements GameCommand {
     private List<Flight> flights;
@@ -103,6 +104,7 @@ class UpdateWeatherCommand implements GameCommand {
     private WeatherStation weatherStation;
     private Scanner scanner;
     private InterceptorDispatcher dispatcher;
+    private static final Map<String, Runnable> weatherActions = new HashMap<>();
 
     public UpdateWeatherCommand(WeatherStation weatherStation, Scanner scanner, InterceptorDispatcher dispatcher) {
         this.weatherStation = weatherStation;
@@ -122,20 +124,20 @@ class UpdateWeatherCommand implements GameCommand {
         System.out.print("Enter weather details: ");
         String details = scanner.nextLine();
         dispatcher.dispatch(choice + details);
+        setupWeatherActions(details);
 
-        switch (choice) {
-            case "1":
-                weatherStation.reportStorm(details);
-                break;
-            case "2":
-                weatherStation.reportSunny(details);
-                break;
-            case "3":
-                weatherStation.reportFoggy(details);
-                break;
-            default:
-                System.out.println("Invalid weather type!");
+        Runnable action = weatherActions.get(choice);
+        if (action != null) {
+            action.run();
+        } else {
+            System.out.println("Invalid weather type!");
         }
+    }
+
+    private void setupWeatherActions(String details) {
+        weatherActions.put("1", () -> weatherStation.reportStorm(details));
+        weatherActions.put("2", () -> weatherStation.reportSunny(details));
+        weatherActions.put("3", () -> weatherStation.reportFoggy(details));
     }
 }
 
