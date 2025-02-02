@@ -12,8 +12,8 @@ public class LoggingInterceptor implements Interceptor {
 
     static {
         try {
-            Files.createDirectories(Paths.get("../logOutput"));
-            fh = new FileHandler("../logOutput/logfileOutput.log", true); 
+            Files.createDirectories(Paths.get("./logOutput"));
+            fh = new FileHandler("./logOutput/logfileOutput.log", true); 
             logger.addHandler(fh);
 
             SimpleFormatter formatter = new SimpleFormatter();
