@@ -1,4 +1,6 @@
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 @FunctionalInterface
@@ -41,6 +43,7 @@ class ControlFlightCommand implements GameCommand {
     private List<Flight> flights;
     private Scanner scanner;
     private InterceptorDispatcher dispatcher;
+    private static final Map<String, FlightCommand> commands = new HashMap<>();
 
     public ControlFlightCommand(List<Flight> flights, Scanner scanner, InterceptorDispatcher dispatcher) {
         this.flights = flights;
@@ -78,24 +81,21 @@ class ControlFlightCommand implements GameCommand {
         String action = scanner.nextLine();
         dispatcher.dispatch("Controlling " + flightNumber + action);
 
-        FlightCommand command = null;
-
-        switch (action) {
-            case "1":
-                command = new TakeOffCommand(selectedFlight);
-                break;
-            case "2":
-                command = new LandCommand(selectedFlight);
-                break;
-            case "3":
-                command = new HoldCommand(selectedFlight);
-                break;
-            default:
-                System.out.println("Invalid action!");
-                return;
+        setUpFlightCommands(selectedFlight);
+        FlightCommand command = commands.get(action);
+        if (command != null) {
+            command.execute();
+        } else {
+            System.out.println("Invalid option!");
         }
 
         command.execute();
+    }
+
+    private static void setUpFlightCommands(Flight selectedFlight) {
+        commands.put("1", new TakeOffCommand(selectedFlight));
+        commands.put("2", new LandCommand(selectedFlight));
+        commands.put("3", new HoldCommand(selectedFlight));
     }
 }
 
