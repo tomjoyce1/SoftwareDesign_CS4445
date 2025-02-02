@@ -1,7 +1,5 @@
 @FunctionalInterface
-public interface FlightCommand {
-    void execute();
-}
+public interface FlightCommand extends Command {}
 
 class TakeOffCommand implements FlightCommand {
     private Flight flight;

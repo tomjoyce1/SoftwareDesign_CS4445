@@ -1,8 +1,10 @@
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
-interface GameCommand {
-    void execute();
+@FunctionalInterface
+interface GameCommand extends Command {
 }
 
 class CreateFlightCommand implements GameCommand {
@@ -22,7 +24,7 @@ class CreateFlightCommand implements GameCommand {
         System.out.println("Flight types: PRIVATE, PASSENGER, MILITARY, CARGO");
         System.out.print("Enter flight type: ");
         String typeStr = scanner.nextLine().toUpperCase();
-        
+
         System.out.print("Enter flight number: ");
         String flightNumber = scanner.nextLine().toUpperCase();
         dispatcher.dispatch("Flight number is " + flightNumber + ", type is " + typeStr);
@@ -42,6 +44,7 @@ class ControlFlightCommand implements GameCommand {
     private List<Flight> flights;
     private Scanner scanner;
     private InterceptorDispatcher dispatcher;
+    private static final Map<String, FlightCommand> commands = new HashMap<>();
 
     public ControlFlightCommand(List<Flight> flights, Scanner scanner, InterceptorDispatcher dispatcher) {
         this.flights = flights;
@@ -79,24 +82,21 @@ class ControlFlightCommand implements GameCommand {
         String action = scanner.nextLine();
         dispatcher.dispatch("Controlling " + flightNumber + action);
 
-        FlightCommand command = null;
-
-        switch (action) {
-            case "1":
-                command = new TakeOffCommand(selectedFlight);
-                break;
-            case "2":
-                command = new LandCommand(selectedFlight);
-                break;
-            case "3":
-                command = new HoldCommand(selectedFlight);
-                break;
-            default:
-                System.out.println("Invalid action!");
-                return;
+        setUpFlightCommands(selectedFlight);
+        FlightCommand command = commands.get(action);
+        if (command != null) {
+            command.execute();
+        } else {
+            System.out.println("Invalid option!");
         }
 
         command.execute();
+    }
+
+    private static void setUpFlightCommands(Flight selectedFlight) {
+        commands.put("1", new TakeOffCommand(selectedFlight));
+        commands.put("2", new LandCommand(selectedFlight));
+        commands.put("3", new HoldCommand(selectedFlight));
     }
 }
 
@@ -104,6 +104,7 @@ class UpdateWeatherCommand implements GameCommand {
     private WeatherStation weatherStation;
     private Scanner scanner;
     private InterceptorDispatcher dispatcher;
+    private static final Map<String, Runnable> weatherActions = new HashMap<>();
 
     public UpdateWeatherCommand(WeatherStation weatherStation, Scanner scanner, InterceptorDispatcher dispatcher) {
         this.weatherStation = weatherStation;
@@ -123,20 +124,20 @@ class UpdateWeatherCommand implements GameCommand {
         System.out.print("Enter weather details: ");
         String details = scanner.nextLine();
         dispatcher.dispatch(choice + details);
+        setupWeatherActions(details);
 
-        switch (choice) {
-            case "1":
-                weatherStation.reportStorm(details);
-                break;
-            case "2":
-                weatherStation.reportSunny(details);
-                break;
-            case "3":
-                weatherStation.reportFoggy(details);
-                break;
-            default:
-                System.out.println("Invalid weather type!");
+        Runnable action = weatherActions.get(choice);
+        if (action != null) {
+            action.run();
+        } else {
+            System.out.println("Invalid weather type!");
         }
+    }
+
+    private void setupWeatherActions(String details) {
+        weatherActions.put("1", () -> weatherStation.reportStorm(details));
+        weatherActions.put("2", () -> weatherStation.reportSunny(details));
+        weatherActions.put("3", () -> weatherStation.reportFoggy(details));
     }
 }
 
@@ -156,10 +157,10 @@ class ListFlightsCommand implements GameCommand {
         }
 
         for (Flight flight : flights) {
-            System.out.printf("%s %s - Status: %s%n", 
-                flight.getType(), 
-                flight.getFlightNumber(), 
-                flight.getState());
+            System.out.printf("%s %s - Status: %s%n",
+                    flight.getType(),
+                    flight.getFlightNumber(),
+                    flight.getState());
         }
     }
 }
