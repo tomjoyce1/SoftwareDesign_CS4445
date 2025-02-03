@@ -1,4 +1,3 @@
-package main.java;
 public abstract class FlightDecorator extends Flight {
     protected Flight decoratedFlight;
 

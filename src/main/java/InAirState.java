@@ -1,4 +1,3 @@
-package main.java;
 public class InAirState implements FlightState{
     @Override
     public void takeOff(Flight flight) {

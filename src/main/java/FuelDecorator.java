@@ -1,4 +1,3 @@
-package main.java;
 public class FuelDecorator extends FlightDecorator {
     private int fuelConsumptionRate = 10;
 

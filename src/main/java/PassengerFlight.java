@@ -1,4 +1,3 @@
-package main.java;
 public class PassengerFlight extends Flight {
     @Override
     public String getType() {

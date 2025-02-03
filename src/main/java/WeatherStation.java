@@ -1,4 +1,3 @@
-package main.java;
 public class WeatherStation implements Publisher {
     // this is the pubsub publisher
 

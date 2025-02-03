@@ -1,4 +1,3 @@
-package main.java;
 public class MilitaryFlight extends Flight {
     @Override
     public String getType() {
