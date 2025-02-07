@@ -4,6 +4,8 @@
 # Log file
 *.log
 /logOutput/
+logfileOutput.txt
+logOutput.txt
 
 # BlueJ files
 *.ctxt
