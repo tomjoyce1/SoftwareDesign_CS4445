@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class WeatherBroker {
     private static WeatherBroker instance;
-    private Map<String, List<Subscriber>> topics;
+    private final Map<String, List<Subscriber>> topics;
 
     private WeatherBroker() {
         topics = new HashMap<>();

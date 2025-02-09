@@ -1,7 +1,7 @@
 public class WeatherStation implements Publisher {
     // this is the pubsub publisher
 
-    private WeatherBroker broker;
+    private final WeatherBroker broker;
 
     public WeatherStation() {
         broker = WeatherBroker.getInstance();

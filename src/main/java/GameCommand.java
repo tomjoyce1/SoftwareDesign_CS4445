@@ -8,9 +8,9 @@ interface GameCommand extends Command {
 }
 
 class CreateFlightCommand implements GameCommand {
-    private List<Flight> flights;
-    private Scanner scanner;
-    private InterceptorDispatcher dispatcher;
+    private final List<Flight> flights;
+    private final Scanner scanner;
+    private final InterceptorDispatcher dispatcher;
 
     public CreateFlightCommand(List<Flight> flights, Scanner scanner, InterceptorDispatcher dispatcher) {
         this.flights = flights;
@@ -41,9 +41,9 @@ class CreateFlightCommand implements GameCommand {
 }
 
 class ControlFlightCommand implements GameCommand {
-    private List<Flight> flights;
-    private Scanner scanner;
-    private InterceptorDispatcher dispatcher;
+    private final List<Flight> flights;
+    private final Scanner scanner;
+    private final InterceptorDispatcher dispatcher;
     private static final Map<String, FlightCommand> commands = new HashMap<>();
 
     public ControlFlightCommand(List<Flight> flights, Scanner scanner, InterceptorDispatcher dispatcher) {
@@ -89,8 +89,6 @@ class ControlFlightCommand implements GameCommand {
         } else {
             System.out.println("Invalid option!");
         }
-
-        command.execute();
     }
 
     private static void setUpFlightCommands(Flight selectedFlight) {
@@ -101,9 +99,9 @@ class ControlFlightCommand implements GameCommand {
 }
 
 class UpdateWeatherCommand implements GameCommand {
-    private WeatherStation weatherStation;
-    private Scanner scanner;
-    private InterceptorDispatcher dispatcher;
+    private final WeatherStation weatherStation;
+    private final Scanner scanner;
+    private final InterceptorDispatcher dispatcher;
     private static final Map<String, Runnable> weatherActions = new HashMap<>();
 
     public UpdateWeatherCommand(WeatherStation weatherStation, Scanner scanner, InterceptorDispatcher dispatcher) {
@@ -142,7 +140,7 @@ class UpdateWeatherCommand implements GameCommand {
 }
 
 class ListFlightsCommand implements GameCommand {
-    private List<Flight> flights;
+    private final List<Flight> flights;
 
     public ListFlightsCommand(List<Flight> flights) {
         this.flights = flights;

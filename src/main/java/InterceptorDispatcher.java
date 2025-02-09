@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class InterceptorDispatcher{
     // manages interceptors
-    private List<Interceptor> interceptorList = new ArrayList<>();
+    private final List<Interceptor> interceptorList = new ArrayList<>();
 
     public void addInterceptor(Interceptor i){
         interceptorList.add(i);

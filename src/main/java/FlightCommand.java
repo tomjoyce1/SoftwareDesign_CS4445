@@ -2,7 +2,7 @@
 public interface FlightCommand extends Command {}
 
 class TakeOffCommand implements FlightCommand {
-    private Flight flight;
+    private final Flight flight;
 
     public TakeOffCommand(Flight flight) {
         this.flight = flight;
@@ -15,7 +15,7 @@ class TakeOffCommand implements FlightCommand {
 }
 
 class LandCommand implements FlightCommand {
-    private Flight flight;
+    private final Flight flight;
 
     public LandCommand(Flight flight) {
         this.flight = flight;
@@ -28,7 +28,7 @@ class LandCommand implements FlightCommand {
 }
 
 class HoldCommand implements FlightCommand {
-    private Flight flight;
+    private final Flight flight;
 
     public HoldCommand(Flight flight) {
         this.flight = flight;
