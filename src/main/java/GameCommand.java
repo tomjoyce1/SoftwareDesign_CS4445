@@ -166,10 +166,12 @@ class ListFlightsCommand implements GameCommand {
 class CheckFlightStatusCommand implements GameCommand {
     private final List<Flight> flights;
     private final Scanner scanner;
+    private final RadarDisplay radarDisplay;
 
-    public CheckFlightStatusCommand(List<Flight> flights, Scanner scanner) {
+    public CheckFlightStatusCommand(List<Flight> flights, Scanner scanner, RadarDisplay radarDisplay) {
         this.flights = flights;
         this.scanner = scanner;
+        this.radarDisplay = radarDisplay;
     }
 
     @Override
@@ -201,6 +203,9 @@ class CheckFlightStatusCommand implements GameCommand {
                 selectedFlight.getFlightNumber(),
                 selectedFlight.getState(),
                 selectedFlight.getFuel());
+
+        System.out.println("\n--- Radar Display ---");
+        radarDisplay.show();
     }
 }
 
