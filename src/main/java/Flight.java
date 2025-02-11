@@ -1,6 +1,6 @@
 public abstract class Flight implements Subscriber {
-    private String flightNumber;
-    private WeatherBroker broker;
+    private final String flightNumber;
+    private final WeatherBroker broker;
     private FlightState state;
     private int fuel = 100;
 

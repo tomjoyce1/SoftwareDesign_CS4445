@@ -7,19 +7,18 @@ import java.util.logging.SimpleFormatter;
 
 public class LoggingInterceptor implements Interceptor {
 
-    private static Logger logger = Logger.getLogger("PlaneLog");
-    private static FileHandler fh;
+    private static final Logger logger = Logger.getLogger("PlaneLog");
 
     static {
         try {
             Files.createDirectories(Paths.get("./logOutput"));
-            fh = new FileHandler("./logOutput/logfileOutput.log", true); 
+            FileHandler fh = new FileHandler("./logOutput/logfileOutput.log", true);
             logger.addHandler(fh);
 
             SimpleFormatter formatter = new SimpleFormatter();
             fh.setFormatter(formatter);
         } catch (SecurityException | IOException e) {
-            e.printStackTrace();
+            logger.severe("Error creating log file. Error:\n" + e.getMessage());
         }
     }
 
