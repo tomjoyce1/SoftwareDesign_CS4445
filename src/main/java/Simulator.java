@@ -16,6 +16,7 @@ public class Simulator {
     private static Scanner scanner;
     private static final InterceptorDispatcher dispatcher = new InterceptorDispatcher();
     private static final Map<String, Command> commands = new HashMap<>();
+    private static final RadarDisplay radar = new BasicRadarDisplay();
 
     public static void startSimulation() {
         initialise();
@@ -56,6 +57,7 @@ public class Simulator {
         commands.put("2", new ControlFlightCommand(flights, scanner, dispatcher));
         commands.put("3", new UpdateWeatherCommand(weatherStation, scanner, dispatcher));
         commands.put("4", new ListFlightsCommand(flights));
+        commands.put("5", new CheckFlightStatusCommand(flights, scanner, radar));
         commands.put("Q", new QuitCommand());
     }
 
@@ -65,6 +67,7 @@ public class Simulator {
         System.out.println("2. Control flight");
         System.out.println("3. Update weather");
         System.out.println("4. List all flights");
+        System.out.println("5. Check Flight Status");
         System.out.println("Q. Quit");
         System.out.print("Choose an option: ");
     }
