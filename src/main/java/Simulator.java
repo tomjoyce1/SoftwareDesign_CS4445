@@ -1,3 +1,12 @@
+import Commands.Command;
+import Commands.GameCommand.*;
+import Radar.BasicRadarDisplay;
+import Radar.RadarDisplay;
+import Flight.Flight;
+import Interceptors.InterceptorDispatcher;
+import Interceptors.LoggingInterceptor;
+import WeatherPubSub.WeatherStation;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -9,7 +18,7 @@ public class Simulator {
     private static List<Flight> flights;
     private static Scanner scanner;
     private static final InterceptorDispatcher dispatcher = new InterceptorDispatcher();
-    private static final Map<String, GameCommand> commands = new HashMap<>();
+    private static final Map<String, Command> commands = new HashMap<>();
     private static final RadarDisplay radar = new BasicRadarDisplay();
 
     public static void startSimulation() {
@@ -33,7 +42,7 @@ public class Simulator {
             String choice = scanner.nextLine().toUpperCase();
             dispatcher.dispatch(choice);
 
-            GameCommand command = commands.get(choice);
+            Command command = commands.get(choice);
             if (command != null) {
                 command.execute();
                 if (command instanceof QuitCommand) {
