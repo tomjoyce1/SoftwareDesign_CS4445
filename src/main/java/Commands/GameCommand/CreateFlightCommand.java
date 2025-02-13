@@ -1,9 +1,8 @@
 package Commands.GameCommand;
 
 import Commands.Command;
-import Flight.Flight;
 import Flight.FlightTypes.FlightType;
-import Flight.FlightFactory;
+import Flight.*;
 import Interceptors.InterceptorDispatcher;
 
 import java.util.List;

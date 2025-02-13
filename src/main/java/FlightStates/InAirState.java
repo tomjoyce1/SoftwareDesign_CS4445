@@ -1,4 +1,4 @@
-package States;
+package FlightStates;
 
 import Flight.Flight;
 

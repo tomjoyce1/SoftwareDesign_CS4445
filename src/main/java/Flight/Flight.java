@@ -1,6 +1,9 @@
 package Flight;
 
-import States.*;
+import FlightStates.FlightState;
+import FlightStates.InAirState;
+import FlightStates.OnRunwayState;
+
 import WeatherPubSub.Subscriber;
 import WeatherPubSub.WeatherBroker;
 

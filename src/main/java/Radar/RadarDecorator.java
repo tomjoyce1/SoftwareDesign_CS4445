@@ -1,3 +1,5 @@
+package Radar;
+
 public abstract class RadarDecorator implements RadarDisplay {
     protected RadarDisplay decoratedRadar;
 
