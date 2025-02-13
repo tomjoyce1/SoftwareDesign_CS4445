@@ -1,3 +1,7 @@
+package Decorators;
+
+import Flight.Flight;
+
 public abstract class FlightDecorator extends Flight {
     protected Flight decoratedFlight;
 

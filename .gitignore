@@ -3,9 +3,7 @@
 
 # Log file
 *.log
-/logOutput/
-logfileOutput.txt
-logOutput.txt
+/logOutput/*
 
 # BlueJ files
 *.ctxt

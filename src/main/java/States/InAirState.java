@@ -1,4 +1,8 @@
-public class InAirState implements FlightState{
+package States;
+
+import Flight.Flight;
+
+public class InAirState implements FlightState {
     @Override
     public void takeOff(Flight flight) {
         System.out.println("Already in the clouds");

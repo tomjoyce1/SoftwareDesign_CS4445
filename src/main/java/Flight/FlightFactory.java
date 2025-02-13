@@ -1,3 +1,7 @@
+package Flight;
+
+import Flight.FlightTypes.*;
+
 public class FlightFactory {
     public static Flight createFlight(FlightType type, String flightNumber) {
         return switch (type) {

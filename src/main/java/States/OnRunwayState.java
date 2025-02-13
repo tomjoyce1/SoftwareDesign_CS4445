@@ -1,4 +1,8 @@
-public class OnRunwayState implements FlightState{
+package States;
+
+import Flight.Flight;
+
+public class OnRunwayState implements FlightState {
 
     @Override
     public void takeOff(Flight flight) {

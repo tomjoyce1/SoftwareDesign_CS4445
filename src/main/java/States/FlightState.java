@@ -1,3 +1,7 @@
+package States;
+
+import Flight.Flight;
+
 public interface FlightState{
     void takeOff(Flight flight);
     void land(Flight flight);

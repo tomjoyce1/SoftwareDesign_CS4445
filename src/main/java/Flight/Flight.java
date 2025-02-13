@@ -1,3 +1,9 @@
+package Flight;
+
+import States.*;
+import WeatherPubSub.Subscriber;
+import WeatherPubSub.WeatherBroker;
+
 public abstract class Flight implements Subscriber {
     private final String flightNumber;
     private final WeatherBroker broker;

@@ -1,3 +1,5 @@
+package WeatherPubSub;
+
 public class WeatherStation implements Publisher {
     // this is the pubsub publisher
 
@@ -7,10 +9,9 @@ public class WeatherStation implements Publisher {
         broker = WeatherBroker.getInstance();
     }
 
-
     @Override
     public void publish(String topic, String message) {
-        System.out.println("WeatherStation publishing message: " + message + " to topic: " + topic);
+        System.out.println("WeatherPubSub.WeatherStation publishing message: " + message + " to topic: " + topic);
         broker.publish(topic, message);
     }
 

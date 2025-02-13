@@ -1,3 +1,7 @@
+package Flight.FlightTypes;
+
+import Flight.Flight;
+
 public class PrivateFlight extends Flight {
     public PrivateFlight(String flightNumber) {
         super(flightNumber);
@@ -5,6 +9,6 @@ public class PrivateFlight extends Flight {
 
     @Override
     public String getType() {
-        return "Private Flight";
+        return "Private Flight.Flight";
     }
 }

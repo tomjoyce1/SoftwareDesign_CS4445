@@ -1,3 +1,7 @@
+package Decorators;
+
+import Flight.Flight;
+
 public class FuelDecorator extends FlightDecorator {
     private int fuelConsumptionRate = 10;
 

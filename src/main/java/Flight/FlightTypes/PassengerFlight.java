@@ -1,7 +1,11 @@
+package Flight.FlightTypes;
+
+import Flight.Flight;
+
 public class PassengerFlight extends Flight {
     @Override
     public String getType() {
-        return "PassengerFlight";
+        return "Flight.FlightTypes.PassengerFlight";
     }
 
     public PassengerFlight(String flightNumber) {
