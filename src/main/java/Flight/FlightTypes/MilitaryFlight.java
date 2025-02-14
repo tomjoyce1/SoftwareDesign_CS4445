@@ -5,7 +5,7 @@ import Flight.Flight;
 public class MilitaryFlight extends Flight {
     @Override
     public String getType() {
-        return "Flight.FlightTypes.MilitaryFlight";
+        return "Military Flight";
     }
 
     @Override

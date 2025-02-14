@@ -9,6 +9,6 @@ public class PrivateFlight extends Flight {
 
     @Override
     public String getType() {
-        return "Private Flight.Flight";
+        return "Private Flight";
     }
 }
