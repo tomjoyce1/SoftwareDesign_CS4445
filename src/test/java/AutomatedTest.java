@@ -19,13 +19,13 @@ public class AutomatedTest {
     @Test
     void testFlightCreation() {
         // Test passenger flight
-        Assertions.assertEquals("Flight.FlightTypes.PassengerFlight", passengerFlight.getType());
+        Assertions.assertEquals("Passenger Flight", passengerFlight.getType());
         Assertions.assertEquals("PA123", passengerFlight.getFlightNumber());
         Assertions.assertEquals("On ground/Runway", passengerFlight.getState());
         Assertions.assertEquals(100, passengerFlight.getFuel());
 
         // Test military flight
-        Assertions.assertEquals("Flight.FlightTypes.MilitaryFlight", militaryFlight.getType());
+        Assertions.assertEquals("Military Flight", militaryFlight.getType());
         Assertions.assertEquals("MIL456", militaryFlight.getFlightNumber());
     }
 
@@ -84,8 +84,8 @@ public class AutomatedTest {
         Flight cargoFlight = FlightFactory.createFlight(FlightType.CARGO, "CG789");
         Flight privateFlight = FlightFactory.createFlight(FlightType.PRIVATE, "PV101");
         
-        Assertions.assertEquals("Flight.FlightTypes.CargoFlight", cargoFlight.getType());
-        Assertions.assertEquals("Private Flight.Flight", privateFlight.getType());
+        Assertions.assertEquals("Cargo Flight", cargoFlight.getType());
+        Assertions.assertEquals("Private Flight", privateFlight.getType());
     }
 
     @Test
