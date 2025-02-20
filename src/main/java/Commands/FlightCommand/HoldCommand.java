@@ -1,7 +1,7 @@
 package Commands.FlightCommand;
 
 import Commands.Command;
-import Flight.Flight;
+import Models.Flight.Flight;
 
 public class HoldCommand implements Command {
     private final Flight flight;

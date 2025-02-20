@@ -1,14 +1,15 @@
 package Commands.GameCommand;
 
 import Commands.Command;
-import Flight.Flight;
+import Models.Flight.Flight;
+import Views.SimulatorView;
 
 import java.util.List;
 
 public class ListFlightsCommand implements Command {
     private final List<Flight> flights;
 
-    public ListFlightsCommand(List<Flight> flights) {
+    public ListFlightsCommand(List<Flight> flights, SimulatorView view) {
         this.flights = flights;
     }
 
