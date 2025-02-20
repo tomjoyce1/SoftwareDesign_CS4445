@@ -1,21 +1,22 @@
 package Commands.GameCommand;
 
 import Commands.Command;
-import Flight.FlightTypes.FlightType;
-import Flight.*;
+import Factories.FlightFactory;
 import Interceptors.InterceptorDispatcher;
+import Models.Flight.*;
+import Models.Flight.FlightTypes.FlightType;
+import Views.SimulatorView;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class CreateFlightCommand implements Command {
     private final List<Flight> flights;
-    private final Scanner scanner;
+    private final SimulatorView view;
     private final InterceptorDispatcher dispatcher;
 
-    public CreateFlightCommand(List<Flight> flights, Scanner scanner, InterceptorDispatcher dispatcher) {
+    public CreateFlightCommand(List<Flight> flights, SimulatorView view, InterceptorDispatcher dispatcher) {
         this.flights = flights;
-        this.scanner = scanner;
+        this.view = view;
         this.dispatcher = dispatcher;
     }
 
@@ -24,10 +25,10 @@ public class CreateFlightCommand implements Command {
         System.out.println("\n=== Create New Flight.Flight ===");
         System.out.println("Flight.Flight types: PRIVATE, PASSENGER, MILITARY, CARGO");
         System.out.print("Enter flight type: ");
-        String typeStr = scanner.nextLine().toUpperCase();
+        String typeStr = view.getUserInput();
 
         System.out.print("Enter flight number: ");
-        String flightNumber = scanner.nextLine().toUpperCase();
+        String flightNumber = view.getUserInput();
         dispatcher.dispatch("Flight.Flight number is " + flightNumber + ", type is " + typeStr);
 
         try {
