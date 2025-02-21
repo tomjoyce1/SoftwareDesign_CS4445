@@ -23,7 +23,6 @@ public class SimulatorView {
         System.out.print("Choose an option: ");
     }
 
-    // method to replace all other instances of scanner.nextLine() in accordance with MVC arc pattern best practices
     public String getUserInput() {
         return scanner.nextLine().toUpperCase();
     }

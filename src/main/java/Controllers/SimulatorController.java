@@ -42,7 +42,7 @@ public class SimulatorController {
                     running = false;
                 }
             } else {
-                view.displayMessage("Invalid option!");
+                view.displayMessage("Invalid option! Please select from menu.");
             }
         }
     }
