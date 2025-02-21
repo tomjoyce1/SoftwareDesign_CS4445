@@ -1,22 +1,18 @@
 package Commands.GameCommand;
 
 import Commands.Command;
-import Radar.RadarDisplay;
-import Flight.Flight;
-
+import Models.Flight.Flight;
+import Views.SimulatorView;
 import java.util.List;
-import java.util.Scanner;
 
 public class CheckFlightStatusCommand implements Command {
     private final List<Flight> flights;
-    private final Scanner scanner;
-    private final RadarDisplay radarDisplay;
+    private final SimulatorView view;
 
-    public CheckFlightStatusCommand(List<Flight> flights, Scanner scanner, RadarDisplay radarDisplay) {
+    public CheckFlightStatusCommand(List<Flight> flights, SimulatorView view) {
         this.flights = flights;
-        this.scanner = scanner;
-        this.radarDisplay = radarDisplay;
-    }
+        this.view = view;
+        }
 
     @Override
     public void execute() {
@@ -25,9 +21,9 @@ public class CheckFlightStatusCommand implements Command {
             return;
         }
 
-        new ListFlightsCommand(flights).execute();
+        new ListFlightsCommand(flights, view).execute();
         System.out.print("Enter flight number to check status: ");
-        String flightNumber = scanner.nextLine().toUpperCase();
+        String flightNumber = view.getUserInput();
 
         Flight selectedFlight = null;
         for (Flight flight : flights) {
@@ -48,7 +44,6 @@ public class CheckFlightStatusCommand implements Command {
                 selectedFlight.getState(),
                 selectedFlight.getFuel());
 
-        System.out.println("\n--- Radar Display ---");
-        radarDisplay.show();
+        view.displayRadar();
     }
 }

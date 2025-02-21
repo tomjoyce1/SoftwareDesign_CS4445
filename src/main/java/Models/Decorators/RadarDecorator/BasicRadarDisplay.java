@@ -1,4 +1,4 @@
-package Radar;
+package Models.Decorators.RadarDecorator;
 
 public class BasicRadarDisplay implements RadarDisplay {
     @Override

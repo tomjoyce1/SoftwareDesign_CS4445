@@ -1,24 +1,25 @@
 package Commands.GameCommand;
 
 import Commands.Command;
-import Flight.Flight;
 import Interceptors.InterceptorDispatcher;
-import Commands.FlightCommand.*;
-
+import Models.Flight.Flight;
+import Views.SimulatorView;
+import Commands.FlightCommand.TakeOffCommand;
+import Commands.FlightCommand.LandCommand;
+import Commands.FlightCommand.HoldCommand;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 public class ControlFlightCommand implements Command {
     private final List<Flight> flights;
-    private final Scanner scanner;
+    private final SimulatorView view;
     private final InterceptorDispatcher dispatcher;
     private static final Map<String, Command> commands = new HashMap<>();
 
-    public ControlFlightCommand(List<Flight> flights, Scanner scanner, InterceptorDispatcher dispatcher) {
+    public ControlFlightCommand(List<Flight> flights, SimulatorView view, InterceptorDispatcher dispatcher) {
         this.flights = flights;
-        this.scanner = scanner;
+        this.view = view;
         this.dispatcher = dispatcher;
     }
 
@@ -29,9 +30,9 @@ public class ControlFlightCommand implements Command {
             return;
         }
 
-        new ListFlightsCommand(flights).execute();
+        new ListFlightsCommand(flights, view).execute();
         System.out.print("Enter flight number to control: ");
-        String flightNumber = scanner.nextLine().toUpperCase();
+        String flightNumber = view.getUserInput();
 
         Flight selectedFlight = flights.stream()
                 .filter(f -> f.getFlightNumber().equals(flightNumber))
@@ -49,7 +50,7 @@ public class ControlFlightCommand implements Command {
         System.out.println("3. Hold");
         System.out.print("Choose action: ");
 
-        String action = scanner.nextLine();
+        String action = view.getUserInput();
         dispatcher.dispatch("Controlling " + flightNumber + action);
 
         setUpFlightCommands(selectedFlight);

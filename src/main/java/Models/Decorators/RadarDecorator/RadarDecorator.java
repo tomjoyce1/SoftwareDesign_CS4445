@@ -1,4 +1,4 @@
-package Radar;
+package Models.Decorators.RadarDecorator;
 
 public abstract class RadarDecorator implements RadarDisplay {
     protected RadarDisplay decoratedRadar;
