@@ -1,8 +1,11 @@
-import Decorators.FuelDecorator;
-import Flight.Flight;
-import Flight.FlightFactory;
-import Flight.FlightTypes.FlightType;
+import Models.Decorators.FuelDecorator.FuelDecorator;
+import Models.Flight.Flight;
+import Models.Flight.FlightTypes.FlightType;
+
 import org.junit.jupiter.api.Test;
+
+import Factories.FlightFactory;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Assertions;
 

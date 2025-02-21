@@ -1,6 +1,6 @@
-package Decorators;
+package Models.Decorators;
 
-import Flight.Flight;
+import Models.Flight.Flight;
 
 public abstract class FlightDecorator extends Flight {
     protected Flight decoratedFlight;

@@ -1,6 +1,6 @@
-package FlightStates;
+package Models.States;
 
-import Flight.Flight;
+import Models.Flight.Flight;
 
 public class LandingModeState implements FlightState {
 

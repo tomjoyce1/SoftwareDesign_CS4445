@@ -2,21 +2,20 @@ package Commands.GameCommand;
 
 import Commands.Command;
 import Interceptors.InterceptorDispatcher;
+import Views.SimulatorView;
 import WeatherPubSub.WeatherStation;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 public class UpdateWeatherCommand implements Command {
     private final WeatherStation weatherStation;
-    private final Scanner scanner;
+    private final SimulatorView view;
     private final InterceptorDispatcher dispatcher;
     private static final Map<String, Runnable> weatherActions = new HashMap<>();
 
-    public UpdateWeatherCommand(WeatherStation weatherStation, Scanner scanner, InterceptorDispatcher dispatcher) {
+    public UpdateWeatherCommand(WeatherStation weatherStation, SimulatorView view, InterceptorDispatcher dispatcher) {
         this.weatherStation = weatherStation;
-        this.scanner = scanner;
+        this.view = view;
         this.dispatcher = dispatcher;
     }
 
@@ -28,9 +27,9 @@ public class UpdateWeatherCommand implements Command {
         System.out.println("3. Report Foggy");
         System.out.print("Choose weather: ");
 
-        String choice = scanner.nextLine();
+        String choice = view.getUserInput();
         System.out.print("Enter weather details: ");
-        String details = scanner.nextLine();
+        String details = view.getUserInput();
         dispatcher.dispatch(choice + details);
         setupWeatherActions(details);
 
