@@ -1,7 +1,7 @@
-import Controllers.SimulatorController;
-import Models.SimulatorModel;
-import Models.Decorators.RadarDecorator.BasicRadarDisplay;
-import Views.SimulatorView;
+import controllers.SimulatorController;
+import models.SimulatorModel;
+import models.Decorators.RadarDecorator.BasicRadarDisplay;
+import views.SimulatorView;
 
 public class Main {
     
