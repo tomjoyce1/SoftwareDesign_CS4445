@@ -22,7 +22,7 @@ public class CreateFlightCommand implements Command {
 
     @Override
     public void execute() {
-        System.out.println("\n=== Create New Flight.Flight ===");
+        System.out.println("\n=== Create New Flight ===");
         System.out.println("Flight.Flight types: PRIVATE, PASSENGER, MILITARY, CARGO");
         System.out.print("Enter flight type: ");
         String typeStr = view.getUserInput();
