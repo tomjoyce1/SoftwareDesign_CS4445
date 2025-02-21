@@ -2,7 +2,7 @@ package commands.gamecommand;
 
 import commands.Command;
 import bookmarks.InterceptorDispatcher;
-import models.Flight.Flight;
+import models.flight.Flight;
 import views.SimulatorView;
 import commands.flightcommand.TakeOffCommand;
 import commands.flightcommand.LandCommand;

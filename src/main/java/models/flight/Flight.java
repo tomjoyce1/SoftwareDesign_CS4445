@@ -1,8 +1,8 @@
-package models.Flight;
+package models.flight;
 
-import models.States.FlightState;
-import models.States.InAirState;
-import models.States.OnRunwayState;
+import models.states.FlightState;
+import models.states.InAirState;
+import models.states.OnRunwayState;
 import weatherpubsub.Subscriber;
 import weatherpubsub.WeatherBroker;
 

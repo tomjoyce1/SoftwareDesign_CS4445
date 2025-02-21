@@ -1,7 +1,7 @@
 package commands.gamecommand;
 
 import commands.Command;
-import models.Flight.Flight;
+import models.flight.Flight;
 import views.SimulatorView;
 
 import java.util.List;

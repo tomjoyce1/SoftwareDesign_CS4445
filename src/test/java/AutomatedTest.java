@@ -1,6 +1,6 @@
-import models.Decorators.FuelDecorator.FuelDecorator;
-import models.Flight.Flight;
-import models.Flight.FlightTypes.FlightType;
+import models.decorators.fueldecorator.FuelDecorator;
+import models.flight.Flight;
+import models.flight.flighttypes.FlightType;
 
 import org.junit.jupiter.api.Test;
 

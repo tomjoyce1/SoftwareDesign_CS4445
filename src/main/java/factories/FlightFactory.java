@@ -1,11 +1,11 @@
 package factories;
 
-import models.Flight.Flight;
-import models.Flight.FlightTypes.CargoFlight;
-import models.Flight.FlightTypes.MilitaryFlight;
-import models.Flight.FlightTypes.PassengerFlight;
-import models.Flight.FlightTypes.PrivateFlight;
-import models.Flight.FlightTypes.FlightType;
+import models.flight.Flight;
+import models.flight.flighttypes.CargoFlight;
+import models.flight.flighttypes.MilitaryFlight;
+import models.flight.flighttypes.PassengerFlight;
+import models.flight.flighttypes.PrivateFlight;
+import models.flight.flighttypes.FlightType;
 
 public class FlightFactory {
     public static Flight createFlight(FlightType type, String flightNumber) {

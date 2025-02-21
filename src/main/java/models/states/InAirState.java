@@ -1,6 +1,6 @@
-package models.States;
+package models.states;
 
-import models.Flight.Flight;
+import models.flight.Flight;
 
 public class InAirState implements FlightState {
     @Override

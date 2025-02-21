@@ -1,4 +1,4 @@
-package models.Decorators.RadarDecorator;
+package models.decorators.radardecorator;
 
 public interface RadarDisplay {
     void show();

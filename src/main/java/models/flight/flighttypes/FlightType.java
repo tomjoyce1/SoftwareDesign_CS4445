@@ -1,4 +1,4 @@
-package models.Flight.FlightTypes;
+package models.flight.flighttypes;
 
 public enum FlightType {
     PRIVATE,

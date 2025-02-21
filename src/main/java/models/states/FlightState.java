@@ -1,6 +1,6 @@
-package models.States;
+package models.states;
 
-import models.Flight.Flight;
+import models.flight.Flight;
 
 public interface FlightState{
     void takeOff(Flight flight);

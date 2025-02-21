@@ -1,6 +1,6 @@
-package models.Flight.FlightTypes;
+package models.flight.flighttypes;
 
-import models.Flight.Flight;
+import models.flight.Flight;
 
 public class CargoFlight extends Flight {
     @Override

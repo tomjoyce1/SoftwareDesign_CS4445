@@ -1,6 +1,6 @@
 import controllers.SimulatorController;
 import models.SimulatorModel;
-import models.Decorators.RadarDecorator.BasicRadarDisplay;
+import models.decorators.radardecorator.BasicRadarDisplay;
 import views.SimulatorView;
 
 public class Main {

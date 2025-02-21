@@ -1,6 +1,6 @@
 package models;
 
-import models.Flight.Flight;
+import models.flight.Flight;
 import weatherpubsub.WeatherStation;
 import bookmarks.InterceptorDispatcher;
 import bookmarks.LoggingInterceptor;

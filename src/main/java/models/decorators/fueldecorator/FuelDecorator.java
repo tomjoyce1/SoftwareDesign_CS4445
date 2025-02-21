@@ -1,7 +1,7 @@
-package models.Decorators.FuelDecorator;
+package models.decorators.fueldecorator;
 
-import models.Decorators.FlightDecorator;
-import models.Flight.Flight;
+import models.decorators.FlightDecorator;
+import models.flight.Flight;
 
 public class FuelDecorator extends FlightDecorator {
     private int fuelConsumptionRate = 10;
