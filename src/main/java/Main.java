@@ -1,10 +1,10 @@
-import Controllers.SimulatorController;
-import Models.SimulatorModel;
-import Models.Decorators.RadarDecorator.BasicRadarDisplay;
-import Views.SimulatorView;
+import controllers.SimulatorController;
+import models.SimulatorModel;
+import models.decorators.radardecorator.BasicRadarDisplay;
+import views.SimulatorView;
 
 public class Main {
-    
+
     public static void main(String[] args) {
         SimulatorModel model = new SimulatorModel();
         SimulatorView view = new SimulatorView(new BasicRadarDisplay());
