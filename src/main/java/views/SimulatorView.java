@@ -1,6 +1,7 @@
 package views;
 
 import java.util.Scanner;
+
 import models.decorators.radardecorator.RadarDisplay;
 
 public class SimulatorView {

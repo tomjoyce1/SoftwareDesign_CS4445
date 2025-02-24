@@ -8,6 +8,11 @@ import models.flight.flighttypes.PrivateFlight;
 import models.flight.flighttypes.FlightType;
 
 public class FlightFactory {
+
+    private FlightFactory() {
+        throw new IllegalStateException("This constructor should not be accessed!");
+    }
+
     public static Flight createFlight(FlightType type, String flightNumber) {
         return switch (type) {
             case PRIVATE -> new PrivateFlight(flightNumber);

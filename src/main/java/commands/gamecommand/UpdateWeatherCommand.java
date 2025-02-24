@@ -4,6 +4,7 @@ import commands.Command;
 import bookmarks.InterceptorDispatcher;
 import views.SimulatorView;
 import weatherpubsub.WeatherStation;
+
 import java.util.HashMap;
 import java.util.Map;
 

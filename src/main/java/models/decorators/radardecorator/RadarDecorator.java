@@ -3,7 +3,7 @@ package models.decorators.radardecorator;
 public abstract class RadarDecorator implements RadarDisplay {
     protected RadarDisplay decoratedRadar;
 
-    public RadarDecorator(RadarDisplay radar) {
+    protected RadarDecorator(RadarDisplay radar) {
         this.decoratedRadar = radar;
     }
 

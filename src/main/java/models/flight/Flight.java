@@ -15,21 +15,21 @@ public abstract class Flight implements Subscriber {
     public String getFlightNumber() {
         return flightNumber;
     }
-    
+
     public abstract String getType();
 
-    public Flight (String flightNumber) {
+    protected Flight(String flightNumber) {
         this.flightNumber = flightNumber;
         this.state = new OnRunwayState();
         this.broker = WeatherBroker.getInstance();
 
-        if(shouldSubscribeToWeather()) {
+        if (shouldSubscribeToWeather()) {
             subscribeToWeatherTopics();
         }
     }
 
-      protected boolean shouldSubscribeToWeather() {
-        return true;  
+    protected boolean shouldSubscribeToWeather() {
+        return true;
     }
 
     private void subscribeToWeatherTopics() {
@@ -38,10 +38,10 @@ public abstract class Flight implements Subscriber {
         broker.subscribe("WEATHER.FOG", this);
     }
 
-        @Override
+    @Override
     public void receive(String topic, String message) {
         System.out.println(getType() + " " + flightNumber + " received " + topic + ": " + message);
-        
+
         // If there's a storm and the flight is in the air, go into holding pattern
         if (topic.equals("WEATHER.STORM") && state instanceof InAirState) {
             System.out.println(getType() + " " + flightNumber + " holding at current location due to storm");
@@ -49,11 +49,11 @@ public abstract class Flight implements Subscriber {
         }
     }
 
-
-    public void setState(FlightState state){
+    public void setState(FlightState state) {
         this.state = state;
     }
-    public String getState(){
+
+    public String getState() {
         return state.getStateName();
     }
 
@@ -65,7 +65,7 @@ public abstract class Flight implements Subscriber {
     public void land() {
         state.land(this);
     }
-    
+
     public void hold() {
         state.hold(this);
     }

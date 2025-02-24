@@ -7,6 +7,7 @@ import views.SimulatorView;
 import commands.flightcommand.TakeOffCommand;
 import commands.flightcommand.LandCommand;
 import commands.flightcommand.HoldCommand;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

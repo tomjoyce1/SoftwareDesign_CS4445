@@ -1,8 +1,10 @@
 package controllers;
 
 import commands.Command;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import models.SimulatorModel;
 import views.SimulatorView;
 
@@ -40,7 +42,7 @@ public class SimulatorController {
             view.displayMenu();
             String choice = view.getUserInput();
             model.getDispatcher().dispatch(choice);
-            
+
             Command command = commands.get(choice);
             if (command != null) {
                 command.execute();

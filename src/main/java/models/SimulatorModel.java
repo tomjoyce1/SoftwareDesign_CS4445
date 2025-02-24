@@ -4,6 +4,7 @@ import models.flight.Flight;
 import weatherpubsub.WeatherStation;
 import bookmarks.InterceptorDispatcher;
 import bookmarks.LoggingInterceptor;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,15 +19,15 @@ public class SimulatorModel {
         this.dispatcher = new InterceptorDispatcher();
         dispatcher.addInterceptor(new LoggingInterceptor());
     }
-    
+
     public WeatherStation getWeatherStation() {
         return weatherStation;
     }
-    
+
     public List<Flight> getFlights() {
         return flights;
     }
-    
+
     public InterceptorDispatcher getDispatcher() {
         return dispatcher;
     }

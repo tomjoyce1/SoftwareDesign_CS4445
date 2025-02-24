@@ -15,15 +15,15 @@ public class WeatherStation implements Publisher {
         broker.publish(topic, message);
     }
 
-    public void reportStorm(String details){
+    public void reportStorm(String details) {
         publish("WEATHER.STORM", details);
     }
 
-    public void reportSunny(String details){
+    public void reportSunny(String details) {
         publish("WEATHER.SUNNY", details);
     }
 
-    public void reportFoggy(String details){
+    public void reportFoggy(String details) {
         publish("WEATHER.FOGGY", details);
     }
 }

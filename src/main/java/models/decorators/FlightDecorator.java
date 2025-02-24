@@ -5,7 +5,7 @@ import models.flight.Flight;
 public abstract class FlightDecorator extends Flight {
     protected Flight decoratedFlight;
 
-    public FlightDecorator(Flight flight) {
+    protected FlightDecorator(Flight flight) {
         super(flight.getFlightNumber());
         this.decoratedFlight = flight;
     }

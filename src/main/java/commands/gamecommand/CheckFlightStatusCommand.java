@@ -3,6 +3,7 @@ package commands.gamecommand;
 import commands.Command;
 import models.flight.Flight;
 import views.SimulatorView;
+
 import java.util.List;
 
 public class CheckFlightStatusCommand implements Command {
@@ -12,7 +13,7 @@ public class CheckFlightStatusCommand implements Command {
     public CheckFlightStatusCommand(List<Flight> flights, SimulatorView view) {
         this.flights = flights;
         this.view = view;
-        }
+    }
 
     @Override
     public void execute() {
