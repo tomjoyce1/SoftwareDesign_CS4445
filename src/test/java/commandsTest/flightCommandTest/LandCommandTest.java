@@ -7,10 +7,10 @@ import org.mockito.Mockito;
 
 import static org.mockito.Mockito.verify;
 
-public class LandCommandTest {
+class LandCommandTest {
 
     @Test
-    public void executeCallsLandOnFlight() {
+    void executeCallsLandOnFlight() {
         Flight flight = Mockito.mock(Flight.class);
         LandCommand landCommand = new LandCommand(flight);
 

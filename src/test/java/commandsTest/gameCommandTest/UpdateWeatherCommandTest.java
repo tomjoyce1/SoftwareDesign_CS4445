@@ -17,7 +17,7 @@ import static org.mockito.Mockito.*;
 public class UpdateWeatherCommandTest {
 
     @Test
-    public void executeCallsReportStormWhenOption1Selected() {
+    void executeCallsReportStormWhenOption1Selected() {
         WeatherStation weatherStation = Mockito.mock(WeatherStation.class);
         SimulatorView view = Mockito.mock(SimulatorView.class);
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
@@ -36,7 +36,7 @@ public class UpdateWeatherCommandTest {
     }
 
     @Test
-    public void executeCallsReportSunnyWhenOption2Selected() {
+    void executeCallsReportSunnyWhenOption2Selected() {
         WeatherStation weatherStation = Mockito.mock(WeatherStation.class);
         SimulatorView view = Mockito.mock(SimulatorView.class);
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
@@ -55,7 +55,7 @@ public class UpdateWeatherCommandTest {
     }
 
     @Test
-    public void executeCallsReportFoggyWhenOption3Selected() {
+    void executeCallsReportFoggyWhenOption3Selected() {
         WeatherStation weatherStation = Mockito.mock(WeatherStation.class);
         SimulatorView view = Mockito.mock(SimulatorView.class);
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
@@ -74,7 +74,7 @@ public class UpdateWeatherCommandTest {
     }
 
     @Test
-    public void executePrintsInvalidWeatherTypeWhenOptionIsInvalid() {
+    void executePrintsInvalidWeatherTypeWhenOptionIsInvalid() {
         WeatherStation weatherStation = Mockito.mock(WeatherStation.class);
         SimulatorView view = Mockito.mock(SimulatorView.class);
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);

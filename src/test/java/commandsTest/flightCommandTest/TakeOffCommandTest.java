@@ -7,9 +7,9 @@ import org.mockito.Mockito;
 
 import static org.mockito.Mockito.verify;
 
-public class TakeOffCommandTest {
+class TakeOffCommandTest {
     @Test
-    public void executeCallsTakeOffOnFlight() {
+    void executeCallsTakeOffOnFlight() {
         Flight flight = Mockito.mock(Flight.class);
         TakeOffCommand takeOffCommand = new TakeOffCommand(flight);
 

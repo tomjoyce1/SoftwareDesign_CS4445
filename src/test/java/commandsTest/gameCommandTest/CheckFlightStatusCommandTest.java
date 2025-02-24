@@ -12,26 +12,26 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 
-public class CheckFlightStatusCommandTest {
+class CheckFlightStatusCommandTest {
     private List<Flight> flights;
     private SimulatorView view;
     private CheckFlightStatusCommand checkFlightStatusCommand;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         flights = new ArrayList<>();
         view = Mockito.mock(SimulatorView.class);
         checkFlightStatusCommand = new CheckFlightStatusCommand(flights, view);
     }
 
     @Test
-    public void testExecuteWithNoFlights() {
+    void testExecuteWithNoFlights() {
         checkFlightStatusCommand.execute();
         verify(view, never()).getUserInput();
     }
 
     @Test
-    public void testExecuteWithFlightFound() {
+    void testExecuteWithFlightFound() {
         Flight flight = Mockito.mock(Flight.class);
         when(flight.getFlightNumber()).thenReturn("FL123");
         when(flight.getType()).thenReturn("TypeA");
@@ -48,7 +48,7 @@ public class CheckFlightStatusCommandTest {
     }
 
     @Test
-    public void testExecuteWithFlightNotFound() {
+    void testExecuteWithFlightNotFound() {
         Flight flight = Mockito.mock(Flight.class);
         when(flight.getFlightNumber()).thenReturn("FL123");
         flights.add(flight);

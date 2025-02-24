@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-public class FlightTest {
+class FlightTest {
 
     private static class DummyFlight extends Flight {
         boolean holdCalled = false;
@@ -46,19 +46,19 @@ public class FlightTest {
     }
 
     @Test
-    public void flightNumberIsAssignedCorrectly() {
+    void flightNumberIsAssignedCorrectly() {
         DummyFlight flight = new DummyFlight("FL101", "Dummy");
         assertEquals("FL101", flight.getFlightNumber());
     }
 
     @Test
-    public void initialFuelValueIsHundred() {
+    void initialFuelValueIsHundred() {
         DummyFlight flight = new DummyFlight("FL102", "Dummy");
         assertEquals(100, flight.getFuel());
     }
 
     @Test
-    public void takeOffReducesFuelByTen() {
+    void takeOffReducesFuelByTen() {
         DummyFlight flight = new DummyFlight("FL103", "Dummy");
         flight.setFuel(100);
         flight.takeOff();
@@ -66,14 +66,14 @@ public class FlightTest {
     }
 
     @Test
-    public void setFuelUpdatesFuelValue() {
+    void setFuelUpdatesFuelValue() {
         DummyFlight flight = new DummyFlight("FL104", "Dummy");
         flight.setFuel(80);
         assertEquals(80, flight.getFuel());
     }
 
     @Test
-    public void receivingStormMessageInAirTriggersHold() {
+    void receivingStormMessageInAirTriggersHold() {
         DummyFlight flight = new DummyFlight("FL105", "Dummy");
         flight.setState(new InAirState());
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -89,7 +89,7 @@ public class FlightTest {
     }
 
     @Test
-    public void receivingNonStormMessageDoesNotTriggerHold() {
+    void receivingNonStormMessageDoesNotTriggerHold() {
         DummyFlight flight = new DummyFlight("FL106", "Dummy");
         flight.setState(new DummyOnRunwayState());
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();

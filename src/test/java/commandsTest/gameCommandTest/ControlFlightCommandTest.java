@@ -16,10 +16,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class ControlFlightCommandTest {
+class ControlFlightCommandTest {
 
     @Test
-    public void executePrintsNoFlightsAvailableWhenFlightsListIsEmpty() {
+    void executePrintsNoFlightsAvailableWhenFlightsListIsEmpty() {
         List<Flight> flights = Collections.emptyList();
         SimulatorView view = Mockito.mock(SimulatorView.class);
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
@@ -36,7 +36,7 @@ public class ControlFlightCommandTest {
     }
 
     @Test
-    public void executePrintsFlightNotFoundWhenFlightNumberIsInvalid() {
+    void executePrintsFlightNotFoundWhenFlightNumberIsInvalid() {
         Flight mockFlight = Mockito.mock(Flight.class);
         // Stub the flight number to a valid number.
         when(mockFlight.getFlightNumber()).thenReturn("FL001");
@@ -58,7 +58,7 @@ public class ControlFlightCommandTest {
     }
 
     @Test
-    public void executeCallsTakeOffCommandWhenOptionOneIsSelected() {
+    void executeCallsTakeOffCommandWhenOptionOneIsSelected() {
         Flight flight = Mockito.mock(Flight.class);
         when(flight.getFlightNumber()).thenReturn("FL001");
         List<Flight> flights = List.of(flight);
@@ -73,7 +73,7 @@ public class ControlFlightCommandTest {
     }
 
     @Test
-    public void executeCallsLandCommandWhenOptionTwoIsSelected() {
+    void executeCallsLandCommandWhenOptionTwoIsSelected() {
         Flight flight = Mockito.mock(Flight.class);
         when(flight.getFlightNumber()).thenReturn("FL001");
         List<Flight> flights = List.of(flight);
@@ -88,7 +88,7 @@ public class ControlFlightCommandTest {
     }
 
     @Test
-    public void executeCallsHoldCommandWhenOptionThreeIsSelected() {
+    void executeCallsHoldCommandWhenOptionThreeIsSelected() {
         Flight flight = Mockito.mock(Flight.class);
         when(flight.getFlightNumber()).thenReturn("FL001");
         List<Flight> flights = List.of(flight);
@@ -103,7 +103,7 @@ public class ControlFlightCommandTest {
     }
 
     @Test
-    public void executePrintsInvalidOptionWhenInvalidOptionIsSelected() {
+    void executePrintsInvalidOptionWhenInvalidOptionIsSelected() {
         Flight flight = Mockito.mock(Flight.class);
         when(flight.getFlightNumber()).thenReturn("FL001");
         List<Flight> flights = List.of(flight);

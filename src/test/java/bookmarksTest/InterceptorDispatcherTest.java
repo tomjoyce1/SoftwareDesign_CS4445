@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.verify;
 
-public class InterceptorDispatcherTest {
+class InterceptorDispatcherTest {
 
     @Test
-    public void dispatchCallsHandleRequestOnSingleInterceptor() {
+    void dispatchCallsHandleRequestOnSingleInterceptor() {
         Interceptor interceptor = Mockito.mock(Interceptor.class);
         InterceptorDispatcher dispatcher = new InterceptorDispatcher();
         dispatcher.addInterceptor(interceptor);
@@ -18,7 +18,7 @@ public class InterceptorDispatcherTest {
     }
 
     @Test
-    public void dispatchCallsHandleRequestOnMultipleInterceptors() {
+    void dispatchCallsHandleRequestOnMultipleInterceptors() {
         Interceptor interceptor1 = Mockito.mock(Interceptor.class);
         Interceptor interceptor2 = Mockito.mock(Interceptor.class);
         InterceptorDispatcher dispatcher = new InterceptorDispatcher();
@@ -30,13 +30,13 @@ public class InterceptorDispatcherTest {
     }
 
     @Test
-    public void dispatchDoesNothingWhenNoInterceptorsAdded() {
+    void dispatchDoesNothingWhenNoInterceptorsAdded() {
         InterceptorDispatcher dispatcher = new InterceptorDispatcher();
         dispatcher.dispatch("noInterceptor");
     }
 
     @Test
-    public void addInterceptorStoresMultipleInterceptors() {
+    void addInterceptorStoresMultipleInterceptors() {
         Interceptor interceptor1 = Mockito.mock(Interceptor.class);
         Interceptor interceptor2 = Mockito.mock(Interceptor.class);
         InterceptorDispatcher dispatcher = new InterceptorDispatcher();

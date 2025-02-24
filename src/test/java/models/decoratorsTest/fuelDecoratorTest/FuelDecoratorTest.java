@@ -5,10 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import models.decorators.fueldecorator.FuelDecorator;
 import models.flight.Flight;
 
-public class FuelDecoratorTest {
+class FuelDecoratorTest {
 
     @Test
-    public void consumeFuelReducesFuelByDefaultRate() {
+    void consumeFuelReducesFuelByDefaultRate() {
         DummyFlight dummyFlight = new DummyFlight(100);
         FuelDecorator fuelDecorator = new FuelDecorator(dummyFlight);
         fuelDecorator.consumeFuel();
@@ -16,7 +16,7 @@ public class FuelDecoratorTest {
     }
 
     @Test
-    public void consumeFuelReducesFuelByCustomRate() {
+    void consumeFuelReducesFuelByCustomRate() {
         DummyFlight dummyFlight = new DummyFlight(100);
         FuelDecorator fuelDecorator = new FuelDecorator(dummyFlight);
         fuelDecorator.setFuelConsumptionRate(20);
@@ -25,7 +25,7 @@ public class FuelDecoratorTest {
     }
 
     @Test
-    public void consumeFuelAllowsNegativeFuelWhenInsufficient() {
+    void consumeFuelAllowsNegativeFuelWhenInsufficient() {
         DummyFlight dummyFlight = new DummyFlight(5);
         FuelDecorator fuelDecorator = new FuelDecorator(dummyFlight);
         fuelDecorator.consumeFuel();

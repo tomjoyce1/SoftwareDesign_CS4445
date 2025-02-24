@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class QuitCommandTest {
 
     @Test
-    public void executePrintsExitingMessage() {
+    void executePrintsExitingMessage() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));

@@ -11,32 +11,32 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class LoggingInterceptorTest {
+class LoggingInterceptorTest {
 
     private Logger planeLogger;
     private TestLogHandler testHandler;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         planeLogger = Logger.getLogger("PlaneLog");
         testHandler = new TestLogHandler();
         planeLogger.addHandler(testHandler);
     }
 
     @AfterEach
-    public void tearDown() {
+    void tearDown() {
         planeLogger.removeHandler(testHandler);
     }
 
     @Test
-    public void handleLogsProvidedMessage() {
+    void handleLogsProvidedMessage() {
         String message = "Test log message";
         new LoggingInterceptor().handleRequest(message);
         assertTrue(testHandler.getLogMessages().stream().anyMatch(log -> log.contains(message)));
     }
 
     @Test
-    public void handleLogsMultipleMessages() {
+    void handleLogsMultipleMessages() {
         String message1 = "First log message";
         String message2 = "Second log message";
         LoggingInterceptor interceptor = new LoggingInterceptor();

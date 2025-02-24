@@ -6,10 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import models.decorators.FlightDecorator;
 import models.flight.Flight;
 
-public class FlightDecoratorTest {
+class FlightDecoratorTest {
 
     @Test
-    public void decoratorDelegatesTakeOffCall() {
+    void decoratorDelegatesTakeOffCall() {
         DummyFlight dummy = new DummyFlight("FL123");
         FlightDecorator decorator = new FlightDecorator(dummy) {};
         decorator.takeOff();
@@ -17,7 +17,7 @@ public class FlightDecoratorTest {
     }
 
     @Test
-    public void decoratorDelegatesGetTypeCall() {
+    void decoratorDelegatesGetTypeCall() {
         DummyFlight dummy = new DummyFlight("FL123");
         dummy.type = "TestType";
         FlightDecorator decorator = new FlightDecorator(dummy) {};
@@ -25,7 +25,7 @@ public class FlightDecoratorTest {
     }
 
     @Test
-    public void decoratorDelegatesGetFuelCall() {
+    void decoratorDelegatesGetFuelCall() {
         DummyFlight dummy = new DummyFlight("FL123");
         dummy.fuel = 120;
         FlightDecorator decorator = new FlightDecorator(dummy) {};
@@ -33,7 +33,7 @@ public class FlightDecoratorTest {
     }
 
     @Test
-    public void decoratorDelegatesConsumeFuelCall() {
+    void decoratorDelegatesConsumeFuelCall() {
         DummyFlight dummy = new DummyFlight("FL123");
         dummy.fuel = 100;
         FlightDecorator decorator = new FlightDecorator(dummy) {};
@@ -43,7 +43,7 @@ public class FlightDecoratorTest {
     }
 
     @Test
-    public void decoratorMultipleConsumeFuelCallsDecreaseFuelCorrectly() {
+    void decoratorMultipleConsumeFuelCallsDecreaseFuelCorrectly() {
         DummyFlight dummy = new DummyFlight("FL123");
         dummy.fuel = 100;
         FlightDecorator decorator = new FlightDecorator(dummy) {};

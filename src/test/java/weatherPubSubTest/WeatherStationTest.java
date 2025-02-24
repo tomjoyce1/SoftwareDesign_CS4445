@@ -6,10 +6,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-public class WeatherStationTest {
+class WeatherStationTest {
 
     @Test
-    public void weatherStationReportStormPrintsPublishedMessage() {
+    void weatherStationReportStormPrintsPublishedMessage() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
@@ -23,7 +23,7 @@ public class WeatherStationTest {
     }
 
     @Test
-    public void weatherStationReportSunnyPrintsPublishedMessage() {
+    void weatherStationReportSunnyPrintsPublishedMessage() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
@@ -37,7 +37,7 @@ public class WeatherStationTest {
     }
 
     @Test
-    public void weatherStationReportFoggyPrintsPublishedMessage() {
+    void weatherStationReportFoggyPrintsPublishedMessage() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
@@ -51,7 +51,7 @@ public class WeatherStationTest {
     }
 
     @Test
-    public void weatherStationHandlesNullMessageGracefully() {
+    void weatherStationHandlesNullMessageGracefully() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));

@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WeatherBrokerTest {
+class WeatherBrokerTest {
 
     private static class DummySubscriber implements Subscriber {
         private final List<String> receivedMessages = new ArrayList<>();
@@ -23,14 +23,14 @@ public class WeatherBrokerTest {
     }
 
     @Test
-    public void singletonGetInstanceReturnsSameInstance() {
+    void singletonGetInstanceReturnsSameInstance() {
         WeatherBroker broker1 = WeatherBroker.getInstance();
         WeatherBroker broker2 = WeatherBroker.getInstance();
         assertSame(broker1, broker2);
     }
 
     @Test
-    public void subscribeAddsSubscriberAndReceivesPublishedMessage() {
+    void subscribeAddsSubscriberAndReceivesPublishedMessage() {
         WeatherBroker broker = WeatherBroker.getInstance();
         DummySubscriber subscriber = new DummySubscriber();
         broker.subscribe("WEATHER.SUNNY", subscriber);
@@ -40,7 +40,7 @@ public class WeatherBrokerTest {
     }
 
     @Test
-    public void unsubscribeRemovesSubscriberAndStopsReceivingMessages() {
+    void unsubscribeRemovesSubscriberAndStopsReceivingMessages() {
         WeatherBroker broker = WeatherBroker.getInstance();
         DummySubscriber subscriber = new DummySubscriber();
         broker.subscribe("WEATHER.FOGGY", subscriber);
@@ -50,7 +50,7 @@ public class WeatherBrokerTest {
     }
 
     @Test
-    public void publishOnNonExistentTopicDoesNotThrowException() {
+    void publishOnNonExistentTopicDoesNotThrowException() {
         WeatherBroker broker = WeatherBroker.getInstance();
         assertDoesNotThrow(() -> broker.publish("NON_EXISTENT", "Message"));
     }
