@@ -3,7 +3,7 @@ package commands.gamecommand;
 import commands.Command;
 import factories.FlightFactory;
 import bookmarks.InterceptorDispatcher;
-import models.flight.*;
+import models.flight.Flight;
 import models.flight.flighttypes.FlightType;
 import views.SimulatorView;
 

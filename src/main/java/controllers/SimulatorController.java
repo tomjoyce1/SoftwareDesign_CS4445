@@ -1,11 +1,17 @@
 package controllers;
 
 import commands.Command;
-import commands.gamecommand.*;
 import java.util.HashMap;
 import java.util.Map;
 import models.SimulatorModel;
 import views.SimulatorView;
+
+import commands.gamecommand.CheckFlightStatusCommand;
+import commands.gamecommand.ControlFlightCommand;
+import commands.gamecommand.CreateFlightCommand;
+import commands.gamecommand.ListFlightsCommand;
+import commands.gamecommand.QuitCommand;
+import commands.gamecommand.UpdateWeatherCommand;
 
 public class SimulatorController {
     private final SimulatorModel model;
