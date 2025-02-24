@@ -6,10 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import models.decorators.radardecorator.RadarDecorator;
 import models.decorators.radardecorator.RadarDisplay;
 
-public class RadarDecoratorTest {
+class RadarDecoratorTest {
 
     @Test
-    public void decoratorDelegatesShowCallToDecoratedRadar() {
+    void decoratorDelegatesShowCallToDecoratedRadar() {
         DummyRadarDisplay dummy = new DummyRadarDisplay();
         RadarDecorator decorator = new RadarDecorator(dummy) {};
         decorator.show();
@@ -17,7 +17,7 @@ public class RadarDecoratorTest {
     }
 
     @Test
-    public void decoratorDelegatesMultipleShowCallsToDecoratedRadar() {
+    void decoratorDelegatesMultipleShowCallsToDecoratedRadar() {
         DummyRadarDisplay dummy = new DummyRadarDisplay();
         RadarDecorator decorator = new RadarDecorator(dummy) {};
         decorator.show();

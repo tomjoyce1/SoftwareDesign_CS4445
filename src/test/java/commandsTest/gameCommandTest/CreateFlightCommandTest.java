@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 public class CreateFlightCommandTest {
 
     @Test
-    public void createFlightSuccessfullyWhenValidTypeAndNumberProvided() {
+    void createFlightSuccessfullyWhenValidTypeAndNumberProvided() {
         List<Flight> flights = new ArrayList<>();
         SimulatorView view = Mockito.mock(SimulatorView.class);
         when(view.getUserInput()).thenReturn("PRIVATE", "FL123");
@@ -37,7 +37,7 @@ public class CreateFlightCommandTest {
     }
 
     @Test
-    public void displayErrorWhenInvalidFlightTypeIsProvided() {
+    void displayErrorWhenInvalidFlightTypeIsProvided() {
         List<Flight> flights = new ArrayList<>();
         SimulatorView view = Mockito.mock(SimulatorView.class);
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);

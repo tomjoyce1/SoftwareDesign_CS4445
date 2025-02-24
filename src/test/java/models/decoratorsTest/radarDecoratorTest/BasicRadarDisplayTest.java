@@ -6,10 +6,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import models.decorators.radardecorator.BasicRadarDisplay;
 
-public class BasicRadarDisplayTest {
+class BasicRadarDisplayTest {
 
     @Test
-    public void showDisplaysExpectedMessage() {
+    void showDisplaysExpectedMessage() {
         BasicRadarDisplay display = new BasicRadarDisplay();
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
@@ -21,7 +21,7 @@ public class BasicRadarDisplayTest {
     }
 
     @Test
-    public void showCalledMultipleTimesPrintsMultipleMessages() {
+    void showCalledMultipleTimesPrintsMultipleMessages() {
         BasicRadarDisplay display = new BasicRadarDisplay();
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;

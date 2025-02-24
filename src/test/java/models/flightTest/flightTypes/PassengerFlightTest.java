@@ -4,28 +4,28 @@ import models.flight.flighttypes.PassengerFlight;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PassengerFlightTest {
+class PassengerFlightTest {
 
     @Test
-    public void passengerFlightReturnsCorrectType() {
+    void passengerFlightReturnsCorrectType() {
         PassengerFlight flight = new PassengerFlight("PF001");
         assertEquals("Passenger Flight", flight.getType());
     }
 
     @Test
-    public void passengerFlightNumberIsAssignedProperly() {
+    void passengerFlightNumberIsAssignedProperly() {
         PassengerFlight flight = new PassengerFlight("PF002");
         assertEquals("PF002", flight.getFlightNumber());
     }
 
     @Test
-    public void passengerFlightInitialFuelValueIsHundred() {
+    void passengerFlightInitialFuelValueIsHundred() {
         PassengerFlight flight = new PassengerFlight("PF003");
         assertEquals(100, flight.getFuel());
     }
 
     @Test
-    public void passengerFlightTakeOffReducesFuelByTen() {
+    void passengerFlightTakeOffReducesFuelByTen() {
         PassengerFlight flight = new PassengerFlight("PF004");
         flight.setFuel(100);
         flight.takeOff();
@@ -33,7 +33,7 @@ public class PassengerFlightTest {
     }
 
     @Test
-    public void passengerFlightSetFuelUpdatesFuelValue() {
+    void passengerFlightSetFuelUpdatesFuelValue() {
         PassengerFlight flight = new PassengerFlight("PF005");
         flight.setFuel(80);
         assertEquals(80, flight.getFuel());

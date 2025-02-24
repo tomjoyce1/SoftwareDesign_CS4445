@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import static org.mockito.Mockito.*;
 
-public class SimulatorControllerTest {
+class SimulatorControllerTest {
 
     @Test
-    public void startSimulationTerminatesOnQuitCommand() {
+    void startSimulationTerminatesOnQuitCommand() {
         SimulatorModel model = mock(SimulatorModel.class);
         SimulatorView view = mock(SimulatorView.class);
         InterceptorDispatcher dispatcher = mock(InterceptorDispatcher.class);
@@ -28,7 +28,7 @@ public class SimulatorControllerTest {
     }
 
     @Test
-    public void startSimulationDisplaysInvalidMessageForUnknownInputThenQuit() {
+    void startSimulationDisplaysInvalidMessageForUnknownInputThenQuit() {
         SimulatorModel model = mock(SimulatorModel.class);
         SimulatorView view = mock(SimulatorView.class);
         InterceptorDispatcher dispatcher = mock(InterceptorDispatcher.class);

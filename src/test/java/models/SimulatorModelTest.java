@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 
-public class SimulatorModelTest {
+class SimulatorModelTest {
 
     private static class DummyFlight extends Flight {
         public DummyFlight(String flightNumber) { super(flightNumber); }
@@ -17,13 +17,13 @@ public class SimulatorModelTest {
     }
 
     @Test
-    public void simulatorModelWeatherStationIsInitialized() {
+    void simulatorModelWeatherStationIsInitialized() {
         SimulatorModel model = new SimulatorModel();
         assertNotNull(model.getWeatherStation());
     }
 
     @Test
-    public void simulatorModelFlightsListIsInitiallyEmpty() {
+    void simulatorModelFlightsListIsInitiallyEmpty() {
         SimulatorModel model = new SimulatorModel();
         List<Flight> flights = model.getFlights();
         assertNotNull(flights);
@@ -31,7 +31,7 @@ public class SimulatorModelTest {
     }
 
     @Test
-    public void simulatorModelAddingFlightUpdatesFlightsList() {
+    void simulatorModelAddingFlightUpdatesFlightsList() {
         SimulatorModel model = new SimulatorModel();
         DummyFlight flight = new DummyFlight("FL-TEST-01");
         model.getFlights().add(flight);
@@ -41,7 +41,7 @@ public class SimulatorModelTest {
     }
 
     @Test
-    public void simulatorModelDispatcherIsInitialized() {
+    void simulatorModelDispatcherIsInitialized() {
         SimulatorModel model = new SimulatorModel();
         assertNotNull(model.getDispatcher());
     }

@@ -8,18 +8,18 @@ import org.mockito.Mockito;
 
 import static org.mockito.Mockito.verify;
 
-public class HoldCommandTest {
+class HoldCommandTest {
     private Flight flight;
     private HoldCommand holdCommand;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         flight = Mockito.mock(Flight.class);
         holdCommand = new HoldCommand(flight);
     }
 
     @Test
-    public void testExecute() {
+    void testExecute() {
         holdCommand.execute();
         verify(flight).hold();
     }

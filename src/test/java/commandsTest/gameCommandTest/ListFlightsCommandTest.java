@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class ListFlightsCommandTest {
 
     @Test
-    public void listFlightsCommandPrintsNoFlightsWhenListIsEmpty() {
+    void listFlightsCommandPrintsNoFlightsWhenListIsEmpty() {
         List<Flight> flights = Collections.emptyList();
         SimulatorView view = Mockito.mock(SimulatorView.class);
         ListFlightsCommand command = new ListFlightsCommand(flights, view);
@@ -35,7 +35,7 @@ public class ListFlightsCommandTest {
     }
 
     @Test
-    public void listFlightsCommandPrintsFlightDetailsWhenFlightsAreAvailable() {
+    void listFlightsCommandPrintsFlightDetailsWhenFlightsAreAvailable() {
         Flight flight1 = Mockito.mock(Flight.class);
         Flight flight2 = Mockito.mock(Flight.class);
         Mockito.when(flight1.getType()).thenReturn("COMMERCIAL");

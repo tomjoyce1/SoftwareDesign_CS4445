@@ -8,10 +8,10 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.io.ByteArrayInputStream;
 
-public class SimulatorViewTest {
+class SimulatorViewTest {
 
     @Test
-    public void displayMenuPrintsAllMenuOptions() {
+    void displayMenuPrintsAllMenuOptions() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
@@ -34,7 +34,7 @@ public class SimulatorViewTest {
     }
 
     @Test
-    public void getUserInputReturnsUpperCaseText() {
+    void getUserInputReturnsUpperCaseText() {
         String simulatedInput = "q";
         InputStream originalIn = System.in;
         System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
@@ -47,7 +47,7 @@ public class SimulatorViewTest {
     }
 
     @Test
-    public void displayMessagePrintsProvidedMessage() {
+    void displayMessagePrintsProvidedMessage() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
@@ -62,7 +62,7 @@ public class SimulatorViewTest {
     }
 
     @Test
-    public void displayRadarPrintsHeaderAndCallsRadarShow() {
+    void displayRadarPrintsHeaderAndCallsRadarShow() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
