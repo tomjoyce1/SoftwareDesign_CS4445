@@ -8,9 +8,9 @@ public class ConsoleLogger {
     public static final Logger logger = Logger.getLogger(ConsoleLogger.class.getName());
     private static final String RESET = "\033[0m";
     private static final String RED = "\033[0;31m";
-    private static final String GREEN = "\033[0;32m";
+    private static final String GREEN = "\033[0;92m";
     private static final String BLUE = "\033[0;34m";
-    private static final String YELLOW = "\033[0;33m";
+    private static final String YELLOW = "\033[0;93m";
     private static final String WHITE = "\033[0;97m";
     private static final String FORMAT = "%s%s%s";
 
