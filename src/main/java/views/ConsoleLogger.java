@@ -11,6 +11,7 @@ public class ConsoleLogger {
     private static final String GREEN = "\033[0;32m";
     private static final String BLUE = "\033[0;34m";
     private static final String YELLOW = "\033[0;33m";
+    private static final String WHITE = "\033[0;97m";
     private static final String FORMAT = "%s%s%s";
 
     static {
@@ -28,7 +29,7 @@ public class ConsoleLogger {
 
     public static void logStandard(String message) {
         if (logger.isLoggable(Level.INFO)) {
-            logger.log(Level.INFO, String.format(message));
+            logger.log(Level.INFO, String.format(FORMAT, WHITE, message, RESET));
         }
     }
 
@@ -64,7 +65,7 @@ public class ConsoleLogger {
         if (logger.isLoggable(Level.INFO)) {
             StringBuilder optionsMessage = new StringBuilder();
             for (int i = 0; i < options.length; i++) {
-                optionsMessage.append(String.format("%d. %s%n", i + 1, options[i]));
+                optionsMessage.append(String.format(FORMAT, WHITE, String.format("%d. %s%n", i + 1, options[i]), RESET));
             }
             if (Boolean.TRUE.equals(hasQuitOption)) {
                 optionsMessage.append(String.format("%sQ. Quit%s%n", YELLOW, RESET));
