@@ -6,12 +6,6 @@ import java.util.logging.Logger;
 
 public class ConsoleLogger {
     public static final Logger logger = Logger.getLogger(ConsoleLogger.class.getName());
-    private static final String RESET = "\033[0m";
-    private static final String RED = "\033[0;31m";
-    private static final String GREEN = "\033[0;92m";
-    private static final String BLUE = "\033[0;34m";
-    private static final String YELLOW = "\033[0;93m";
-    private static final String WHITE = "\033[0;97m";
     private static final String FORMAT = "%s%s%s";
 
     static {
@@ -23,37 +17,37 @@ public class ConsoleLogger {
 
     public static void logError(String message) {
         if (logger.isLoggable(Level.SEVERE)) {
-            logger.log(Level.SEVERE, String.format(FORMAT, RED, "ERROR: " + message, RESET));
+            logger.log(Level.SEVERE, String.format(FORMAT, ConsoleColour.RED.getCode(), "ERROR: " + message, ConsoleColour.RESET.getCode()));
         }
     }
 
     public static void logStandard(String message) {
         if (logger.isLoggable(Level.INFO)) {
-            logger.log(Level.INFO, String.format(FORMAT, WHITE, message, RESET));
+            logger.log(Level.INFO, String.format(FORMAT, ConsoleColour.WHITE.getCode(), message, ConsoleColour.RESET.getCode()));
         }
     }
 
     public static void logSuccess(String message) {
         if (logger.isLoggable(Level.INFO)) {
-            logger.log(Level.INFO, String.format(FORMAT, GREEN, message, RESET));
+            logger.log(Level.INFO, String.format(FORMAT, ConsoleColour.GREEN.getCode(), message, ConsoleColour.RESET.getCode()));
         }
     }
 
     public static void logInfo(String message) {
         if (logger.isLoggable(Level.INFO)) {
-            logger.log(Level.INFO, String.format(FORMAT, BLUE, message, RESET));
+            logger.log(Level.INFO, String.format(FORMAT, ConsoleColour.BLUE.getCode(), message, ConsoleColour.RESET.getCode()));
         }
     }
 
     public static void logWarning(String message) {
         if (logger.isLoggable(Level.WARNING)) {
-            logger.log(Level.WARNING, String.format(FORMAT, YELLOW, "WARNING: " + message, RESET));
+            logger.log(Level.WARNING, String.format(FORMAT, ConsoleColour.YELLOW.getCode(), "WARNING: " + message, ConsoleColour.RESET.getCode()));
         }
     }
 
     public static void logTitle(String message) {
         if (logger.isLoggable(Level.INFO)) {
-            logger.log(Level.INFO, String.format(FORMAT, BLUE, message, RESET));
+            logger.log(Level.INFO, String.format(FORMAT, ConsoleColour.BLUE.getCode(), message, ConsoleColour.RESET.getCode()));
         }
     }
 
@@ -65,12 +59,12 @@ public class ConsoleLogger {
         if (logger.isLoggable(Level.INFO)) {
             StringBuilder optionsMessage = new StringBuilder();
             for (int i = 0; i < options.length; i++) {
-                optionsMessage.append(String.format(FORMAT, WHITE, String.format("%d. %s%n", i + 1, options[i]), RESET));
+                optionsMessage.append(String.format(FORMAT, ConsoleColour.WHITE.getCode(), String.format("%d. %s%n", i + 1, options[i]), ConsoleColour.RESET.getCode()));
             }
             if (Boolean.TRUE.equals(hasQuitOption)) {
-                optionsMessage.append(String.format("%sQ. Quit%s%n", YELLOW, RESET));
+                optionsMessage.append(String.format("%sQ. Quit%s%n", ConsoleColour.YELLOW.getCode(), ConsoleColour.RESET.getCode()));
             }
-            optionsMessage.append(String.format("%sChoose action: %s", GREEN, RESET));
+            optionsMessage.append(String.format("%sChoose action: %s", ConsoleColour.GREEN.getCode(), ConsoleColour.RESET.getCode()));
             logger.log(Level.INFO, optionsMessage.toString());
         }
     }
