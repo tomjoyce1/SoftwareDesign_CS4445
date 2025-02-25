@@ -1,37 +1,26 @@
 package models.decoratorsTest.radarDecoratorTest;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import static org.mockito.Mockito.mockStatic;
+
 import models.decorators.radardecorator.BasicRadarDisplay;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import views.ConsoleLogger;
 
 class BasicRadarDisplayTest {
 
-    @Test
-    void showDisplaysExpectedMessage() {
-        BasicRadarDisplay display = new BasicRadarDisplay();
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(output));
-        display.show();
-        System.out.flush();
-        System.setOut(originalOut);
-        assertEquals("Displaying basic radar with aircraft coordinates." + System.lineSeparator(), output.toString());
+    private BasicRadarDisplay basicRadarDisplay;
+
+    @BeforeEach
+    void setUp() {
+        basicRadarDisplay = new BasicRadarDisplay();
     }
 
     @Test
-    void showCalledMultipleTimesPrintsMultipleMessages() {
-        BasicRadarDisplay display = new BasicRadarDisplay();
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(output));
-        display.show();
-        display.show();
-        System.out.flush();
-        System.setOut(originalOut);
-        String expected = "Displaying basic radar with aircraft coordinates." + System.lineSeparator() +
-                "Displaying basic radar with aircraft coordinates." + System.lineSeparator();
-        assertEquals(expected, output.toString());
+    void showDisplaysBasicRadarWithAircraftCoordinates() {
+        try (var mockedLogger = mockStatic(ConsoleLogger.class)) {
+            basicRadarDisplay.show();
+            mockedLogger.verify(() -> ConsoleLogger.logInfo("Displaying basic radar with aircraft coordinates."));
+        }
     }
 }

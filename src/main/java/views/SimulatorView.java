@@ -14,26 +14,19 @@ public class SimulatorView {
     }
 
     public void displayMenu() {
-        System.out.println("\n=== Main Menu ===");
-        System.out.println("1. Create new flight");
-        System.out.println("2. Control flight");
-        System.out.println("3. Update weather");
-        System.out.println("4. List all flights");
-        System.out.println("5. Check Flight Status");
-        System.out.println("Q. Quit");
-        System.out.print("Choose an option: ");
+        ConsoleLogger.logTitle("\n=== Main Menu ===");
+        ConsoleLogger.logOption(new String[]
+                {"Create new flight", "Control flight",
+                        "Update weather", "List all flights",
+                        "Check Flight Status"}, true);
     }
 
     public String getUserInput() {
         return scanner.nextLine().toUpperCase();
     }
 
-    public void displayMessage(String message) {
-        System.out.println(message);
-    }
-
     public void displayRadar() {
-        System.out.println("\n--- Radar Display ---");
+        ConsoleLogger.logTitle("\n--- Radar Display ---");
         radar.show();
     }
 }

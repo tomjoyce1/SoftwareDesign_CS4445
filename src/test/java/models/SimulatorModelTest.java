@@ -3,16 +3,31 @@ package models;
 import models.flight.Flight;
 import models.states.FlightState;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.List;
 
 class SimulatorModelTest {
 
     private static class DummyFlight extends Flight {
-        public DummyFlight(String flightNumber) { super(flightNumber); }
-        @Override public String getType() { return "Dummy"; }
-        @Override public void hold() { }
-        @Override public void setState(FlightState state) {
+        public DummyFlight(String flightNumber) {
+            super(flightNumber);
+        }
+
+        @Override
+        public String getType() {
+            return "Dummy";
+        }
+
+        @Override
+        public void hold() {
+            // Empty placeholder method
+        }
+
+        @Override
+        public void setState(FlightState state) {
+            // Empty placeholder method
         }
     }
 

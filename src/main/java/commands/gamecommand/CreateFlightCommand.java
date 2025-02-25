@@ -5,9 +5,11 @@ import factories.FlightFactory;
 import bookmarks.InterceptorDispatcher;
 import models.flight.Flight;
 import models.flight.flighttypes.FlightType;
+import views.ConsoleLogger;
 import views.SimulatorView;
 
 import java.util.List;
+import java.util.Arrays;
 
 public class CreateFlightCommand implements Command {
     private final List<Flight> flights;
@@ -22,22 +24,26 @@ public class CreateFlightCommand implements Command {
 
     @Override
     public void execute() {
-        System.out.println("\n=== Create New Flight ===");
-        System.out.println("Flight.Flight types: PRIVATE, PASSENGER, MILITARY, CARGO");
-        System.out.print("Enter flight type: ");
+        ConsoleLogger.logTitle("\n=== Create New Flight ===");
+        ConsoleLogger.logStandard("Flight types: \n");
+        ConsoleLogger.logOption(Arrays.stream(FlightType.values())
+                .map(Enum::name)
+                .toArray(String[]::new));
+
+        ConsoleLogger.logStandard("Enter flight type: ");
         String typeStr = view.getUserInput();
 
-        System.out.print("Enter flight number: ");
+        ConsoleLogger.logStandard("Enter flight number: ");
         String flightNumber = view.getUserInput();
-        dispatcher.dispatch("Flight.Flight number is " + flightNumber + ", type is " + typeStr);
+        dispatcher.dispatch("Flight number is " + flightNumber + ", type is " + typeStr);
 
         try {
             FlightType type = FlightType.valueOf(typeStr);
             Flight flight = FlightFactory.createFlight(type, flightNumber);
             flights.add(flight);
-            System.out.println("Created " + flight.getType() + " " + flightNumber);
+            ConsoleLogger.logSuccess("Created " + flight.getType() + " " + flightNumber);
         } catch (IllegalArgumentException e) {
-            System.out.println("Invalid flight type!");
+            ConsoleLogger.logError("Invalid flight type!");
         }
     }
 }

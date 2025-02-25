@@ -2,30 +2,30 @@ package commands.gamecommand;
 
 import commands.Command;
 import models.flight.Flight;
-import views.SimulatorView;
+import views.ConsoleLogger;
 
 import java.util.List;
 
 public class ListFlightsCommand implements Command {
     private final List<Flight> flights;
 
-    public ListFlightsCommand(List<Flight> flights, SimulatorView view) {
+    public ListFlightsCommand(List<Flight> flights) {
         this.flights = flights;
     }
 
     @Override
     public void execute() {
-        System.out.println("\n=== Current Flights ===");
+        ConsoleLogger.logTitle("\n=== Current Flights ===");
         if (flights.isEmpty()) {
-            System.out.println("No flights available.");
+            ConsoleLogger.logError("No flights available.");
             return;
         }
 
         for (Flight flight : flights) {
-            System.out.printf("%s %s - Status: %s%n",
+            ConsoleLogger.logInfo(String.format("%s %s - Status: %s%n",
                     flight.getType(),
                     flight.getFlightNumber(),
-                    flight.getState());
+                    flight.getState()));
         }
     }
 }

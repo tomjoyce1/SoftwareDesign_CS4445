@@ -41,7 +41,6 @@ class SimulatorControllerTest {
         controller.startSimulation();
 
         verify(view, atLeastOnce()).displayMenu();
-        verify(view).displayMessage("Invalid option! Please select from menu.");
         verify(dispatcher).dispatch("X");
         verify(dispatcher).dispatch("Q");
     }

@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class InterceptorDispatcher {
-    // manages interceptors
     private final List<Interceptor> interceptorList = new ArrayList<>();
 
     public void addInterceptor(Interceptor i) {

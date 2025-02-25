@@ -1,20 +1,45 @@
 package commandsTest.gameCommandTest;
 
-import commands.gamecommand.UpdateWeatherCommand;
 import bookmarks.InterceptorDispatcher;
-import weatherpubsub.WeatherStation;
-import views.SimulatorView;
+import commands.gamecommand.UpdateWeatherCommand;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import views.ConsoleLogger;
+import views.SimulatorView;
+import weatherpubsub.WeatherStation;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.StreamHandler;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-public class UpdateWeatherCommandTest {
+class UpdateWeatherCommandTest {
+
+    private static class TestHandler extends StreamHandler {
+        private final StringBuilder logMessages = new StringBuilder();
+
+        @Override
+        public synchronized void publish(LogRecord logRecord) {
+            logMessages.append(logRecord.getMessage()).append("\n");
+        }
+
+        public String getLogMessages() {
+            return logMessages.toString();
+        }
+    }
+
+    private TestHandler testHandler;
+
+    @BeforeEach
+    void setUp() {
+        testHandler = new TestHandler();
+        ConsoleLogger.logger.addHandler(testHandler);
+        ConsoleLogger.logger.setLevel(Level.ALL);
+    }
 
     @Test
     void executeCallsReportStormWhenOption1Selected() {
@@ -23,16 +48,11 @@ public class UpdateWeatherCommandTest {
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
         when(view.getUserInput()).thenReturn("1", "StormDetails");
 
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outContent));
-
         UpdateWeatherCommand command = new UpdateWeatherCommand(weatherStation, view, dispatcher);
         command.execute();
 
-        System.setOut(originalOut);
-        verify(weatherStation).reportStorm(eq("StormDetails"));
-        verify(dispatcher).dispatch(eq("1StormDetails"));
+        verify(weatherStation).reportStorm("StormDetails");
+        verify(dispatcher).dispatch("1StormDetails");
     }
 
     @Test
@@ -42,16 +62,11 @@ public class UpdateWeatherCommandTest {
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
         when(view.getUserInput()).thenReturn("2", "SunnyDetails");
 
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outContent));
-
         UpdateWeatherCommand command = new UpdateWeatherCommand(weatherStation, view, dispatcher);
         command.execute();
 
-        System.setOut(originalOut);
-        verify(weatherStation).reportSunny(eq("SunnyDetails"));
-        verify(dispatcher).dispatch(eq("2SunnyDetails"));
+        verify(weatherStation).reportSunny("SunnyDetails");
+        verify(dispatcher).dispatch("2SunnyDetails");
     }
 
     @Test
@@ -61,16 +76,11 @@ public class UpdateWeatherCommandTest {
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
         when(view.getUserInput()).thenReturn("3", "FoggyDetails");
 
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outContent));
-
         UpdateWeatherCommand command = new UpdateWeatherCommand(weatherStation, view, dispatcher);
         command.execute();
 
-        System.setOut(originalOut);
-        verify(weatherStation).reportFoggy(eq("FoggyDetails"));
-        verify(dispatcher).dispatch(eq("3FoggyDetails"));
+        verify(weatherStation).reportFoggy("FoggyDetails");
+        verify(dispatcher).dispatch("3FoggyDetails");
     }
 
     @Test
@@ -80,15 +90,11 @@ public class UpdateWeatherCommandTest {
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
         when(view.getUserInput()).thenReturn("invalid", "SomeDetails");
 
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outContent));
-
         UpdateWeatherCommand command = new UpdateWeatherCommand(weatherStation, view, dispatcher);
         command.execute();
 
-        System.setOut(originalOut);
-        verify(dispatcher).dispatch(eq("invalidSomeDetails"));
-        assertTrue(outContent.toString().contains("Invalid weather type!"));
+        verify(dispatcher).dispatch("invalidSomeDetails");
+        String logOutput = testHandler.getLogMessages();
+        assertTrue(logOutput.contains("Invalid weather type!"));
     }
 }
