@@ -3,6 +3,7 @@ package models.flight;
 import models.states.FlightState;
 import models.states.InAirState;
 import models.states.OnRunwayState;
+import views.ConsoleLogger;
 import weatherpubsub.Subscriber;
 import weatherpubsub.WeatherBroker;
 
@@ -40,11 +41,11 @@ public abstract class Flight implements Subscriber {
 
     @Override
     public void receive(String topic, String message) {
-        System.out.println(getType() + " " + flightNumber + " received " + topic + ": " + message);
+        ConsoleLogger.logInfo(getType() + " " + flightNumber + " received " + topic + ": " + message);
 
         // If there's a storm and the flight is in the air, go into holding pattern
         if (topic.equals("WEATHER.STORM") && state instanceof InAirState) {
-            System.out.println(getType() + " " + flightNumber + " holding at current location due to storm");
+            ConsoleLogger.logWarning(getType() + " " + flightNumber + " holding at current location due to storm");
             hold();
         }
     }
