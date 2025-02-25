@@ -2,34 +2,45 @@ package commandsTest.gameCommandTest;
 
 import commands.gamecommand.ListFlightsCommand;
 import models.flight.Flight;
-import views.SimulatorView;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import views.ConsoleLogger;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.StreamHandler;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ListFlightsCommandTest {
+class ListFlightsCommandTest {
+
+    private static class TestHandler extends StreamHandler {
+        private final StringBuilder logMessages = new StringBuilder();
+
+        @Override
+        public synchronized void publish(LogRecord logRecord) {
+            logMessages.append(logRecord.getMessage()).append("\n");
+        }
+
+        public String getLogMessages() {
+            return logMessages.toString();
+        }
+    }
 
     @Test
     void listFlightsCommandPrintsNoFlightsWhenListIsEmpty() {
         List<Flight> flights = Collections.emptyList();
-        SimulatorView view = Mockito.mock(SimulatorView.class);
-        ListFlightsCommand command = new ListFlightsCommand(flights, view);
+        ListFlightsCommand command = new ListFlightsCommand(flights);
 
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outContent));
+        TestHandler testHandler = new TestHandler();
+        ConsoleLogger.logger.addHandler(testHandler);
+        ConsoleLogger.logger.setLevel(Level.ALL);
 
         command.execute();
 
-        System.setOut(originalOut);
-        String output = outContent.toString();
+        String output = testHandler.getLogMessages();
         assertTrue(output.contains("=== Current Flights ==="));
         assertTrue(output.contains("No flights available."));
     }
@@ -45,18 +56,16 @@ public class ListFlightsCommandTest {
         Mockito.when(flight2.getFlightNumber()).thenReturn("FL200");
         Mockito.when(flight2.getState()).thenReturn("Landed");
 
-        List<Flight> flights = Arrays.asList(flight1, flight2);
-        SimulatorView view = Mockito.mock(SimulatorView.class);
-        ListFlightsCommand command = new ListFlightsCommand(flights, view);
+        List<Flight> flights = List.of(flight1, flight2);
+        ListFlightsCommand command = new ListFlightsCommand(flights);
 
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outContent));
+        TestHandler testHandler = new TestHandler();
+        ConsoleLogger.logger.addHandler(testHandler);
+        ConsoleLogger.logger.setLevel(Level.ALL);
 
         command.execute();
 
-        System.setOut(originalOut);
-        String output = outContent.toString();
+        String output = testHandler.getLogMessages();
         assertTrue(output.contains("=== Current Flights ==="));
         assertTrue(output.contains("COMMERCIAL FL100 - Status: In Air"));
         assertTrue(output.contains("PRIVATE FL200 - Status: Landed"));

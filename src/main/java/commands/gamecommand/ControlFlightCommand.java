@@ -3,6 +3,7 @@ package commands.gamecommand;
 import commands.Command;
 import bookmarks.InterceptorDispatcher;
 import models.flight.Flight;
+import views.ConsoleLogger;
 import views.SimulatorView;
 import commands.flightcommand.TakeOffCommand;
 import commands.flightcommand.LandCommand;
@@ -27,12 +28,12 @@ public class ControlFlightCommand implements Command {
     @Override
     public void execute() {
         if (flights.isEmpty()) {
-            System.out.println("No flights available!");
+            ConsoleLogger.logError("No flights available!");
             return;
         }
 
-        new ListFlightsCommand(flights, view).execute();
-        System.out.print("Enter flight number to control: ");
+        new ListFlightsCommand(flights).execute();
+        ConsoleLogger.logStandard("Enter flight number to control: ");
         String flightNumber = view.getUserInput();
 
         Flight selectedFlight = flights.stream()
@@ -41,15 +42,12 @@ public class ControlFlightCommand implements Command {
                 .orElse(null);
 
         if (selectedFlight == null) {
-            System.out.println("Flight.Flight not found!");
+            ConsoleLogger.logError("Flight not found!");
             return;
         }
 
-        System.out.println("\n=== Flight.Flight Controls ===");
-        System.out.println("1. Take off");
-        System.out.println("2. Land");
-        System.out.println("3. Hold");
-        System.out.print("Choose action: ");
+        ConsoleLogger.logTitle("\n=== Flight Controls ===");
+        ConsoleLogger.logOption(new String[]{"Take off", "Land", "Hold"});
 
         String action = view.getUserInput();
         dispatcher.dispatch("Controlling " + flightNumber + action);
@@ -59,7 +57,7 @@ public class ControlFlightCommand implements Command {
         if (command != null) {
             command.execute();
         } else {
-            System.out.println("Invalid option!");
+            ConsoleLogger.logError("Invalid option!");
         }
     }
 

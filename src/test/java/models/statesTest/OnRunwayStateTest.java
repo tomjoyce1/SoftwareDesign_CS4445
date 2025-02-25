@@ -3,13 +3,17 @@ package models.statesTest;
 import models.flight.Flight;
 import models.states.OnRunwayState;
 import models.states.FlightState;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import views.ConsoleLogger;
+
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.StreamHandler;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
-public class OnRunwayStateTest {
+class OnRunwayStateTest {
 
     private static class DummyFlight extends Flight {
         private FlightState state;
@@ -25,6 +29,7 @@ public class OnRunwayStateTest {
 
         @Override
         public void hold() {
+            // Empty placeholder method
         }
 
         @Override
@@ -37,58 +42,68 @@ public class OnRunwayStateTest {
         }
     }
 
+    private static class TestHandler extends StreamHandler {
+        private LogRecord lastRecord;
+
+        @Override
+        public synchronized void publish(LogRecord logRecord) {
+            lastRecord = logRecord;
+        }
+
+        public String getLastMessage() {
+            return lastRecord != null ? lastRecord.getMessage() : null;
+        }
+    }
+
+    private TestHandler testHandler;
+
+    @BeforeEach
+    void setUp() {
+        testHandler = new TestHandler();
+        ConsoleLogger.logger.addHandler(testHandler);
+        ConsoleLogger.logger.setLevel(Level.ALL);
+    }
+
     @Test
-    public void onRunwayTakeOffPrintsTaxiingMessageAndChangesState() {
+    void onRunwayTakeOffPrintsTaxiingMessageAndChangesState() {
         OnRunwayState state = new OnRunwayState();
         DummyFlight flight = new DummyFlight("FL-RWY-01");
 
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outContent));
-
         state.takeOff(flight);
 
-        System.setOut(originalOut);
-        String output = outContent.toString();
+        String output = testHandler.getLastMessage();
+        assert output != null;
         assertTrue(output.contains("Taxiing to take off"));
         assertNotNull(flight.getDummyState());
         assertEquals("In the air", flight.getDummyState().getStateName());
     }
 
     @Test
-    public void onRunwayLandPrintsAlreadyOnTheGround() {
+    void onRunwayLandPrintsAlreadyOnTheGround() {
         OnRunwayState state = new OnRunwayState();
         DummyFlight flight = new DummyFlight("FL-RWY-02");
 
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outContent));
-
         state.land(flight);
 
-        System.setOut(originalOut);
-        String output = outContent.toString();
+        String output = testHandler.getLastMessage();
+        assert output != null;
         assertTrue(output.contains("Already on the ground"));
     }
 
     @Test
-    public void onRunwayHoldPrintsCannotHoldWhileOnGround() {
+    void onRunwayHoldPrintsCannotHoldWhileOnGround() {
         OnRunwayState state = new OnRunwayState();
         DummyFlight flight = new DummyFlight("FL-RWY-03");
 
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outContent));
-
         state.hold(flight);
 
-        System.setOut(originalOut);
-        String output = outContent.toString();
+        String output = testHandler.getLastMessage();
+        assert output != null;
         assertTrue(output.contains("Cannot hold while on ground"));
     }
 
     @Test
-    public void onRunwayGetStateNameReturnsOnGroundRunway() {
+    void onRunwayGetStateNameReturnsOnGroundRunway() {
         OnRunwayState state = new OnRunwayState();
         assertEquals("On ground/Runway", state.getStateName());
     }

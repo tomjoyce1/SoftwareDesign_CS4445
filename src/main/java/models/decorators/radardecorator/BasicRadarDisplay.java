@@ -1,8 +1,10 @@
 package models.decorators.radardecorator;
 
+import views.ConsoleLogger;
+
 public class BasicRadarDisplay implements RadarDisplay {
     @Override
     public void show() {
-        System.out.println("Displaying basic radar with aircraft coordinates.");
+        ConsoleLogger.logInfo("Displaying basic radar with aircraft coordinates.");
     }
 }

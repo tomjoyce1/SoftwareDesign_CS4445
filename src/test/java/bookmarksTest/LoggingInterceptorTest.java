@@ -4,11 +4,13 @@ import bookmarks.LoggingInterceptor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class LoggingInterceptorTest {
@@ -51,17 +53,27 @@ class LoggingInterceptorTest {
         private final List<String> logMessages = new ArrayList<>();
 
         @Override
-        public void publish(LogRecord record) {
-            if (record != null && record.getMessage() != null) {
-                logMessages.add(record.getMessage());
+        public void publish(LogRecord logRecord) {
+            if (logRecord != null && logRecord.getMessage() != null) {
+                logMessages.add(logRecord.getMessage());
             }
         }
 
         @Override
-        public void flush() {}
+        public void flush() {
+            /*
+             * This method is required to be overridden by the abstract Handler class.
+             * It is used to flush any buffered outputs from the Logger.
+             */
+        }
 
         @Override
-        public void close() throws SecurityException {}
+        public void close() throws SecurityException {
+            /*
+             * This method is required to be overridden by the abstract Handler class.
+             * It is used to close the Handler and free up any resources.
+             */
+        }
 
         public List<String> getLogMessages() {
             return logMessages;

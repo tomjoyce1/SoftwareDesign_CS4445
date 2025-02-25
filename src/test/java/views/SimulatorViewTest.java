@@ -2,35 +2,50 @@ package views;
 
 import models.decorators.radardecorator.RadarDisplay;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
-import java.io.ByteArrayOutputStream;
+
 import java.io.InputStream;
-import java.io.PrintStream;
 import java.io.ByteArrayInputStream;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.StreamHandler;
 
 class SimulatorViewTest {
 
+    private static class TestHandler extends StreamHandler {
+        private final StringBuilder logMessages = new StringBuilder();
+
+        @Override
+        public synchronized void publish(LogRecord logRecord) {
+            logMessages.append(logRecord.getMessage()).append("\n");
+        }
+
+        public String getLogMessages() {
+            return logMessages.toString();
+        }
+    }
+
     @Test
     void displayMenuPrintsAllMenuOptions() {
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outContent));
+        TestHandler testHandler = new TestHandler();
+        ConsoleLogger.logger.addHandler(testHandler);
+        ConsoleLogger.logger.setLevel(Level.ALL);
 
-        RadarDisplay dummyRadar = () -> { };
+        RadarDisplay dummyRadar = () -> {
+        };
         SimulatorView view = new SimulatorView(dummyRadar);
         view.displayMenu();
 
-        System.setOut(originalOut);
-        String output = outContent.toString();
-        // Updated expected string by removing the unnecessary backslash.
-        assertTrue(output.contains("=== Main Menu ==="));
-        assertTrue(output.contains("1. Create new flight"));
-        assertTrue(output.contains("2. Control flight"));
-        assertTrue(output.contains("3. Update weather"));
-        assertTrue(output.contains("4. List all flights"));
-        assertTrue(output.contains("5. Check Flight Status"));
-        assertTrue(output.contains("Q. Quit"));
-        assertTrue(output.contains("Choose an option:"));
+        String logOutput = testHandler.getLogMessages();
+        assertTrue(logOutput.contains("=== Main Menu for JJFK International Airport ==="));
+        assertTrue(logOutput.contains("1. Create new flight"));
+        assertTrue(logOutput.contains("2. Control flight"));
+        assertTrue(logOutput.contains("3. Update weather"));
+        assertTrue(logOutput.contains("4. List all flights"));
+        assertTrue(logOutput.contains("5. Check Flight Status"));
+        assertTrue(logOutput.contains("Q. Quit"));
+        assertTrue(logOutput.contains("Choose action: "));
     }
 
     @Test
@@ -39,7 +54,8 @@ class SimulatorViewTest {
         InputStream originalIn = System.in;
         System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
 
-        RadarDisplay dummyRadar = () -> { };
+        RadarDisplay dummyRadar = () -> {
+        };
         SimulatorView view = new SimulatorView(dummyRadar);
         String input = view.getUserInput();
         System.setIn(originalIn);
@@ -47,33 +63,17 @@ class SimulatorViewTest {
     }
 
     @Test
-    void displayMessagePrintsProvidedMessage() {
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outContent));
-
-        RadarDisplay dummyRadar = () -> { };
-        SimulatorView view = new SimulatorView(dummyRadar);
-        view.displayMessage("Hello World");
-
-        System.setOut(originalOut);
-        String output = outContent.toString();
-        assertTrue(output.contains("Hello World"));
-    }
-
-    @Test
     void displayRadarPrintsHeaderAndCallsRadarShow() {
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outContent));
+        TestHandler testHandler = new TestHandler();
+        ConsoleLogger.logger.addHandler(testHandler);
+        ConsoleLogger.logger.setLevel(Level.ALL);
 
-        RadarDisplay dummyRadar = () -> System.out.print("Radar called");
+        RadarDisplay dummyRadar = () -> ConsoleLogger.logInfo("Radar called");
         SimulatorView view = new SimulatorView(dummyRadar);
         view.displayRadar();
 
-        System.setOut(originalOut);
-        String output = outContent.toString();
-        assertTrue(output.contains("--- Radar Display ---"));
-        assertTrue(output.contains("Radar called"));
+        String logOutput = testHandler.getLogMessages();
+        assertTrue(logOutput.contains("--- Radar Display ---"));
+        assertTrue(logOutput.contains("Radar called"));
     }
 }

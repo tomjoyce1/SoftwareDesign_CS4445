@@ -30,12 +30,6 @@ class InterceptorDispatcherTest {
     }
 
     @Test
-    void dispatchDoesNothingWhenNoInterceptorsAdded() {
-        InterceptorDispatcher dispatcher = new InterceptorDispatcher();
-        dispatcher.dispatch("noInterceptor");
-    }
-
-    @Test
     void addInterceptorStoresMultipleInterceptors() {
         Interceptor interceptor1 = Mockito.mock(Interceptor.class);
         Interceptor interceptor2 = Mockito.mock(Interceptor.class);

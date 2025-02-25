@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import models.SimulatorModel;
+import views.ConsoleLogger;
 import views.SimulatorView;
 
 import commands.gamecommand.CheckFlightStatusCommand;
@@ -31,7 +32,7 @@ public class SimulatorController {
         commands.put("1", new CreateFlightCommand(model.getFlights(), view, model.getDispatcher()));
         commands.put("2", new ControlFlightCommand(model.getFlights(), view, model.getDispatcher()));
         commands.put("3", new UpdateWeatherCommand(model.getWeatherStation(), view, model.getDispatcher()));
-        commands.put("4", new ListFlightsCommand(model.getFlights(), view));
+        commands.put("4", new ListFlightsCommand(model.getFlights()));
         commands.put("5", new CheckFlightStatusCommand(model.getFlights(), view));
         commands.put("Q", new QuitCommand());
     }
@@ -50,7 +51,7 @@ public class SimulatorController {
                     running = false;
                 }
             } else {
-                view.displayMessage("Invalid option! Please select from menu.");
+                ConsoleLogger.logError("Invalid option! Please select from menu.");
             }
         }
     }

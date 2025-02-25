@@ -1,8 +1,8 @@
 package weatherpubsub;
 
-public class WeatherStation implements Publisher {
-    // this is the pubsub publisher
+import views.ConsoleLogger;
 
+public class WeatherStation implements Publisher {
     private final WeatherBroker broker;
 
     public WeatherStation() {
@@ -11,7 +11,7 @@ public class WeatherStation implements Publisher {
 
     @Override
     public void publish(String topic, String message) {
-        System.out.println("WeatherPubSub.WeatherStation publishing message: " + message + " to topic: " + topic);
+        ConsoleLogger.logInfo("WeatherStation publishing message: " + message + " to topic: " + topic);
         broker.publish(topic, message);
     }
 

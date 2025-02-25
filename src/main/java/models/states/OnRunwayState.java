@@ -1,23 +1,24 @@
 package models.states;
 
 import models.flight.Flight;
+import views.ConsoleLogger;
 
 public class OnRunwayState implements FlightState {
 
     @Override
     public void takeOff(Flight flight) {
-        System.out.println("Taxiing to take off");
+        ConsoleLogger.logSuccess("Taxiing to take off");
         flight.setState(new InAirState());
     }
 
     @Override
     public void land(Flight flight) {
-        System.out.println("Already on the ground");
+        ConsoleLogger.logWarning("Already on the ground");
     }
 
     @Override
     public void hold(Flight flight) {
-        System.out.println("Cannot hold while on ground");
+        ConsoleLogger.logWarning("Cannot hold while on ground");
     }
 
     @Override

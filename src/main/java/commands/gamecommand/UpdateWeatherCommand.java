@@ -2,6 +2,7 @@ package commands.gamecommand;
 
 import commands.Command;
 import bookmarks.InterceptorDispatcher;
+import views.ConsoleLogger;
 import views.SimulatorView;
 import weatherpubsub.WeatherStation;
 
@@ -22,14 +23,12 @@ public class UpdateWeatherCommand implements Command {
 
     @Override
     public void execute() {
-        System.out.println("\n=== Weather Control ===");
-        System.out.println("1. Report Storm");
-        System.out.println("2. Report Sunny");
-        System.out.println("3. Report Foggy");
-        System.out.print("Choose weather: ");
+        ConsoleLogger.logTitle("\n=== Weather Control ===");
+        ConsoleLogger.logStandard("Weather types: \n");
+        ConsoleLogger.logOption(new String[]{"Stormy", "Sunny", "Foggy"});
 
         String choice = view.getUserInput();
-        System.out.print("Enter weather details: ");
+        ConsoleLogger.logStandard("Enter weather details: ");
         String details = view.getUserInput();
         dispatcher.dispatch(choice + details);
         setupWeatherActions(details);
@@ -38,7 +37,7 @@ public class UpdateWeatherCommand implements Command {
         if (action != null) {
             action.run();
         } else {
-            System.out.println("Invalid weather type!");
+            ConsoleLogger.logError("Invalid weather type!");
         }
     }
 

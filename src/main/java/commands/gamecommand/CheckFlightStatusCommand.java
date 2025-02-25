@@ -2,6 +2,7 @@ package commands.gamecommand;
 
 import commands.Command;
 import models.flight.Flight;
+import views.ConsoleLogger;
 import views.SimulatorView;
 
 import java.util.List;
@@ -18,12 +19,12 @@ public class CheckFlightStatusCommand implements Command {
     @Override
     public void execute() {
         if (flights.isEmpty()) {
-            System.out.println("No flights available!");
+            ConsoleLogger.logError("No flights available!");
             return;
         }
 
-        new ListFlightsCommand(flights, view).execute();
-        System.out.print("Enter flight number to check status: ");
+        new ListFlightsCommand(flights).execute();
+        ConsoleLogger.logStandard("Enter flight number to check status: ");
         String flightNumber = view.getUserInput();
 
         Flight selectedFlight = null;
@@ -35,15 +36,15 @@ public class CheckFlightStatusCommand implements Command {
         }
 
         if (selectedFlight == null) {
-            System.out.println("Flight not found!");
+            ConsoleLogger.logError("Flight not found!");
             return;
         }
 
-        System.out.printf("%s %s - Status: %s, Fuel: %d%n",
+        ConsoleLogger.logInfo(String.format("%s %s - Status: %s, Fuel: %d%n",
                 selectedFlight.getType(),
                 selectedFlight.getFlightNumber(),
                 selectedFlight.getState(),
-                selectedFlight.getFuel());
+                selectedFlight.getFuel()));
 
         view.displayRadar();
     }

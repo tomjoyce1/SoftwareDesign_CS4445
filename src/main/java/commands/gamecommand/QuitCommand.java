@@ -1,10 +1,11 @@
 package commands.gamecommand;
 
 import commands.Command;
+import views.ConsoleLogger;
 
 public class QuitCommand implements Command {
     @Override
     public void execute() {
-        System.out.println("Exiting the system...");
+        ConsoleLogger.logSuccess("Exiting the system...");
     }
 }

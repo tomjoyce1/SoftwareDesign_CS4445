@@ -4,6 +4,7 @@ import models.flight.Flight;
 import models.states.FlightState;
 import models.states.InAirState;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayOutputStream;
@@ -34,11 +35,20 @@ class FlightTest {
 
     private static class DummyOnRunwayState implements FlightState {
         @Override
-        public void takeOff(Flight flight) { }
+        public void takeOff(Flight flight) {
+            // Empty placeholder method
+        }
+
         @Override
-        public void land(Flight flight) { }
+        public void land(Flight flight) {
+            // Empty placeholder method
+        }
+
         @Override
-        public void hold(Flight flight) { }
+        public void hold(Flight flight) {
+            // Empty placeholder method
+        }
+
         @Override
         public String getStateName() {
             return "OnRunway";
