@@ -81,4 +81,8 @@ public abstract class Flight implements Subscriber {
     public void setFuel(int newFuel) {
         this.fuel = newFuel;
     }
+
+    public String getAltitude() {
+        return "Flying at an unknown altitude.";
+    }
 }

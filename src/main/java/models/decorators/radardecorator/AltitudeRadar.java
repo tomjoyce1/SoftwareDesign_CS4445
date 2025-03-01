@@ -18,20 +18,10 @@ public class AltitudeRadar extends RadarDecorator {
     }
 
     private void displayAdditionalData() {
-
-        if(!flight.getState().equals("In the air")) {
+        if (!flight.getState().equals("In the air")) {
             ConsoleLogger.logInfo("Altitude Radar: Aircraft is not in flight.");
             return;
         }
-
-        if(flight.getType().equals("Cargo Flight")) {
-            ConsoleLogger.logInfo("Altitude Radar: Flying at an altitude of 20,000ft.");
-        } else if(flight.getType().equals("Passenger Flight")) {
-        ConsoleLogger.logInfo("Altitude Radar: Flying at an altitude of 30,000ft.");
-        } else if(flight.getType().equals("Private Flight")) {
-            ConsoleLogger.logInfo("Altitude Radar: Flying at an altitude of 40,000ft.");
-        } else if(flight.getType().equals("Military Flight")) {
-            ConsoleLogger.logInfo("Altitude Radar: Flying at an altitude of 50,000ft.");
-        }
+        ConsoleLogger.logInfo("Altitude Radar: Flying at an altitude of " + flight.getAltitude());
     }
 }

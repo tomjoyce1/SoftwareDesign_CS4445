@@ -8,6 +8,11 @@ public class CargoFlight extends Flight {
         return "Cargo Flight";
     }
 
+    @Override
+    public String getAltitude() {
+        return "20,000ft";
+    }
+
     public CargoFlight(String flightNumber) {
         super(flightNumber);
     }
