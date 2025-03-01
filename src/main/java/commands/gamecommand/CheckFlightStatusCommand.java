@@ -1,6 +1,8 @@
 package commands.gamecommand;
 
 import commands.Command;
+import models.decorators.radardecorator.RadarDisplay;
+import models.decorators.radardecorator.RadarDisplayFactory;
 import models.flight.Flight;
 import views.ConsoleLogger;
 import views.SimulatorView;
@@ -46,6 +48,9 @@ public class CheckFlightStatusCommand implements Command {
                 selectedFlight.getState(),
                 selectedFlight.getFuel()));
 
-        view.displayRadar();
+        // dynamically creates the decorated radar display for the selected flight type
+        RadarDisplay decoratedRadar = RadarDisplayFactory.createRadarDisplay(selectedFlight);
+        ConsoleLogger.logTitle("\n--- Radar Display ---");
+        decoratedRadar.show();
     }
 }
