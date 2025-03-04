@@ -1,8 +1,8 @@
-package models.statesTest;
+package modelsTest.statesTest;
 
 import models.flight.Flight;
-import models.states.OnRunwayState;
 import models.states.FlightState;
+import models.states.LandingModeState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import views.ConsoleLogger;
@@ -13,7 +13,7 @@ import java.util.logging.StreamHandler;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class OnRunwayStateTest {
+class LandingModeStateTest {
 
     private static class DummyFlight extends Flight {
         private FlightState state;
@@ -65,46 +65,48 @@ class OnRunwayStateTest {
     }
 
     @Test
-    void onRunwayTakeOffPrintsTaxiingMessageAndChangesState() {
-        OnRunwayState state = new OnRunwayState();
-        DummyFlight flight = new DummyFlight("FL-RWY-01");
+    void landingModeTakeOffPrintsWarningMessage() {
+        LandingModeState state = new LandingModeState();
+        DummyFlight flight = new DummyFlight("FL-LND-01");
 
         state.takeOff(flight);
 
         String output = testHandler.getLastMessage();
         assert output != null;
-        assertTrue(output.contains("Taxiing to take off"));
-        assertNotNull(flight.getDummyState());
-        assertEquals("In the air", flight.getDummyState().getStateName());
+        assertTrue(output.contains("Cannot take off while landing"));
     }
 
     @Test
-    void onRunwayLandPrintsAlreadyOnTheGround() {
-        OnRunwayState state = new OnRunwayState();
-        DummyFlight flight = new DummyFlight("FL-RWY-02");
+    void landingModeLandPrintsCompletionMessageAndChangesFlightState() {
+        LandingModeState state = new LandingModeState();
+        DummyFlight flight = new DummyFlight("FL-LND-02");
 
         state.land(flight);
 
         String output = testHandler.getLastMessage();
         assert output != null;
-        assertTrue(output.contains("Already on the ground"));
+        assertTrue(output.contains("Landing completed"));
+        assertNotNull(flight.getDummyState());
+        assertNotEquals("Landing mode", flight.getDummyState().getStateName());
     }
 
     @Test
-    void onRunwayHoldPrintsCannotHoldWhileOnGround() {
-        OnRunwayState state = new OnRunwayState();
-        DummyFlight flight = new DummyFlight("FL-RWY-03");
+    void landingModeHoldPrintsAbortMessageAndChangesFlightState() {
+        LandingModeState state = new LandingModeState();
+        DummyFlight flight = new DummyFlight("FL-LND-03");
 
         state.hold(flight);
 
         String output = testHandler.getLastMessage();
         assert output != null;
-        assertTrue(output.contains("Cannot hold while on ground"));
+        assertTrue(output.contains("Aborting landing attempt"));
+        assertNotNull(flight.getDummyState());
+        assertEquals("In the air", flight.getDummyState().getStateName());
     }
 
     @Test
-    void onRunwayGetStateNameReturnsOnGroundRunway() {
-        OnRunwayState state = new OnRunwayState();
-        assertEquals("On ground/Runway", state.getStateName());
+    void landingModeGetStateNameReturnsLandingMode() {
+        LandingModeState state = new LandingModeState();
+        assertEquals("Landing mode", state.getStateName());
     }
 }

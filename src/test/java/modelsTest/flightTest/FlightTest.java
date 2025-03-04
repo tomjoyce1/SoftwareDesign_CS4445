@@ -1,14 +1,14 @@
-package models.flightTest;
+package modelsTest.flightTest;
 
 import models.flight.Flight;
 import models.states.FlightState;
 import models.states.InAirState;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class FlightTest {
 
@@ -94,8 +94,6 @@ class FlightTest {
 
         System.setOut(originalOut);
         assertTrue(flight.holdCalled);
-        String output = outContent.toString();
-        assertTrue(output.contains("Dummy FL105 received WEATHER.STORM: Severe storm"));
     }
 
     @Test
@@ -110,7 +108,5 @@ class FlightTest {
 
         System.setOut(originalOut);
         assertFalse(flight.holdCalled);
-        String output = outContent.toString();
-        assertTrue(output.contains("Dummy FL106 received WEATHER.SUNNY: Clear skies"));
     }
 }

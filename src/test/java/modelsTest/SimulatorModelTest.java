@@ -1,5 +1,6 @@
-package models;
+package modelsTest;
 
+import models.SimulatorModel;
 import models.flight.Flight;
 import models.states.FlightState;
 import org.junit.jupiter.api.Test;

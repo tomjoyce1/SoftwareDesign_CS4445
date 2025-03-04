@@ -30,3 +30,4 @@ public abstract class FlightDecorator extends Flight {
         decoratedFlight.consumeFuel();
     }
 } 
+

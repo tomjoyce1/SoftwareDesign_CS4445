@@ -1,4 +1,4 @@
-package models.statesTest;
+package modelsTest.statesTest;
 
 import models.flight.Flight;
 import models.states.FlightState;

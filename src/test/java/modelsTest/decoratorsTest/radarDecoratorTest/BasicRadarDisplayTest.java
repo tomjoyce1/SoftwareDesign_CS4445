@@ -1,4 +1,4 @@
-package models.decoratorsTest.radarDecoratorTest;
+package modelsTest.decoratorsTest.radarDecoratorTest;
 
 import static org.mockito.Mockito.mockStatic;
 
