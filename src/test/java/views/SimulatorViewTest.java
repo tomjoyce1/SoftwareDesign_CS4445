@@ -38,7 +38,7 @@ class SimulatorViewTest {
         view.displayMenu();
 
         String logOutput = testHandler.getLogMessages();
-        assertTrue(logOutput.contains("=== Main Menu for JJFK International Airport ==="));
+        assertTrue(logOutput.contains("=== Main Menu for ISE International Airport ==="));
         assertTrue(logOutput.contains("1. Create new flight"));
         assertTrue(logOutput.contains("2. Control flight"));
         assertTrue(logOutput.contains("3. Update weather"));

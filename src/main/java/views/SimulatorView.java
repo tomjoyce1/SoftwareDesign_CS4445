@@ -14,7 +14,7 @@ public class SimulatorView {
     }
 
     public void displayMenu() {
-        ConsoleLogger.logTitle("\n=== Main Menu for JJFK International Airport ===");
+        ConsoleLogger.logTitle("\n=== Main Menu for ISE International Airport ===");
         ConsoleLogger.logOption(new String[]
                 {"Create new flight", "Control flight",
                         "Update weather", "List all flights",
