@@ -1,3 +1,5 @@
+package main;
+
 import controllers.SimulatorController;
 import models.SimulatorModel;
 import models.decorators.radardecorator.BasicRadarDisplay;

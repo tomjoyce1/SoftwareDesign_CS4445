@@ -2,7 +2,9 @@ package commandsTest.gameCommandTest;
 
 import commands.gamecommand.CreateFlightCommand;
 import bookmarks.InterceptorDispatcher;
+import factories.FlightFactory;
 import models.flight.Flight;
+import models.flight.flighttypes.FlightType;
 import views.ConsoleLogger;
 import views.SimulatorView;
 import org.junit.jupiter.api.Test;
@@ -29,6 +31,37 @@ class CreateFlightCommandTest {
         assertEquals("Private Flight", createdFlight.getType());
         verify(dispatcher).dispatch(contains("FL123"));
         ConsoleLogger.logSuccess("Created " + createdFlight.getType() + " FL123");
+    }
+
+    @Test
+    void displayErrorWhenFlightNumberAlreadyExists() {
+        List<Flight> flights = new ArrayList<>();
+        Flight existingFlight = FlightFactory.createFlight(FlightType.PRIVATE, "FL123");
+        flights.add(existingFlight);
+        SimulatorView view = Mockito.mock(SimulatorView.class);
+        InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
+        when(view.getUserInput()).thenReturn("PRIVATE", "FL123");
+        CreateFlightCommand command = new CreateFlightCommand(flights, view, dispatcher);
+        command.execute();
+        assertEquals(1, flights.size());
+        verify(dispatcher, never()).dispatch(anyString());
+        ConsoleLogger.logError("Flight number already exists!");
+    }
+
+    @Test
+    void createFlightSuccessfullyWhenFlightNumberIsUnique() {
+        List<Flight> flights = new ArrayList<>();
+        SimulatorView view = Mockito.mock(SimulatorView.class);
+        InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
+        when(view.getUserInput()).thenReturn("PRIVATE", "FL124");
+        CreateFlightCommand command = new CreateFlightCommand(flights, view, dispatcher);
+        command.execute();
+        assertEquals(1, flights.size());
+        Flight createdFlight = flights.getFirst();
+        assertEquals("Private Flight", createdFlight.getType());
+        assertEquals("FL124", createdFlight.getFlightNumber());
+        verify(dispatcher).dispatch(contains("FL124"));
+        ConsoleLogger.logSuccess("Created " + createdFlight.getType() + " FL124");
     }
 
     @Test

@@ -35,6 +35,14 @@ public class CreateFlightCommand implements Command {
 
         ConsoleLogger.logStandard("Enter flight number: ");
         String flightNumber = view.getUserInput();
+
+        for(Flight flight : flights) {
+            if(flight.getFlightNumber().equals(flightNumber)) {
+                ConsoleLogger.logError("Flight number already exists!");
+                return;
+            }
+        }
+
         dispatcher.dispatch("Flight number is " + flightNumber + ", type is " + typeStr);
 
         try {

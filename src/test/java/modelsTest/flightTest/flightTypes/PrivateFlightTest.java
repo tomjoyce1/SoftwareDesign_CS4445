@@ -1,4 +1,4 @@
-package models.flightTest.flightTypes;
+package modelsTest.flightTest.flightTypes;
 
 import models.flight.flighttypes.PrivateFlight;
 import org.junit.jupiter.api.Test;
