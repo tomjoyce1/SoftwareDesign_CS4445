@@ -12,7 +12,7 @@ public class InAirState implements FlightState {
     @Override
     public void land(Flight flight) {
         ConsoleLogger.logSuccess("Transitioning to landing now");
-        flight.setState(new LandingModeState());
+        flight.setState(getNextState("Landing mode"));
     }
 
     @Override
@@ -24,6 +24,4 @@ public class InAirState implements FlightState {
     public String getStateName() {
         return "In the air";
     }
-
-
 }

@@ -4,11 +4,10 @@ import models.flight.Flight;
 import views.ConsoleLogger;
 
 public class OnRunwayState implements FlightState {
-
     @Override
     public void takeOff(Flight flight) {
         ConsoleLogger.logSuccess("Taxiing to take off");
-        flight.setState(new InAirState());
+        flight.setState(getNextState("In the air"));
     }
 
     @Override
@@ -25,6 +24,4 @@ public class OnRunwayState implements FlightState {
     public String getStateName() {
         return "On ground/Runway";
     }
-
-
 }
