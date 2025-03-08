@@ -15,7 +15,7 @@ public class StateFactory {
         };
     }
 
-    private StateFactory() {
+    public StateFactory() {
         throw new IllegalStateException("Utility class");
     }
 }
