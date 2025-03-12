@@ -18,6 +18,4 @@ public class PassengerDecorator extends FlightDecorator {
     public void addPassengers(int count) {
         passengerCount += count;
     }
-
-    // You can override other Flight methods if necessary, then delegate to decoratedFlight.
 }
