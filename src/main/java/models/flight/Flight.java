@@ -75,11 +75,11 @@ public abstract class Flight implements Subscriber {
         return fuel;
     }
 
-    public void consumeFuel() {
-        fuel -= 10;
+    public void setFuel(int fuel) {
+        this.fuel = fuel;
     }
 
-    public void setFuel(int newFuel) {
-        this.fuel = newFuel;
-    }
+    public void consumeFuel() {
+        fuel -= 10;
+    }   
 }

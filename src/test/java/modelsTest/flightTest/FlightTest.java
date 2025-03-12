@@ -15,6 +15,7 @@ class FlightTest {
     private static class DummyFlight extends Flight {
         boolean holdCalled = false;
         String dummyType;
+        private int fuel = 100;
 
         public DummyFlight(String flightNumber, String dummyType) {
             super(flightNumber);
@@ -30,6 +31,21 @@ class FlightTest {
         public void hold() {
             holdCalled = true;
             super.hold();
+        }
+
+        @Override
+        public int getFuel() {
+            return fuel;
+        }
+
+        @Override
+        public void setFuel(int fuel) {
+            this.fuel = fuel;
+        }
+
+        @Override
+        public void consumeFuel() {
+            fuel -= 10;
         }
     }
 

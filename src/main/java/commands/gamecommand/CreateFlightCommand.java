@@ -43,15 +43,31 @@ public class CreateFlightCommand implements Command {
             }
         }
 
-        dispatcher.dispatch("Flight number is " + flightNumber + ", type is " + typeStr);
+        // *new prompts for further attributes 
+        ConsoleLogger.logStandard("Enter initial passenger count: ");
+        int initialPassengerCount = Integer.parseInt(view.getUserInput());
 
+        ConsoleLogger.logStandard("Enter flight agency name: ");
+        String flightAgency = view.getUserInput();
+
+        ConsoleLogger.logStandard("Enter pilot's name: ");
+        String pilotName = view.getUserInput();
+
+        ConsoleLogger.logStandard("Enter crew count: ");
+        int crewCount = Integer.parseInt(view.getUserInput());
+
+        dispatcher.dispatch("Creating flight " + flightNumber + " of type " + typeStr +
+                " with " + initialPassengerCount +" passengers" +
+                ", agency: " + flightAgency + ", pilot: " + pilotName + ", crew: " + crewCount);
+
+        // create decorated flight
         try {
             FlightType type = FlightType.valueOf(typeStr);
-            Flight flight = FlightFactory.createFlight(type, flightNumber);
+            Flight flight = FlightFactory.createDecoratedFlight(type, flightNumber, initialPassengerCount, flightAgency, pilotName, crewCount);
             flights.add(flight);
             ConsoleLogger.logSuccess("Created " + flight.getType() + " " + flightNumber);
         } catch (IllegalArgumentException e) {
-            ConsoleLogger.logError("Invalid flight type!");
+            ConsoleLogger.logError("Invalid flight type or input!");
         }
     }
 }
