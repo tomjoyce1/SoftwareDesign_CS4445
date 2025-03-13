@@ -46,6 +46,5 @@ public class CheckFlightStatusCommand implements Command {
                 selectedFlight.getState(),
                 selectedFlight.getFuel()));
 
-        view.displayRadar();
     }
 }

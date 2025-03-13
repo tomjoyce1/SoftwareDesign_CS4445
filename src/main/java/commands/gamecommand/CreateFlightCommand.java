@@ -59,12 +59,16 @@ public class CreateFlightCommand implements Command {
 
         ConsoleLogger.logStandard("Enter crew count: ");
         int crewCount = Integer.parseInt(view.getUserInput());
+        
 
-        dispatcher.dispatch("Flight number is: " + flightNumber + ", type is: " + typeStr + ", passenger count is: " + initialPassengerCount + ", agency is: " + flightAgency + ", pilot name is: " + pilotName + ", crew count is: " + crewCount);
-
-        // create decorated flight
         try {
             FlightType type = FlightType.valueOf(typeStr);
+            dispatcher.dispatch("Flight number is: " + flightNumber 
+                                + ", type is: " + typeStr 
+                                + ", passenger count is: " + initialPassengerCount 
+                                + ", agency is: " + flightAgency 
+                                + ", pilot name is: " + pilotName 
+                                + ", crew count is: " + crewCount);
             Flight flight = FlightFactory.createDecoratedFlight(type, flightNumber, initialPassengerCount, flightAgency, pilotName, crewCount);
             flights.add(flight);
             ConsoleLogger.logSuccess("Created " + flight.getType() + " " + flightNumber);

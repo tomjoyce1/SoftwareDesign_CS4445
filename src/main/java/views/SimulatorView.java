@@ -2,14 +2,11 @@ package views;
 
 import java.util.Scanner;
 
-import models.decorators.radardecorator.RadarDisplay;
-
 public class SimulatorView {
     private final Scanner scanner;
-    private final RadarDisplay radar;
 
-    public SimulatorView(RadarDisplay radar) {
-        this.radar = radar;
+
+    public SimulatorView() {
         this.scanner = new Scanner(System.in);
     }
 
@@ -23,10 +20,5 @@ public class SimulatorView {
 
     public String getUserInput() {
         return scanner.nextLine().toUpperCase();
-    }
-
-    public void displayRadar() {
-        ConsoleLogger.logTitle("\n--- Radar Display ---");
-        radar.show();
     }
 }
