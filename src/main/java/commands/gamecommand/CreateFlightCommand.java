@@ -43,12 +43,32 @@ public class CreateFlightCommand implements Command {
             }
         }
 
-        // *new prompts for further attributes 
-        ConsoleLogger.logStandard("Enter initial passenger count: ");
-        int initialPassengerCount = Integer.parseInt(view.getUserInput());
+        FlightType type;
+        try {
+            type = FlightType.valueOf(typeStr);
+        } catch (IllegalArgumentException e) {
+            ConsoleLogger.logError("Invalid flight type!");
+            return;
+        }
 
+        // *new prompts for further attributes 
+        int initialPassengerCount = 0;
+        if (type != FlightType.MILITARY && type != FlightType.CARGO) {
+            ConsoleLogger.logStandard("Enter initial passenger count: ");
+            String passengerInput = view.getUserInput();
+            try {
+                initialPassengerCount = Integer.parseInt(passengerInput);
+            } catch (NumberFormatException e) {
+                ConsoleLogger.logError("Invalid input for passenger count!");
+                return;
+            }
+        }
+
+        String flightAgency = "";
+        if (type != FlightType.MILITARY) {
         ConsoleLogger.logStandard("Enter flight agency name: ");
-        String flightAgency = view.getUserInput();      
+        flightAgency = view.getUserInput();
+    }      
 
         ConsoleLogger.logStandard("Enter pilot's name: ");
         String pilotName = view.getUserInput();
@@ -58,11 +78,18 @@ public class CreateFlightCommand implements Command {
         }
 
         ConsoleLogger.logStandard("Enter crew count: ");
-        int crewCount = Integer.parseInt(view.getUserInput());
+        String crewInput = view.getUserInput();
+        int crewCount = 0;
+        try {
+            crewCount = Integer.parseInt(crewInput);
+        } catch (NumberFormatException e) {
+            ConsoleLogger.logError("Invalid input for crew count!");
+            return;
+        }
         
 
         try {
-            FlightType type = FlightType.valueOf(typeStr);
+            type = FlightType.valueOf(typeStr);
             dispatcher.dispatch("Flight number is: " + flightNumber 
                                 + ", type is: " + typeStr 
                                 + ", passenger count is: " + initialPassengerCount 

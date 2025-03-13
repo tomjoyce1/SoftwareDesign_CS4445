@@ -75,15 +75,17 @@ class CreateFlightCommandTest {
     void displayErrorWhenInvalidPassengerCountIsProvided() {
         List<Flight> flights = new ArrayList<>();
         SimulatorView view = Mockito.mock(SimulatorView.class);
-        // Supply an invalid passenger count (third input); later prompts will not be reached.
+        // Supply an invalid passenger count; later prompts will not be reached.
         when(view.getUserInput()).thenReturn("PRIVATE", "FL125", "invalid_passenger_count");
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
         CreateFlightCommand command = new CreateFlightCommand(flights, view, dispatcher);
-        // Expect NumberFormatException due to invalid integer parsing.
-        assertThrows(NumberFormatException.class, command::execute);
+        
+        // Execute without expecting an exception.
+        command.execute();
+        
+        // Validate that no flight was added and dispatcher was not called.
         assertTrue(flights.isEmpty());
         verify(dispatcher, never()).dispatch(anyString());
-        ConsoleLogger.logError("Invalid input for initial passenger count! Please enter a valid number.");
     }
 
     @Test
@@ -94,12 +96,13 @@ class CreateFlightCommandTest {
         when(view.getUserInput()).thenReturn("PRIVATE", "FL126", "10", "Some Agency", "John Doe", "invalid_crew_count");
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
         CreateFlightCommand command = new CreateFlightCommand(flights, view, dispatcher);
-        // Expect NumberFormatException for the crew count.
-        assertThrows(NumberFormatException.class, command::execute);
+        
+        // Execute the command and assert that no flight is created and dispatcher is not called.
+        command.execute();
         assertTrue(flights.isEmpty());
         verify(dispatcher, never()).dispatch(anyString());
-        ConsoleLogger.logError("Invalid input for crew count! Please enter a valid number.");
-    }
+        // Optionally, verify that the error message was logged (requires a spy or capturing log output).
+    }   
 
     @Test
     void displayErrorWhenInvalidFlightTypeIsProvided() {
