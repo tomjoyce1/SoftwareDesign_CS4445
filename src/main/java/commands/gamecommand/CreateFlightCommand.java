@@ -48,17 +48,19 @@ public class CreateFlightCommand implements Command {
         int initialPassengerCount = Integer.parseInt(view.getUserInput());
 
         ConsoleLogger.logStandard("Enter flight agency name: ");
-        String flightAgency = view.getUserInput();
+        String flightAgency = view.getUserInput();      
 
         ConsoleLogger.logStandard("Enter pilot's name: ");
         String pilotName = view.getUserInput();
+        if (!pilotName.matches("^[a-zA-Z\\s]+$")) {
+            ConsoleLogger.logError("Pilot names must contain only letters and spaces!");
+        return;
+        }
 
         ConsoleLogger.logStandard("Enter crew count: ");
         int crewCount = Integer.parseInt(view.getUserInput());
 
-        dispatcher.dispatch("Creating flight " + flightNumber + " of type " + typeStr +
-                " with " + initialPassengerCount +" passengers" +
-                ", agency: " + flightAgency + ", pilot: " + pilotName + ", crew: " + crewCount);
+        dispatcher.dispatch("Flight number is: " + flightNumber + ", type is: " + typeStr + ", passenger count is: " + initialPassengerCount + ", agency is: " + flightAgency + ", pilot name is: " + pilotName + ", crew count is: " + crewCount);
 
         // create decorated flight
         try {
