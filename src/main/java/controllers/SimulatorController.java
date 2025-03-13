@@ -15,6 +15,7 @@ import commands.gamecommand.CreateFlightCommand;
 import commands.gamecommand.ListFlightsCommand;
 import commands.gamecommand.QuitCommand;
 import commands.gamecommand.UpdateWeatherCommand;
+import commands.gamecommand.ViewFlightInfo;
 
 public class SimulatorController {
     private final SimulatorModel model;
@@ -34,6 +35,7 @@ public class SimulatorController {
         commands.put("3", new UpdateWeatherCommand(model.getWeatherStation(), view, model.getDispatcher()));
         commands.put("4", new ListFlightsCommand(model.getFlights()));
         commands.put("5", new CheckFlightStatusCommand(model.getFlights(), view));
+        commands.put("6", new ViewFlightInfo(model.getFlights(), view));
         commands.put("Q", new QuitCommand());
     }
 
