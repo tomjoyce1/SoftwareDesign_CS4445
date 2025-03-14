@@ -11,8 +11,8 @@ public abstract class FlightDecorator extends Flight {
     }
 
     @Override
-    public void takeOff() {
-        decoratedFlight.takeOff();
+    public boolean takeOff() {
+        return super.takeOff();
     }
 
     @Override

@@ -17,34 +17,28 @@ public class CheckFlightStatusCommand implements Command {
     }
 
     @Override
-    public void execute() {
-        if (flights.isEmpty()) {
-            ConsoleLogger.logError("No flights available!");
-            return;
-        }
+public void execute() {
+    if (flights.isEmpty()) {
+        ConsoleLogger.logError("No flights available!");
+        return;
+    }
 
-        new ListFlightsCommand(flights).execute();
-        ConsoleLogger.logStandard("Enter flight number to check status: ");
-        String flightNumber = view.getUserInput();
+    new ListFlightsCommand(flights).execute();
+    ConsoleLogger.logStandard("Enter flight number to check status: ");
+    String flightNumber = view.getUserInput();
 
-        Flight selectedFlight = null;
-        for (Flight flight : flights) {
-            if (flight.getFlightNumber().equals(flightNumber)) {
-                selectedFlight = flight;
-                break;
-            }
-        }
+    // Use the helper method for flight lookup
+    Flight selectedFlight = utils.FlightLookupUtil.findFlightByNumber(flights, flightNumber);
 
-        if (selectedFlight == null) {
-            ConsoleLogger.logError("Flight not found!");
-            return;
-        }
+    if (selectedFlight == null) {
+        ConsoleLogger.logError("Flight not found!");
+        return;
+    }
 
-        ConsoleLogger.logInfo(String.format("%s %s - Status: %s, Fuel: %d%n",
-                selectedFlight.getType(),
-                selectedFlight.getFlightNumber(),
-                selectedFlight.getState(),
-                selectedFlight.getFuel()));
-
+    ConsoleLogger.logInfo(String.format("%s %s - Status: %s, Fuel: %d%n",
+            selectedFlight.getType(),
+            selectedFlight.getFlightNumber(),
+            selectedFlight.getState(),
+            selectedFlight.getFuel()));
     }
 }

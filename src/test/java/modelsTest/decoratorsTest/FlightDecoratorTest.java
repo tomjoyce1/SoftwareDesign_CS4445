@@ -63,8 +63,9 @@ class FlightDecoratorTest {
         }
 
         @Override
-        public void takeOff() {
+        public boolean takeOff() {
             takeOffCalled = true;
+            return true;
         }
 
         @Override

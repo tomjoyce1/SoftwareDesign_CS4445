@@ -5,6 +5,8 @@ import factories.FlightFactory;
 import bookmarks.InterceptorDispatcher;
 import models.flight.Flight;
 import models.flight.flighttypes.FlightType;
+import models.map.AirTrafficMap;
+import models.map.FlightAirportAssigner;
 import views.ConsoleLogger;
 import views.SimulatorView;
 
@@ -15,8 +17,10 @@ public class CreateFlightCommand implements Command {
     private final List<Flight> flights;
     private final SimulatorView view;
     private final InterceptorDispatcher dispatcher;
+    private final AirTrafficMap airTrafficMap;
 
-    public CreateFlightCommand(List<Flight> flights, SimulatorView view, InterceptorDispatcher dispatcher) {
+    public CreateFlightCommand(List<Flight> flights, SimulatorView view, InterceptorDispatcher dispatcher, AirTrafficMap airTrafficMap) {
+        this.airTrafficMap = airTrafficMap;
         this.flights = flights;
         this.view = view;
         this.dispatcher = dispatcher;
@@ -56,12 +60,11 @@ public class CreateFlightCommand implements Command {
         if (type != FlightType.MILITARY && type != FlightType.CARGO) {
             ConsoleLogger.logStandard("Enter initial passenger count: ");
             String passengerInput = view.getUserInput();
-            try {
-                initialPassengerCount = Integer.parseInt(passengerInput);
-            } catch (NumberFormatException e) {
-                ConsoleLogger.logError("Invalid input for passenger count!");
+            Integer parsedPassengerCount = utils.InputParserUtil.parseInt(passengerInput);
+            if (parsedPassengerCount == null) {
                 return;
             }
+            initialPassengerCount = parsedPassengerCount;
         }
 
         String flightAgency = "";
@@ -80,12 +83,11 @@ public class CreateFlightCommand implements Command {
         ConsoleLogger.logStandard("Enter crew count: ");
         String crewInput = view.getUserInput();
         int crewCount = 0;
-        try {
-            crewCount = Integer.parseInt(crewInput);
-        } catch (NumberFormatException e) {
-            ConsoleLogger.logError("Invalid input for crew count!");
+        Integer parsedCrewCount = utils.InputParserUtil.parseInt(crewInput);
+        if (parsedCrewCount == null) {
             return;
         }
+        crewCount = parsedCrewCount;
         
 
         try {
@@ -99,6 +101,8 @@ public class CreateFlightCommand implements Command {
             Flight flight = FlightFactory.createDecoratedFlight(type, flightNumber, initialPassengerCount, flightAgency, pilotName, crewCount);
             flights.add(flight);
             ConsoleLogger.logSuccess("Created " + flight.getType() + " " + flightNumber);
+
+            FlightAirportAssigner.assignFlightToAirport(flight, airTrafficMap, view);
         } catch (IllegalArgumentException e) {
             ConsoleLogger.logError("Invalid flight type or input!");
         }

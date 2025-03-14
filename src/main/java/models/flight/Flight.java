@@ -1,5 +1,6 @@
 package models.flight;
 
+import models.map.MapCell;
 import models.states.FlightState;
 import models.states.InAirState;
 import models.states.OnRunwayState;
@@ -12,6 +13,8 @@ public abstract class Flight implements Subscriber {
     private final WeatherBroker broker;
     private FlightState state;
     private int fuel = 100;
+    private boolean stormNotified = false;
+    private MapCell currentAirportCell;
 
     public String getFlightNumber() {
         return flightNumber;
@@ -43,11 +46,21 @@ public abstract class Flight implements Subscriber {
     public void receive(String topic, String message) {
         ConsoleLogger.logInfo(getType() + " " + flightNumber + " received " + topic + ": " + message);
 
-        // If there's a storm and the flight is in the air, go into holding pattern
-        if (topic.equals("WEATHER.STORM") && state instanceof InAirState) {
-            ConsoleLogger.logWarning(getType() + " " + flightNumber + " holding at current location due to storm");
-            hold();
+        if (topic.equals("WEATHER.STORM")) {
+            stormNotified = true;
+            // Optionally, if in air, hold the flight:
+            if (state instanceof InAirState) {
+                ConsoleLogger.logWarning(getType() + " " + flightNumber + " holding at current location due to storm");
+                hold();
+            }
+        } else if (topic.equals("WEATHER.SUNNY") || topic.equals("WEATHER.FOGGY")) {
+            // Clear storm notification when weather improves
+            stormNotified = false;
         }
+    }
+
+    public boolean isStormNotified() {
+        return stormNotified;
     }
 
     public void setState(FlightState state) {
@@ -58,9 +71,14 @@ public abstract class Flight implements Subscriber {
         return state.getStateName();
     }
 
-    public void takeOff() {
+    public boolean takeOff() {
+        if (stormNotified) {
+            ConsoleLogger.logError(getType() + " " + flightNumber + " cannot take off due to storm conditions.");
+            return false;
+        }
         state.takeOff(this);
         consumeFuel();
+        return true;
     }
 
     public void land() {
@@ -81,5 +99,13 @@ public abstract class Flight implements Subscriber {
 
     public void consumeFuel() {
         fuel -= 10;
-    }   
+    }
+    
+    public MapCell getCurrentAirportCell() {
+        return currentAirportCell;
+    }
+
+    public void setCurrentAirportCell(MapCell currentAirportCell) {
+        this.currentAirportCell = currentAirportCell;
+    }
 }

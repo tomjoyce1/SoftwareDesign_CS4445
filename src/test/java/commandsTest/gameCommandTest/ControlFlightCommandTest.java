@@ -2,6 +2,8 @@ package commandsTest.gameCommandTest;
 
 import commands.gamecommand.ControlFlightCommand;
 import models.flight.Flight;
+import models.map.AirTrafficMap;
+import models.SimulatorModel;
 import views.ConsoleLogger;
 import views.SimulatorView;
 import bookmarks.InterceptorDispatcher;
@@ -38,8 +40,9 @@ class ControlFlightCommandTest {
         List<Flight> flights = Collections.emptyList();
         SimulatorView view = Mockito.mock(SimulatorView.class);
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
-        ControlFlightCommand controlFlightCommand = new ControlFlightCommand(flights, view, dispatcher);
-
+        AirTrafficMap airTrafficMap = Mockito.mock(AirTrafficMap.class);
+        SimulatorModel model = Mockito.mock(SimulatorModel.class);
+        ControlFlightCommand controlFlightCommand = new ControlFlightCommand(flights, view, dispatcher, airTrafficMap, model);
         TestHandler testHandler = new TestHandler();
         ConsoleLogger.logger.addHandler(testHandler);
         ConsoleLogger.logger.setLevel(Level.ALL);
@@ -57,7 +60,9 @@ class ControlFlightCommandTest {
         List<Flight> flights = List.of(mockFlight);
         SimulatorView view = Mockito.mock(SimulatorView.class);
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
-        ControlFlightCommand controlFlightCommand = new ControlFlightCommand(flights, view, dispatcher);
+        AirTrafficMap airTrafficMap = Mockito.mock(AirTrafficMap.class);
+        SimulatorModel model = Mockito.mock(SimulatorModel.class);
+        ControlFlightCommand controlFlightCommand = new ControlFlightCommand(flights, view, dispatcher, airTrafficMap, model);
 
         when(view.getUserInput()).thenReturn("invalidFlightNumber");
 
@@ -78,7 +83,9 @@ class ControlFlightCommandTest {
         List<Flight> flights = List.of(flight);
         SimulatorView view = Mockito.mock(SimulatorView.class);
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
-        ControlFlightCommand controlFlightCommand = new ControlFlightCommand(flights, view, dispatcher);
+        AirTrafficMap airTrafficMap = Mockito.mock(AirTrafficMap.class);
+        SimulatorModel model = Mockito.mock(SimulatorModel.class);
+        ControlFlightCommand controlFlightCommand = new ControlFlightCommand(flights, view, dispatcher, airTrafficMap, model);
 
         when(view.getUserInput()).thenReturn("FL001").thenReturn("1");
 
@@ -94,7 +101,9 @@ class ControlFlightCommandTest {
         List<Flight> flights = List.of(flight);
         SimulatorView view = Mockito.mock(SimulatorView.class);
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
-        ControlFlightCommand controlFlightCommand = new ControlFlightCommand(flights, view, dispatcher);
+        AirTrafficMap airTrafficMap = Mockito.mock(AirTrafficMap.class);
+        SimulatorModel model = Mockito.mock(SimulatorModel.class);
+        ControlFlightCommand controlFlightCommand = new ControlFlightCommand(flights, view, dispatcher, airTrafficMap, model);
 
         when(view.getUserInput()).thenReturn("FL001").thenReturn("2");
 
@@ -110,7 +119,9 @@ class ControlFlightCommandTest {
         List<Flight> flights = List.of(flight);
         SimulatorView view = Mockito.mock(SimulatorView.class);
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
-        ControlFlightCommand controlFlightCommand = new ControlFlightCommand(flights, view, dispatcher);
+        AirTrafficMap airTrafficMap = Mockito.mock(AirTrafficMap.class);
+        SimulatorModel model = Mockito.mock(SimulatorModel.class);
+        ControlFlightCommand controlFlightCommand = new ControlFlightCommand(flights, view, dispatcher, airTrafficMap, model);
 
         when(view.getUserInput()).thenReturn("FL001").thenReturn("3");
 
@@ -126,7 +137,9 @@ class ControlFlightCommandTest {
         List<Flight> flights = List.of(flight);
         SimulatorView view = Mockito.mock(SimulatorView.class);
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
-        ControlFlightCommand controlFlightCommand = new ControlFlightCommand(flights, view, dispatcher);
+        AirTrafficMap airTrafficMap = Mockito.mock(AirTrafficMap.class);
+        SimulatorModel model = Mockito.mock(SimulatorModel.class);
+        ControlFlightCommand controlFlightCommand = new ControlFlightCommand(flights, view, dispatcher, airTrafficMap, model);
 
         when(view.getUserInput()).thenReturn("FL001").thenReturn("invalidOption");
 

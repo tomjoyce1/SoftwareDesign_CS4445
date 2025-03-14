@@ -5,6 +5,7 @@ import bookmarks.InterceptorDispatcher;
 import factories.FlightFactory;
 import models.flight.Flight;
 import models.flight.flighttypes.FlightType;
+import models.map.AirTrafficMap;
 import views.ConsoleLogger;
 import views.SimulatorView;
 import org.junit.jupiter.api.Test;
@@ -27,7 +28,8 @@ class CreateFlightCommandTest {
         // Provide all required inputs for a successful flight creation.
         when(view.getUserInput()).thenReturn("PRIVATE", "FL123", "100", "Some Agency", "John Doe", "10");
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
-        CreateFlightCommand command = new CreateFlightCommand(flights, view, dispatcher);
+        AirTrafficMap airTrafficMap = Mockito.mock(AirTrafficMap.class);
+        CreateFlightCommand command = new CreateFlightCommand(flights, view, dispatcher, airTrafficMap);
         command.execute();
         assertFalse(flights.isEmpty());
         // Use get(0) as ArrayList does not have getFirst()
@@ -45,9 +47,10 @@ class CreateFlightCommandTest {
         flights.add(existingFlight);
         SimulatorView view = Mockito.mock(SimulatorView.class);
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
+        AirTrafficMap airTrafficMap = Mockito.mock(AirTrafficMap.class);
         // Only two inputs are needed since duplicate is detected early.
         when(view.getUserInput()).thenReturn("PRIVATE", "FL123");
-        CreateFlightCommand command = new CreateFlightCommand(flights, view, dispatcher);
+        CreateFlightCommand command = new CreateFlightCommand(flights, view, dispatcher, airTrafficMap);
         command.execute();
         assertEquals(1, flights.size());
         verify(dispatcher, never()).dispatch(anyString());
@@ -61,7 +64,8 @@ class CreateFlightCommandTest {
         // Provide complete input for a unique flight.
         when(view.getUserInput()).thenReturn("PRIVATE", "FL124", "150", "Some Agency", "John Doe", "12");
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
-        CreateFlightCommand command = new CreateFlightCommand(flights, view, dispatcher);
+        AirTrafficMap airTrafficMap = Mockito.mock(AirTrafficMap.class);
+        CreateFlightCommand command = new CreateFlightCommand(flights, view, dispatcher, airTrafficMap);
         command.execute();
         assertEquals(1, flights.size());
         Flight createdFlight = flights.get(0);
@@ -78,7 +82,8 @@ class CreateFlightCommandTest {
         // Supply an invalid passenger count; later prompts will not be reached.
         when(view.getUserInput()).thenReturn("PRIVATE", "FL125", "invalid_passenger_count");
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
-        CreateFlightCommand command = new CreateFlightCommand(flights, view, dispatcher);
+        AirTrafficMap airTrafficMap = Mockito.mock(AirTrafficMap.class);
+        CreateFlightCommand command = new CreateFlightCommand(flights, view, dispatcher, airTrafficMap);
         
         // Execute without expecting an exception.
         command.execute();
@@ -95,7 +100,8 @@ class CreateFlightCommandTest {
         // Provide complete inputs but with an invalid crew count.
         when(view.getUserInput()).thenReturn("PRIVATE", "FL126", "10", "Some Agency", "John Doe", "invalid_crew_count");
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
-        CreateFlightCommand command = new CreateFlightCommand(flights, view, dispatcher);
+        AirTrafficMap airTrafficMap = Mockito.mock(AirTrafficMap.class);
+        CreateFlightCommand command = new CreateFlightCommand(flights, view, dispatcher, airTrafficMap);
         
         // Execute the command and assert that no flight is created and dispatcher is not called.
         command.execute();
@@ -109,9 +115,10 @@ class CreateFlightCommandTest {
         List<Flight> flights = new ArrayList<>();
         SimulatorView view = Mockito.mock(SimulatorView.class);
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
+        AirTrafficMap airTrafficMap = Mockito.mock(AirTrafficMap.class);
         // Supply all required inputs even though the flight type is invalid.
         when(view.getUserInput()).thenReturn("INVALID_TYPE", "FL123", "100", "Some Agency", "John Doe", "10");
-        CreateFlightCommand command = new CreateFlightCommand(flights, view, dispatcher);
+        CreateFlightCommand command = new CreateFlightCommand(flights, view, dispatcher, airTrafficMap);
         command.execute();
         // The command should catch the IllegalArgumentException and not add a flight.
         assertTrue(flights.isEmpty());

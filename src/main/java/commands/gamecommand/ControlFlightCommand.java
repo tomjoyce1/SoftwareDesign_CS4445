@@ -3,6 +3,8 @@ package commands.gamecommand;
 import commands.Command;
 import bookmarks.InterceptorDispatcher;
 import models.flight.Flight;
+import models.map.AirTrafficMap;
+import models.SimulatorModel;
 import views.ConsoleLogger;
 import views.SimulatorView;
 import commands.flightcommand.TakeOffCommand;
@@ -17,12 +19,16 @@ public class ControlFlightCommand implements Command {
     private final List<Flight> flights;
     private final SimulatorView view;
     private final InterceptorDispatcher dispatcher;
+    private final AirTrafficMap airTrafficMap;
+    private final SimulatorModel model;
     private static final Map<String, Command> commands = new HashMap<>();
 
-    public ControlFlightCommand(List<Flight> flights, SimulatorView view, InterceptorDispatcher dispatcher) {
+    public ControlFlightCommand(List<Flight> flights, SimulatorView view, InterceptorDispatcher dispatcher, AirTrafficMap airTrafficMap, SimulatorModel model) {
         this.flights = flights;
         this.view = view;
         this.dispatcher = dispatcher;
+        this.airTrafficMap = airTrafficMap;
+        this.model = model;
     }
 
     @Override
@@ -36,10 +42,7 @@ public class ControlFlightCommand implements Command {
         ConsoleLogger.logStandard("Enter flight number to control: ");
         String flightNumber = view.getUserInput();
 
-        Flight selectedFlight = flights.stream()
-                .filter(f -> f.getFlightNumber().equals(flightNumber))
-                .findFirst()
-                .orElse(null);
+        Flight selectedFlight = utils.FlightLookupUtil.findFlightByNumber(flights, flightNumber);
 
         if (selectedFlight == null) {
             ConsoleLogger.logError("Flight not found!");
@@ -47,7 +50,7 @@ public class ControlFlightCommand implements Command {
         }
 
         ConsoleLogger.logTitle("\n=== Flight Controls ===");
-        ConsoleLogger.logOption(new String[]{"Take off", "Land", "Hold"});
+        ConsoleLogger.logOption(new String[]{"Take off", "Land", "Hold", "Schedule Take Off"});
 
         String action = view.getUserInput();
         dispatcher.dispatch("Controlling " + flightNumber + action);
@@ -61,9 +64,10 @@ public class ControlFlightCommand implements Command {
         }
     }
 
-    private static void setUpFlightCommands(Flight selectedFlight) {
-        commands.put("1", new TakeOffCommand(selectedFlight));
+    private void setUpFlightCommands(Flight selectedFlight) {
+        commands.put("1", new TakeOffCommand(selectedFlight, airTrafficMap, view));
         commands.put("2", new LandCommand(selectedFlight));
         commands.put("3", new HoldCommand(selectedFlight));
+        commands.put("4", new ScheduleTakeOffCommand(selectedFlight, airTrafficMap, view, model.getScheduledFlights()));
     }
 }

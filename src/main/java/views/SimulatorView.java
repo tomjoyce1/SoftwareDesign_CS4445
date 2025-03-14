@@ -15,7 +15,7 @@ public class SimulatorView {
         ConsoleLogger.logOption(new String[]
                 {"Create new flight", "Control flight",
                         "Update weather", "List all flights",
-                        "Check Flight Status", "View Flight Info"}, true);
+                        "Check Flight Status", "View Flight Info", "View Air Traffic Map", "View Cell Contents", "Clear Scheduled Flights For Take Off"}, true);
     }
 
     public String getUserInput() {
