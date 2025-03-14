@@ -43,15 +43,64 @@ public class CreateFlightCommand implements Command {
             }
         }
 
-        dispatcher.dispatch("Flight number is " + flightNumber + ", type is " + typeStr);
+        FlightType type;
+        try {
+            type = FlightType.valueOf(typeStr);
+        } catch (IllegalArgumentException e) {
+            ConsoleLogger.logError("Invalid flight type!");
+            return;
+        }
+
+        // *new prompts for further attributes 
+        int initialPassengerCount = 0;
+        if (type != FlightType.MILITARY && type != FlightType.CARGO) {
+            ConsoleLogger.logStandard("Enter initial passenger count: ");
+            String passengerInput = view.getUserInput();
+            try {
+                initialPassengerCount = Integer.parseInt(passengerInput);
+            } catch (NumberFormatException e) {
+                ConsoleLogger.logError("Invalid input for passenger count!");
+                return;
+            }
+        }
+
+        String flightAgency = "";
+        if (type != FlightType.MILITARY) {
+        ConsoleLogger.logStandard("Enter flight agency name: ");
+        flightAgency = view.getUserInput();
+    }      
+
+        ConsoleLogger.logStandard("Enter pilot's name: ");
+        String pilotName = view.getUserInput();
+        if (!pilotName.matches("^[a-zA-Z\\s]+$")) {
+            ConsoleLogger.logError("Pilot names must contain only letters and spaces!");
+        return;
+        }
+
+        ConsoleLogger.logStandard("Enter crew count: ");
+        String crewInput = view.getUserInput();
+        int crewCount = 0;
+        try {
+            crewCount = Integer.parseInt(crewInput);
+        } catch (NumberFormatException e) {
+            ConsoleLogger.logError("Invalid input for crew count!");
+            return;
+        }
+        
 
         try {
-            FlightType type = FlightType.valueOf(typeStr);
-            Flight flight = FlightFactory.createFlight(type, flightNumber);
+            type = FlightType.valueOf(typeStr);
+            dispatcher.dispatch("Flight number is: " + flightNumber 
+                                + ", type is: " + typeStr 
+                                + ", passenger count is: " + initialPassengerCount 
+                                + ", agency is: " + flightAgency 
+                                + ", pilot name is: " + pilotName 
+                                + ", crew count is: " + crewCount);
+            Flight flight = FlightFactory.createDecoratedFlight(type, flightNumber, initialPassengerCount, flightAgency, pilotName, crewCount);
             flights.add(flight);
             ConsoleLogger.logSuccess("Created " + flight.getType() + " " + flightNumber);
         } catch (IllegalArgumentException e) {
-            ConsoleLogger.logError("Invalid flight type!");
+            ConsoleLogger.logError("Invalid flight type or input!");
         }
     }
 }

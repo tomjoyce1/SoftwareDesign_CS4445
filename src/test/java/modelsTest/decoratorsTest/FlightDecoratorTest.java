@@ -82,5 +82,10 @@ class FlightDecoratorTest {
             fuel -= 10;
             consumeFuelCalled = true;
         }
+
+        @Override
+        public void setFuel(int fuel) {
+        this.fuel = fuel;
+        }
     }
 }

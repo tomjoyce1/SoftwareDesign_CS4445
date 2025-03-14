@@ -2,14 +2,11 @@ package views;
 
 import java.util.Scanner;
 
-import models.decorators.radardecorator.RadarDisplay;
-
 public class SimulatorView {
     private final Scanner scanner;
-    private final RadarDisplay radar;
 
-    public SimulatorView(RadarDisplay radar) {
-        this.radar = radar;
+
+    public SimulatorView() {
         this.scanner = new Scanner(System.in);
     }
 
@@ -18,15 +15,10 @@ public class SimulatorView {
         ConsoleLogger.logOption(new String[]
                 {"Create new flight", "Control flight",
                         "Update weather", "List all flights",
-                        "Check Flight Status"}, true);
+                        "Check Flight Status", "View Flight Info"}, true);
     }
 
     public String getUserInput() {
         return scanner.nextLine().toUpperCase();
-    }
-
-    public void displayRadar() {
-        ConsoleLogger.logTitle("\n--- Radar Display ---");
-        radar.show();
     }
 }

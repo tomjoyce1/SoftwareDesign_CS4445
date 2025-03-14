@@ -1,6 +1,5 @@
 package views;
 
-import models.decorators.radardecorator.RadarDisplay;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,9 +31,7 @@ class SimulatorViewTest {
         ConsoleLogger.logger.addHandler(testHandler);
         ConsoleLogger.logger.setLevel(Level.ALL);
 
-        RadarDisplay dummyRadar = () -> {
-        };
-        SimulatorView view = new SimulatorView(dummyRadar);
+        SimulatorView view = new SimulatorView();
         view.displayMenu();
 
         String logOutput = testHandler.getLogMessages();
@@ -54,26 +51,9 @@ class SimulatorViewTest {
         InputStream originalIn = System.in;
         System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
 
-        RadarDisplay dummyRadar = () -> {
-        };
-        SimulatorView view = new SimulatorView(dummyRadar);
+        SimulatorView view = new SimulatorView();
         String input = view.getUserInput();
         System.setIn(originalIn);
         assertEquals("Q", input);
-    }
-
-    @Test
-    void displayRadarPrintsHeaderAndCallsRadarShow() {
-        TestHandler testHandler = new TestHandler();
-        ConsoleLogger.logger.addHandler(testHandler);
-        ConsoleLogger.logger.setLevel(Level.ALL);
-
-        RadarDisplay dummyRadar = () -> ConsoleLogger.logInfo("Radar called");
-        SimulatorView view = new SimulatorView(dummyRadar);
-        view.displayRadar();
-
-        String logOutput = testHandler.getLogMessages();
-        assertTrue(logOutput.contains("--- Radar Display ---"));
-        assertTrue(logOutput.contains("Radar called"));
     }
 }

@@ -44,7 +44,7 @@ class CheckFlightStatusCommandTest {
         checkFlightStatusCommand.execute();
 
         verify(view).getUserInput();
-        verify(view).displayRadar();
+
     }
 
     @Test
@@ -58,6 +58,5 @@ class CheckFlightStatusCommandTest {
         checkFlightStatusCommand.execute();
 
         verify(view).getUserInput();
-        verify(view, never()).displayRadar();
     }
 }

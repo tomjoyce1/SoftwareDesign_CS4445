@@ -29,5 +29,10 @@ public abstract class FlightDecorator extends Flight {
     public void consumeFuel() {
         decoratedFlight.consumeFuel();
     }
+    
+    @Override
+    public void setFuel(int fuel) {
+        decoratedFlight.setFuel(fuel);
+    }
 } 
 
