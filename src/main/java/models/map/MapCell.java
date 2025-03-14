@@ -1,17 +1,15 @@
 package models.map;
 
-import models.flight.Flight;
-import views.ConsoleLogger;
-
+import models.flight.IFlight;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MapCell {
     private boolean isAirport;
     private String airportLabel;
-    private final List<Flight> flights;
+    private final List<IFlight> flights;
     private boolean locked = false;
-    private Flight lockedBy = null;
+    private IFlight lockedBy = null;
 
     public MapCell(boolean isAirport) {
         this.isAirport = isAirport;
@@ -35,23 +33,16 @@ public class MapCell {
         this.airportLabel = airportLabel;
     }
 
-    public List<Flight> getFlights() {
+    public List<IFlight> getFlights() {
         return flights;
     }
 
-    public void addFlight(Flight flight) {
-        // If cell is locked by a different flight, abort
-        if (locked && lockedBy != null && !lockedBy.equals(flight)) {
-            ConsoleLogger.logError("Unable to clear access to " + airportLabel + " until Flight " 
-                + lockedBy.getFlightNumber() + " has landed.");
-            return;
-        }
+    public void addFlight(IFlight flight) {
         flights.add(flight);
-        // Set the flight's current cell to this cell.
         flight.setCurrentAirportCell(this);
     }
 
-    public void removeFlight(Flight flight) {
+    public void removeFlight(IFlight flight) {
         flights.remove(flight);
     }
 
@@ -63,11 +54,11 @@ public class MapCell {
         this.locked = locked;
     }
 
-    public Flight getLockedBy() {
+    public IFlight getLockedBy() {
         return lockedBy;
     }
 
-    public void setLockedBy(Flight flight) {
+    public void setLockedBy(IFlight flight) {
         this.lockedBy = flight;
         this.locked = (flight != null);
     }

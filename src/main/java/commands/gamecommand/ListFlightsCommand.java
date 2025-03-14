@@ -1,15 +1,15 @@
 package commands.gamecommand;
 
 import commands.Command;
-import models.flight.Flight;
+import models.flight.IFlight;
 import views.ConsoleLogger;
 
 import java.util.List;
 
 public class ListFlightsCommand implements Command {
-    private final List<Flight> flights;
+    private final List<IFlight> flights;
 
-    public ListFlightsCommand(List<Flight> flights) {
+    public ListFlightsCommand(List<IFlight> flights) {
         this.flights = flights;
     }
 
@@ -21,7 +21,7 @@ public class ListFlightsCommand implements Command {
             return;
         }
 
-        for (Flight flight : flights) {
+        for (IFlight flight : flights) {
             ConsoleLogger.logInfo(String.format("%s %s - Status: %s%n",
                     flight.getType(),
                     flight.getFlightNumber(),

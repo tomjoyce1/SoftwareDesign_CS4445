@@ -1,6 +1,6 @@
 package models.map.takeoff;
 
-import models.flight.Flight;
+import models.flight.IFlight;
 import models.map.AirTrafficMap;
 import models.map.MapCell;
 import models.pathfinder.PathFinder;
@@ -24,7 +24,7 @@ public class FlightSimulator {
     }
 
     // Delegates to AirTrafficMap's utility method.
-    private int[] findFlightPosition(Flight flight) {
+    private int[] findFlightPosition(IFlight flight) {
         return airTrafficMap.findFlightPosition(flight);
     }
 
@@ -51,12 +51,12 @@ public class FlightSimulator {
     }
 
     // Helper method to check if the destination cell is available
-    private boolean destinationAvailable(Flight flight, int destRow, int destCol) {
+    private boolean destinationAvailable(IFlight flight, int destRow, int destCol) {
         return airTrafficMap.canPlaceFlightAt(flight, destRow, destCol);
     }
 
     // Simulate a regular flight takeoff.
-    public void simulateTakeOff(Flight flight, int destRow, int destCol) {
+    public void simulateTakeOff(IFlight flight, int destRow, int destCol) {
         int[] current = findFlightPosition(flight);
         if (current == null) {
             ConsoleLogger.logError("Flight " + flight.getFlightNumber() + " is not at an airport.");
@@ -73,7 +73,7 @@ public class FlightSimulator {
         }
         // Check destination availability before proceeding.
         if (!destinationAvailable(flight, destRow, destCol)) {
-            return; // Abort simulation if destination is locked.
+            return;
         }
         flight.takeOff();
         simulateFlightMovement(flight, current[0], current[1], destRow, destCol);
@@ -81,7 +81,7 @@ public class FlightSimulator {
 
     // Simulate a scheduled flight takeoff.
     public void simulateScheduledTakeOff(ScheduledFlight sf) {
-        Flight flight = sf.getFlight();
+        IFlight flight = sf.getFlight();
         int destRow = sf.getDestinationRow();
         int destCol = sf.getDestinationCol();
         
@@ -102,7 +102,7 @@ public class FlightSimulator {
         for (ScheduledFlight sf : schedFlights) {
             if (sf.getCurrentRow() == sf.getDestinationRow() &&
                 sf.getCurrentCol() == sf.getDestinationCol()) {
-                continue; // Flight has arrived.
+                continue;
             }
             allArrived = false;
             List<int[]> path = calculatePath(sf.getCurrentRow(), sf.getCurrentCol(), sf.getDestinationRow(), sf.getDestinationCol());
@@ -119,7 +119,7 @@ public class FlightSimulator {
     }
 
     // Simulate flight movement along a path and then handle landing.
-    public void simulateFlightMovement(Flight flight, int srcRow, int srcCol, int destRow, int destCol) {
+    public void simulateFlightMovement(IFlight flight, int srcRow, int srcCol, int destRow, int destCol) {
         List<int[]> path = calculatePath(srcRow, srcCol, destRow, destCol);
         if (path.isEmpty()) {
             ConsoleLogger.logError("No valid path for flight " + flight.getFlightNumber());
@@ -130,7 +130,7 @@ public class FlightSimulator {
     }
 
     // Move a flight along the given path.
-    public void moveFlightAlongPath(Flight flight, List<int[]> path, int destRow, int destCol) {
+    public void moveFlightAlongPath(IFlight flight, List<int[]> path, int destRow, int destCol) {
         int[] current = path.get(0);
         for (int i = 1; i < path.size(); i++) {
             int[] next = path.get(i);
@@ -139,13 +139,12 @@ public class FlightSimulator {
             airTrafficMap.printMap();
             sleep(500);
         }
-        ConsoleLogger.logSuccess("Flight " + flight.getFlightNumber() + " reached (" + destRow + ", " + destCol + ").");
     }
 
     // Helper to move a flight between cells.
-    private void moveFlight(Flight flight, int fromRow, int fromCol, int toRow, int toCol) {
+    private void moveFlight(IFlight flight, int fromRow, int fromCol, int toRow, int toCol) {
         if (!airTrafficMap.canPlaceFlightAt(flight, toRow, toCol)) {
-            return; // Abort move if destination is locked.
+            return;
         }
         airTrafficMap.getCell(fromRow, fromCol).removeFlight(flight);
         airTrafficMap.getCell(toRow, toCol).addFlight(flight);
@@ -159,22 +158,27 @@ public class FlightSimulator {
         }
     }
 
-    // Handle landing or holding decision.
-    private void simulateLandingProcedure(Flight flight, int destRow, int destCol) {
+    public void simulateLandingProcedure(IFlight flight, int destRow, int destCol) {
         MapCell cell = airTrafficMap.getCell(destRow, destCol);
-        ConsoleLogger.logInfo("Flight " + flight.getFlightNumber() + " reached " 
-                + cell.getAirportLabel() + ". Enter L to land or H to hold:");
+        ConsoleLogger.logInfo("Flight " + flight.getFlightNumber() + " reached " + cell.getAirportLabel() + ". Enter L to land or H to hold:");
         String decision = view.getUserInput();
+        
         if ("L".equalsIgnoreCase(decision)) {
-            flight.land();
+            if (!flight.getState().equals("On ground/Runway")) {
+                flight.land();
+            } else {
+                ConsoleLogger.logWarning("Flight " + flight.getFlightNumber() + " is already on the ground.");
+            }
             cell.setLockedBy(null);
         } else if ("H".equalsIgnoreCase(decision)) {
-            cell.setLockedBy(flight);
             flight.setState(new HoldingState());
+            cell.setLockedBy(flight);
             ConsoleLogger.logInfo("Flight " + flight.getFlightNumber() + " is now holding at " + cell.getAirportLabel());
         } else {
             ConsoleLogger.logError("Invalid choice. Defaulting to landing.");
-            flight.land();
+            if (!flight.getState().equals("On ground/Runway")) {
+                flight.land();
+            }
             cell.setLockedBy(null);
         }
     }

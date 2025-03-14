@@ -8,7 +8,7 @@ import views.ConsoleLogger;
 import weatherpubsub.Subscriber;
 import weatherpubsub.WeatherBroker;
 
-public abstract class Flight implements Subscriber {
+public class Flight implements IFlight {
     private final String flightNumber;
     private final WeatherBroker broker;
     private FlightState state;
@@ -16,61 +16,29 @@ public abstract class Flight implements Subscriber {
     private boolean stormNotified = false;
     private MapCell currentAirportCell;
 
-    public String getFlightNumber() {
-        return flightNumber;
-    }
-
-    public abstract String getType();
-
-    protected Flight(String flightNumber) {
+    public Flight(String flightNumber) {
         this.flightNumber = flightNumber;
         this.state = new OnRunwayState();
         this.broker = WeatherBroker.getInstance();
 
-        if (shouldSubscribeToWeather()) {
-            subscribeToWeatherTopics();
-        }
-    }
-
-    protected boolean shouldSubscribeToWeather() {
-        return true;
-    }
-
-    private void subscribeToWeatherTopics() {
+        // Optional: decide if you want to subscribe:
         broker.subscribe("WEATHER.STORM", this);
         broker.subscribe("WEATHER.SUNNY", this);
-        broker.subscribe("WEATHER.FOG", this);
+        broker.subscribe("WEATHER.FOGGY", this);
     }
 
     @Override
-    public void receive(String topic, String message) {
-        ConsoleLogger.logInfo(getType() + " " + flightNumber + " received " + topic + ": " + message);
-
-        if (topic.equals("WEATHER.STORM")) {
-            stormNotified = true;
-            // Optionally, if in air, hold the flight:
-            if (state instanceof InAirState) {
-                ConsoleLogger.logWarning(getType() + " " + flightNumber + " holding at current location due to storm");
-                hold();
-            }
-        } else if (topic.equals("WEATHER.SUNNY") || topic.equals("WEATHER.FOGGY")) {
-            // Clear storm notification when weather improves
-            stormNotified = false;
-        }
+    public String getFlightNumber() {
+        return flightNumber;
     }
 
-    public boolean isStormNotified() {
-        return stormNotified;
+    @Override
+    public String getType() {
+        // You could return "Base Flight" or override in a subclass:
+        return "Base Flight";
     }
 
-    public void setState(FlightState state) {
-        this.state = state;
-    }
-
-    public String getState() {
-        return state.getStateName();
-    }
-
+    @Override
     public boolean takeOff() {
         if (stormNotified) {
             ConsoleLogger.logError(getType() + " " + flightNumber + " cannot take off due to storm conditions.");
@@ -81,31 +49,73 @@ public abstract class Flight implements Subscriber {
         return true;
     }
 
+    @Override
     public void land() {
         state.land(this);
     }
 
+    protected boolean shouldSubscribeToWeather() {
+        return true;
+    }
+
+    @Override
     public void hold() {
         state.hold(this);
     }
 
+    @Override
     public int getFuel() {
         return fuel;
     }
 
+    @Override
     public void setFuel(int fuel) {
         this.fuel = fuel;
     }
 
+    @Override
     public void consumeFuel() {
         fuel -= 10;
     }
-    
+
+    @Override
+    public String getState() {
+        return state.getStateName();
+    }
+
+    @Override
+    public void setState(FlightState newState) {
+        this.state = newState;
+    }
+
+    @Override
+    public boolean isStormNotified() {
+        return stormNotified;
+    }
+
+    @Override
     public MapCell getCurrentAirportCell() {
         return currentAirportCell;
     }
 
-    public void setCurrentAirportCell(MapCell currentAirportCell) {
-        this.currentAirportCell = currentAirportCell;
+    @Override
+    public void setCurrentAirportCell(MapCell cell) {
+        this.currentAirportCell = cell;
+    }
+
+    @Override
+    public void receive(String topic, String message) {
+        ConsoleLogger.logInfo(getType() + " " + flightNumber + " received " + topic + ": " + message);
+
+        if ("WEATHER.STORM".equals(topic)) {
+            stormNotified = true;
+            if (state instanceof InAirState) {
+                ConsoleLogger.logWarning(getType() + " " + flightNumber
+                                         + " holding at current location due to storm");
+                hold();
+            }
+        } else if ("WEATHER.SUNNY".equals(topic) || "WEATHER.FOGGY".equals(topic)) {
+            stormNotified = false;
+        }
     }
 }

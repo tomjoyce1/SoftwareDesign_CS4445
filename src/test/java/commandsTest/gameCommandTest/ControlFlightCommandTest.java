@@ -1,7 +1,7 @@
 package commandsTest.gameCommandTest;
 
 import commands.gamecommand.ControlFlightCommand;
-import models.flight.Flight;
+import models.flight.IFlight;
 import models.map.AirTrafficMap;
 import models.SimulatorModel;
 import views.ConsoleLogger;
@@ -37,7 +37,7 @@ class ControlFlightCommandTest {
 
     @Test
     void executePrintsNoFlightsAvailableWhenFlightsListIsEmpty() {
-        List<Flight> flights = Collections.emptyList();
+        List<IFlight> flights = Collections.emptyList();
         SimulatorView view = Mockito.mock(SimulatorView.class);
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
         AirTrafficMap airTrafficMap = Mockito.mock(AirTrafficMap.class);
@@ -55,9 +55,9 @@ class ControlFlightCommandTest {
 
     @Test
     void executePrintsFlightNotFoundWhenFlightNumberIsInvalid() {
-        Flight mockFlight = Mockito.mock(Flight.class);
+        IFlight mockFlight = Mockito.mock(IFlight.class);
         when(mockFlight.getFlightNumber()).thenReturn("FL001");
-        List<Flight> flights = List.of(mockFlight);
+        List<IFlight> flights = List.of(mockFlight);
         SimulatorView view = Mockito.mock(SimulatorView.class);
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
         AirTrafficMap airTrafficMap = Mockito.mock(AirTrafficMap.class);
@@ -78,9 +78,9 @@ class ControlFlightCommandTest {
 
     @Test
     void executeCallsTakeOffCommandWhenOptionOneIsSelected() {
-        Flight flight = Mockito.mock(Flight.class);
+        IFlight flight = Mockito.mock(IFlight.class);
         when(flight.getFlightNumber()).thenReturn("FL001");
-        List<Flight> flights = List.of(flight);
+        List<IFlight> flights = List.of(flight);
         SimulatorView view = Mockito.mock(SimulatorView.class);
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
         AirTrafficMap airTrafficMap = Mockito.mock(AirTrafficMap.class);
@@ -96,9 +96,9 @@ class ControlFlightCommandTest {
 
     @Test
     void executeCallsLandCommandWhenOptionTwoIsSelected() {
-        Flight flight = Mockito.mock(Flight.class);
+        IFlight flight = Mockito.mock(IFlight.class);
         when(flight.getFlightNumber()).thenReturn("FL001");
-        List<Flight> flights = List.of(flight);
+        List<IFlight> flights = List.of(flight);
         SimulatorView view = Mockito.mock(SimulatorView.class);
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
         AirTrafficMap airTrafficMap = Mockito.mock(AirTrafficMap.class);
@@ -114,9 +114,9 @@ class ControlFlightCommandTest {
 
     @Test
     void executeCallsHoldCommandWhenOptionThreeIsSelected() {
-        Flight flight = Mockito.mock(Flight.class);
+        IFlight flight = Mockito.mock(IFlight.class);
         when(flight.getFlightNumber()).thenReturn("FL001");
-        List<Flight> flights = List.of(flight);
+        List<IFlight> flights = List.of(flight);
         SimulatorView view = Mockito.mock(SimulatorView.class);
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
         AirTrafficMap airTrafficMap = Mockito.mock(AirTrafficMap.class);
@@ -132,9 +132,9 @@ class ControlFlightCommandTest {
 
     @Test
     void executePrintsInvalidOptionWhenInvalidOptionIsSelected() {
-        Flight flight = Mockito.mock(Flight.class);
+        IFlight flight = Mockito.mock(IFlight.class);
         when(flight.getFlightNumber()).thenReturn("FL001");
-        List<Flight> flights = List.of(flight);
+        List<IFlight> flights = List.of(flight);
         SimulatorView view = Mockito.mock(SimulatorView.class);
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
         AirTrafficMap airTrafficMap = Mockito.mock(AirTrafficMap.class);

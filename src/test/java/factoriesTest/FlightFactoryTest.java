@@ -1,7 +1,7 @@
 package factoriesTest;
 
 import factories.FlightFactory;
-import models.flight.Flight;
+import models.flight.IFlight;
 import models.flight.flighttypes.FlightType;
 import models.flight.flighttypes.PrivateFlight;
 import models.flight.flighttypes.PassengerFlight;
@@ -14,28 +14,28 @@ class FlightFactoryTest {
 
     @Test
     void createPrivateFlightSucceeds() {
-        Flight flight = FlightFactory.createFlight(FlightType.PRIVATE, "FL001");
+        IFlight flight = FlightFactory.createFlight(FlightType.PRIVATE, "FL001");
         assertNotNull(flight);
         assertInstanceOf(PrivateFlight.class, flight);
     }
 
     @Test
     void createPassengerFlightSucceeds() {
-        Flight flight = FlightFactory.createFlight(FlightType.PASSENGER, "FL002");
+        IFlight flight = FlightFactory.createFlight(FlightType.PASSENGER, "FL002");
         assertNotNull(flight);
         assertInstanceOf(PassengerFlight.class, flight);
     }
 
     @Test
     void createMilitaryFlightSucceeds() {
-        Flight flight = FlightFactory.createFlight(FlightType.MILITARY, "FL003");
+        IFlight flight = FlightFactory.createFlight(FlightType.MILITARY, "FL003");
         assertNotNull(flight);
         assertInstanceOf(MilitaryFlight.class, flight);
     }
 
     @Test
     void createCargoFlightSucceeds() {
-        Flight flight = FlightFactory.createFlight(FlightType.CARGO, "FL004");
+        IFlight flight = FlightFactory.createFlight(FlightType.CARGO, "FL004");
         assertNotNull(flight);
         assertInstanceOf(CargoFlight.class, flight);
     }

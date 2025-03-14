@@ -4,7 +4,7 @@ import commands.gamecommand.ViewFlightInfo;
 import models.decorators.flightdecorator.CrewInfoDecorator;
 import models.decorators.flightdecorator.FlightAgencyDecorator;
 import models.decorators.flightdecorator.PassengerDecorator;
-import models.flight.Flight;
+import models.flight.IFlight;
 import models.flight.flighttypes.PrivateFlight;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 
 class ViewFlightInfoTest {
 
-    private List<Flight> flights;
+    private List<IFlight> flights;
     private SimulatorView view;
     private ViewFlightInfo viewFlightInfo;
 
@@ -39,7 +39,7 @@ class ViewFlightInfoTest {
 
     @Test
     void testExecuteWithFlights() {
-        Flight flight = new PrivateFlight("FL123");
+        IFlight flight = new PrivateFlight("FL123");
         flights.add(flight);
         when(view.getUserInput()).thenReturn("FL123");
 
@@ -50,7 +50,7 @@ class ViewFlightInfoTest {
 
     @Test
     void testDisplayFlightInfo() {
-        Flight flight = new PrivateFlight("FL123");
+        IFlight flight = new PrivateFlight("FL123");
         flight = new PassengerDecorator(flight, 100);
         flight = new FlightAgencyDecorator(flight, "Some Agency");
         flight = new CrewInfoDecorator(flight, "John Doe", 5);
@@ -64,7 +64,7 @@ class ViewFlightInfoTest {
 
     @Test
     void testFlightNotFound() {
-        Flight flight = new PrivateFlight("FL123");
+        IFlight flight = new PrivateFlight("FL123");
         flights.add(flight);
         when(view.getUserInput()).thenReturn("FL999");
 

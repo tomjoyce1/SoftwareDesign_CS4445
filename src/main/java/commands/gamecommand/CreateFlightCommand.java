@@ -3,7 +3,7 @@ package commands.gamecommand;
 import commands.Command;
 import factories.FlightFactory;
 import bookmarks.InterceptorDispatcher;
-import models.flight.Flight;
+import models.flight.IFlight;
 import models.flight.flighttypes.FlightType;
 import models.map.AirTrafficMap;
 import models.map.FlightAirportAssigner;
@@ -14,12 +14,12 @@ import java.util.List;
 import java.util.Arrays;
 
 public class CreateFlightCommand implements Command {
-    private final List<Flight> flights;
+    private final List<IFlight> flights;
     private final SimulatorView view;
     private final InterceptorDispatcher dispatcher;
     private final AirTrafficMap airTrafficMap;
 
-    public CreateFlightCommand(List<Flight> flights, SimulatorView view, InterceptorDispatcher dispatcher, AirTrafficMap airTrafficMap) {
+    public CreateFlightCommand(List<IFlight> flights, SimulatorView view, InterceptorDispatcher dispatcher, AirTrafficMap airTrafficMap) {
         this.airTrafficMap = airTrafficMap;
         this.flights = flights;
         this.view = view;
@@ -40,7 +40,7 @@ public class CreateFlightCommand implements Command {
         ConsoleLogger.logStandard("Enter flight number: ");
         String flightNumber = view.getUserInput();
 
-        for(Flight flight : flights) {
+        for(IFlight flight : flights) {
             if(flight.getFlightNumber().equals(flightNumber)) {
                 ConsoleLogger.logError("Flight number already exists!");
                 return;
@@ -98,7 +98,7 @@ public class CreateFlightCommand implements Command {
                                 + ", agency is: " + flightAgency 
                                 + ", pilot name is: " + pilotName 
                                 + ", crew count is: " + crewCount);
-            Flight flight = FlightFactory.createDecoratedFlight(type, flightNumber, initialPassengerCount, flightAgency, pilotName, crewCount);
+            IFlight flight = FlightFactory.createDecoratedFlight(type, flightNumber, initialPassengerCount, flightAgency, pilotName, crewCount);
             flights.add(flight);
             ConsoleLogger.logSuccess("Created " + flight.getType() + " " + flightNumber);
 

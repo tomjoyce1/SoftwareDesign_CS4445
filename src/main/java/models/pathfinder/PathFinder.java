@@ -1,7 +1,11 @@
 package models.pathfinder;
 
 import models.map.AirTrafficMap;
-import java.util.*;
+import java.util.List;
+import java.util.LinkedList;
+import java.util.Arrays; 
+import java.util.PriorityQueue;
+import java.util.Comparator;
 
 public class PathFinder {
     private final AirTrafficMap map;
@@ -45,7 +49,6 @@ public class PathFinder {
                 int nc = c + d[1];
 
                 if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) {
-                    // You can customize weight calculations here (e.g., penalize non-airport cells)
                     int weight = 1;
                     if (distances[r][c] + weight < distances[nr][nc]) {
                         distances[nr][nc] = distances[r][c] + weight;
@@ -56,10 +59,10 @@ public class PathFinder {
             }
         }
 
-        // Reconstruct path
+        // reconstructs path
         List<int[]> path = new LinkedList<>();
         if (distances[endRow][endCol] == Integer.MAX_VALUE) {
-            return path; // no path found
+            return path;
         }
         for (int[] at = {endRow, endCol}; ; ) {
             path.add(0, at);

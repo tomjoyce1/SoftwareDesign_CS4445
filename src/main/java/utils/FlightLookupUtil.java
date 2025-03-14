@@ -1,12 +1,12 @@
 package utils;
 
-import models.flight.Flight;
+import models.flight.IFlight;
 import java.util.List;
 
 public class FlightLookupUtil {
 
 
-    public static Flight findFlightByNumber(List<Flight> flights, String flightNumber) {
+    public static IFlight findFlightByNumber(List<IFlight> flights, String flightNumber) {
         return flights.stream()
                       .filter(f -> f.getFlightNumber().equals(flightNumber))
                       .findFirst()

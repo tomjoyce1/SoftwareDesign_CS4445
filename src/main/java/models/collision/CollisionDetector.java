@@ -9,19 +9,16 @@ import java.util.List;
 
 public class CollisionDetector {
     private final AirTrafficMap airTrafficMap;
-    private final int collisionThreshold; // e.g., 0 for same-cell collisions
+    private final int collisionThreshold;
 
     public CollisionDetector(AirTrafficMap airTrafficMap, int collisionThreshold) {
         this.airTrafficMap = airTrafficMap;
         this.collisionThreshold = collisionThreshold;
     }
     
-    /**
-     * Checks for collisions among scheduled flights. If two flights are in the same cell,
-     * logs the crash, sets their state to Crashed, and removes them from the map.
-     * Returns true if any collision occurred.
-     */
     public boolean checkAndHandleCollisions(List<ScheduledFlight> scheduledFlights) {
+        boolean collisionFound = false;
+        // Iterate over all flight pairs.
         for (int i = 0; i < scheduledFlights.size(); i++) {
             for (int j = i + 1; j < scheduledFlights.size(); j++) {
                 ScheduledFlight sf1 = scheduledFlights.get(i);
@@ -35,17 +32,16 @@ public class CollisionDetector {
                     sf2.getFlight().setState(new CrashedState());
                     airTrafficMap.getCell(sf1.getCurrentRow(), sf1.getCurrentCol()).removeFlight(sf1.getFlight());
                     airTrafficMap.getCell(sf2.getCurrentRow(), sf2.getCurrentCol()).removeFlight(sf2.getFlight());
-                    return true;
+                    collisionFound = true;
                 }
             }
         }
-        return false;
+        return collisionFound;
     }
     
     private boolean isColliding(ScheduledFlight sf1, ScheduledFlight sf2) {
         // A simple collision is when both flights are in the same cell.
         return sf1.getCurrentRow() == sf2.getCurrentRow() &&
                sf1.getCurrentCol() == sf2.getCurrentCol();
-        // To extend to "within one cell", you might compute the Manhattan distance.
     }
 }

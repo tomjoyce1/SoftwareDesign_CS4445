@@ -4,7 +4,7 @@ import commands.Command;
 import models.decorators.flightdecorator.CrewInfoDecorator;
 import models.decorators.flightdecorator.FlightAgencyDecorator;
 import models.decorators.flightdecorator.PassengerDecorator;
-import models.flight.Flight;
+import models.flight.IFlight;
 import views.ConsoleLogger;
 import views.SimulatorView;
 
@@ -12,10 +12,10 @@ import java.util.List;
 
 public class ViewFlightInfo implements Command {
 
-    private final List<Flight> flights;
+    private final List<IFlight> flights;
     private final SimulatorView view;
 
-    public ViewFlightInfo(List<Flight> flights, SimulatorView view) {
+    public ViewFlightInfo(List<IFlight> flights, SimulatorView view) {
         this.flights = flights;
         this.view = view;
     }
@@ -34,7 +34,7 @@ public class ViewFlightInfo implements Command {
         ConsoleLogger.logStandard("\nEnter flight number to view details: ");
         String flightNumber = view.getUserInput();
 
-        Flight flight = flights.stream()
+        IFlight flight = flights.stream()
                 .filter(f -> f.getFlightNumber().equals(flightNumber))
                 .findFirst()
                 .orElse(null);
@@ -47,7 +47,7 @@ public class ViewFlightInfo implements Command {
         displayFlightInfo(flight);
     }
 
-    private void displayFlightInfo(Flight flight) {
+    private void displayFlightInfo(IFlight flight) {
         ConsoleLogger.logTitle("\n=== Flight Information ===");
         ConsoleLogger.logStandard("Flight Number: " + flight.getFlightNumber());
         ConsoleLogger.logStandard("Flight Type: " + flight.getType());

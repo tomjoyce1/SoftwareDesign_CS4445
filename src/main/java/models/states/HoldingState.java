@@ -14,8 +14,7 @@ public class HoldingState implements FlightState {
     @Override
     public void land(Flight flight) {
         ConsoleLogger.logSuccess("Flight " + flight.getFlightNumber() + " is now landing.");
-        // Unlock the cell once the flight lands
-        MapCell cell = flight.getCurrentAirportCell(); // assume a getter to obtain the cell where the flight is holding
+        MapCell cell = flight.getCurrentAirportCell();
         if (cell != null) {
             cell.setLocked(false);
         }

@@ -2,6 +2,7 @@ package commandsTest.gameCommandTest;
 
 import commands.gamecommand.ListFlightsCommand;
 import models.flight.Flight;
+import models.flight.IFlight;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import views.ConsoleLogger;
@@ -31,7 +32,7 @@ class ListFlightsCommandTest {
 
     @Test
     void listFlightsCommandPrintsNoFlightsWhenListIsEmpty() {
-        List<Flight> flights = Collections.emptyList();
+        List<IFlight> flights = Collections.emptyList();
         ListFlightsCommand command = new ListFlightsCommand(flights);
 
         TestHandler testHandler = new TestHandler();
@@ -47,8 +48,8 @@ class ListFlightsCommandTest {
 
     @Test
     void listFlightsCommandPrintsFlightDetailsWhenFlightsAreAvailable() {
-        Flight flight1 = Mockito.mock(Flight.class);
-        Flight flight2 = Mockito.mock(Flight.class);
+        IFlight flight1 = Mockito.mock(Flight.class);
+        IFlight flight2 = Mockito.mock(Flight.class);
         Mockito.when(flight1.getType()).thenReturn("COMMERCIAL");
         Mockito.when(flight1.getFlightNumber()).thenReturn("FL100");
         Mockito.when(flight1.getState()).thenReturn("In Air");
@@ -56,7 +57,7 @@ class ListFlightsCommandTest {
         Mockito.when(flight2.getFlightNumber()).thenReturn("FL200");
         Mockito.when(flight2.getState()).thenReturn("Landed");
 
-        List<Flight> flights = List.of(flight1, flight2);
+        List<IFlight> flights = List.of(flight1, flight2);
         ListFlightsCommand command = new ListFlightsCommand(flights);
 
         TestHandler testHandler = new TestHandler();

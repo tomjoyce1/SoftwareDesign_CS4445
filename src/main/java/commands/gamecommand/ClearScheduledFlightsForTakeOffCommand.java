@@ -7,7 +7,6 @@ import models.map.takeoff.FlightSimulator;
 import models.collision.CollisionDetector;
 import views.ConsoleLogger;
 import views.SimulatorView;
-import java.util.Iterator;
 
 import java.util.List;
 
@@ -33,22 +32,30 @@ public void execute() {
     // For each scheduled flight, attempt to take off (but do not remove them yet)
     for (ScheduledFlight sf : scheduledFlights) {
         if (!sf.getFlight().takeOff()) {
-            ConsoleLogger.logWarning("Scheduled flight " + sf.getFlight().getFlightNumber() 
-                    + " did not take off due to storm conditions.");
+            ConsoleLogger.logWarning("Scheduled flight " + sf.getFlight().getFlightNumber() + " did not take off due to storm conditions.");
         }
     }
-    
+
     CollisionDetector collisionDetector = new CollisionDetector(airTrafficMap, 0);
     
-    // Run simulation loop until all scheduled flights have reached their destination.
     while (true) {
-        // If any collision occurs, exit the loop.
-        if (collisionDetector.checkAndHandleCollisions(scheduledFlights)) {
+        // Process collisions and remove crashed flights.
+        collisionDetector.checkAndHandleCollisions(scheduledFlights);
+        scheduledFlights.removeIf(sf -> sf.getFlight().getState().equals("Crashed"));
+        
+        // If no scheduled flights remain, break out.
+        if (scheduledFlights.isEmpty()) {
+            ConsoleLogger.logWarning("All scheduled flights have either crashed or completed their simulation.");
             break;
         }
         
         // Update positions of scheduled flights.
-        if (flightSimulator.updateScheduledFlights(scheduledFlights)) {
+        boolean allArrived = flightSimulator.updateScheduledFlights(scheduledFlights);
+        if (allArrived) {
+            // For each remaining flight at its destination, prompt for landing.
+            for (ScheduledFlight sf : scheduledFlights) {
+                flightSimulator.simulateLandingProcedure(sf.getFlight(), sf.getDestinationRow(), sf.getDestinationCol());
+            }
             break;
         }
         
@@ -59,10 +66,9 @@ public void execute() {
             Thread.currentThread().interrupt();
             break;
         }
-    }
-    
-    // Now that all scheduled flights have been simulated (and landed), clear the list.
+    } 
+
     scheduledFlights.clear();
-    ConsoleLogger.logSuccess("\"All scheduled flights have been removed due to adverse weather conditions or a crash.");
-}
+    ConsoleLogger.logSuccess("All scheduled flights have been processed.");
+    }
 }

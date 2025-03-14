@@ -1,13 +1,13 @@
 package models.decorators.flightdecorator;
 
-import models.flight.Flight;
 import models.decorators.FlightDecorator;
+import models.flight.IFlight;
 
 public class CrewInfoDecorator extends FlightDecorator {
     private String pilotName;
     private int crewCount;
 
-    public CrewInfoDecorator(Flight flight, String pilotName, int crewCount) {
+    public CrewInfoDecorator(IFlight flight, String pilotName, int crewCount) {
         super(flight);
         this.pilotName = pilotName;
         this.crewCount = crewCount;
@@ -27,5 +27,12 @@ public class CrewInfoDecorator extends FlightDecorator {
 
     public void setCrewCount(int crewCount) {
         this.crewCount = crewCount;
+    }
+
+    // Example: override getType() if you want a custom label:
+    @Override
+    public String getType() {
+        // e.g. "Base Flight (with Crew Info)"
+        return super.getType() + " [Crew Info]";
     }
 }

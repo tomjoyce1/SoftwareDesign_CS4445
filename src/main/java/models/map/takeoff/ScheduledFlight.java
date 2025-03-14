@@ -1,9 +1,9 @@
 package models.map.takeoff;
 
-import models.flight.Flight;
+import models.flight.IFlight;
 
 public class ScheduledFlight {
-    private final Flight flight;
+    private final IFlight flight;
     private final int sourceRow;
     private final int sourceCol;
     private final int destinationRow;
@@ -12,7 +12,7 @@ public class ScheduledFlight {
     private int currentCol;
     private final String destinationAirportLabel;
 
-    public ScheduledFlight(Flight flight, int sourceRow, int sourceCol, int destinationRow, int destinationCol, String destinationAirportLabel) {
+    public ScheduledFlight(IFlight flight, int sourceRow, int sourceCol, int destinationRow, int destinationCol, String destinationAirportLabel) {
         this.flight = flight;
         this.sourceRow = sourceRow;
         this.sourceCol = sourceCol;
@@ -23,7 +23,7 @@ public class ScheduledFlight {
         this.currentCol = sourceCol;
     }
     
-    public Flight getFlight() {
+    public IFlight getFlight() {
         return flight;
     }
 

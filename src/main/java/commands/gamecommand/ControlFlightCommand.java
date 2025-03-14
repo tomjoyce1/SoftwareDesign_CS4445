@@ -2,7 +2,7 @@ package commands.gamecommand;
 
 import commands.Command;
 import bookmarks.InterceptorDispatcher;
-import models.flight.Flight;
+import models.flight.IFlight;
 import models.map.AirTrafficMap;
 import models.SimulatorModel;
 import views.ConsoleLogger;
@@ -16,14 +16,14 @@ import java.util.List;
 import java.util.Map;
 
 public class ControlFlightCommand implements Command {
-    private final List<Flight> flights;
+    private final List<IFlight> flights;
     private final SimulatorView view;
     private final InterceptorDispatcher dispatcher;
     private final AirTrafficMap airTrafficMap;
     private final SimulatorModel model;
     private static final Map<String, Command> commands = new HashMap<>();
 
-    public ControlFlightCommand(List<Flight> flights, SimulatorView view, InterceptorDispatcher dispatcher, AirTrafficMap airTrafficMap, SimulatorModel model) {
+    public ControlFlightCommand(List<IFlight> flights, SimulatorView view, InterceptorDispatcher dispatcher, AirTrafficMap airTrafficMap, SimulatorModel model) {
         this.flights = flights;
         this.view = view;
         this.dispatcher = dispatcher;
@@ -42,7 +42,7 @@ public class ControlFlightCommand implements Command {
         ConsoleLogger.logStandard("Enter flight number to control: ");
         String flightNumber = view.getUserInput();
 
-        Flight selectedFlight = utils.FlightLookupUtil.findFlightByNumber(flights, flightNumber);
+        IFlight selectedFlight = utils.FlightLookupUtil.findFlightByNumber(flights, flightNumber);
 
         if (selectedFlight == null) {
             ConsoleLogger.logError("Flight not found!");
@@ -64,7 +64,7 @@ public class ControlFlightCommand implements Command {
         }
     }
 
-    private void setUpFlightCommands(Flight selectedFlight) {
+    private void setUpFlightCommands(IFlight selectedFlight) {
         commands.put("1", new TakeOffCommand(selectedFlight, airTrafficMap, view));
         commands.put("2", new LandCommand(selectedFlight));
         commands.put("3", new HoldCommand(selectedFlight));

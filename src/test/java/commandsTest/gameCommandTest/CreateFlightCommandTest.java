@@ -3,7 +3,7 @@ package commandsTest.gameCommandTest;
 import commands.gamecommand.CreateFlightCommand;
 import bookmarks.InterceptorDispatcher;
 import factories.FlightFactory;
-import models.flight.Flight;
+import models.flight.IFlight;
 import models.flight.flighttypes.FlightType;
 import models.map.AirTrafficMap;
 import views.ConsoleLogger;
@@ -23,7 +23,7 @@ class CreateFlightCommandTest {
 
     @Test
     void createFlightSuccessfullyWhenValidTypeAndNumberProvided() {
-        List<Flight> flights = new ArrayList<>();
+        List<IFlight> flights = new ArrayList<>();
         SimulatorView view = Mockito.mock(SimulatorView.class);
         // Provide all required inputs for a successful flight creation.
         when(view.getUserInput()).thenReturn("PRIVATE", "FL123", "100", "Some Agency", "John Doe", "10");
@@ -33,7 +33,7 @@ class CreateFlightCommandTest {
         command.execute();
         assertFalse(flights.isEmpty());
         // Use get(0) as ArrayList does not have getFirst()
-        Flight createdFlight = flights.get(0);
+        IFlight createdFlight = flights.get(0);
         // The decorated flight now returns "Private Flight"
         assertEquals("Private Flight", createdFlight.getType());
         verify(dispatcher).dispatch(contains("FL123"));
@@ -42,8 +42,8 @@ class CreateFlightCommandTest {
 
     @Test
     void displayErrorWhenFlightNumberAlreadyExists() {
-        List<Flight> flights = new ArrayList<>();
-        Flight existingFlight = FlightFactory.createFlight(FlightType.PRIVATE, "FL123");
+        List<IFlight> flights = new ArrayList<>();
+        IFlight existingFlight = FlightFactory.createFlight(FlightType.PRIVATE, "FL123");
         flights.add(existingFlight);
         SimulatorView view = Mockito.mock(SimulatorView.class);
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
@@ -59,7 +59,7 @@ class CreateFlightCommandTest {
 
     @Test
     void createFlightSuccessfullyWhenFlightNumberIsUnique() {
-        List<Flight> flights = new ArrayList<>();
+        List<IFlight> flights = new ArrayList<>();
         SimulatorView view = Mockito.mock(SimulatorView.class);
         // Provide complete input for a unique flight.
         when(view.getUserInput()).thenReturn("PRIVATE", "FL124", "150", "Some Agency", "John Doe", "12");
@@ -68,7 +68,7 @@ class CreateFlightCommandTest {
         CreateFlightCommand command = new CreateFlightCommand(flights, view, dispatcher, airTrafficMap);
         command.execute();
         assertEquals(1, flights.size());
-        Flight createdFlight = flights.get(0);
+        IFlight createdFlight = flights.get(0);
         assertEquals("Private Flight", createdFlight.getType());
         assertEquals("FL124", createdFlight.getFlightNumber());
         verify(dispatcher).dispatch(contains("FL124"));
@@ -77,7 +77,7 @@ class CreateFlightCommandTest {
 
     @Test
     void displayErrorWhenInvalidPassengerCountIsProvided() {
-        List<Flight> flights = new ArrayList<>();
+        List<IFlight> flights = new ArrayList<>();
         SimulatorView view = Mockito.mock(SimulatorView.class);
         // Supply an invalid passenger count; later prompts will not be reached.
         when(view.getUserInput()).thenReturn("PRIVATE", "FL125", "invalid_passenger_count");
@@ -95,7 +95,7 @@ class CreateFlightCommandTest {
 
     @Test
     void displayErrorWhenInvalidCrewCountIsProvided() {
-        List<Flight> flights = new ArrayList<>();
+        List<IFlight> flights = new ArrayList<>();
         SimulatorView view = Mockito.mock(SimulatorView.class);
         // Provide complete inputs but with an invalid crew count.
         when(view.getUserInput()).thenReturn("PRIVATE", "FL126", "10", "Some Agency", "John Doe", "invalid_crew_count");
@@ -112,7 +112,7 @@ class CreateFlightCommandTest {
 
     @Test
     void displayErrorWhenInvalidFlightTypeIsProvided() {
-        List<Flight> flights = new ArrayList<>();
+        List<IFlight> flights = new ArrayList<>();
         SimulatorView view = Mockito.mock(SimulatorView.class);
         InterceptorDispatcher dispatcher = Mockito.mock(InterceptorDispatcher.class);
         AirTrafficMap airTrafficMap = Mockito.mock(AirTrafficMap.class);

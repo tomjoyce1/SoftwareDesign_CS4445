@@ -1,12 +1,12 @@
 package commands.flightcommand;
 
 import commands.Command;
-import models.flight.Flight;
+import models.flight.IFlight;
 
 public class HoldCommand implements Command {
-    private final Flight flight;
+    private final IFlight flight;
 
-    public HoldCommand(Flight flight) {
+    public HoldCommand(IFlight flight) {
         this.flight = flight;
     }
 

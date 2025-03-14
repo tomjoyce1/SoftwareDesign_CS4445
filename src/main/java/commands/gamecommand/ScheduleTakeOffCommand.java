@@ -1,7 +1,7 @@
 package commands.gamecommand;
 
 import commands.Command;
-import models.flight.Flight;
+import models.flight.IFlight;
 import models.map.AirTrafficMap;
 import models.map.takeoff.ScheduledFlight;
 import views.ConsoleLogger;
@@ -9,12 +9,12 @@ import views.SimulatorView;
 import java.util.List;
 
 public class ScheduleTakeOffCommand implements Command {
-    private final Flight flight;
+    private final IFlight flight;
     private final AirTrafficMap airTrafficMap;
     private final SimulatorView view;
     private final List<ScheduledFlight> scheduledFlights;
 
-    public ScheduleTakeOffCommand(Flight flight, AirTrafficMap airTrafficMap, SimulatorView view, List<ScheduledFlight> scheduledFlights) {
+    public ScheduleTakeOffCommand(IFlight flight, AirTrafficMap airTrafficMap, SimulatorView view, List<ScheduledFlight> scheduledFlights) {
         this.flight = flight;
         this.airTrafficMap = airTrafficMap;
         this.view = view;

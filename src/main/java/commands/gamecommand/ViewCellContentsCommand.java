@@ -3,7 +3,7 @@ package commands.gamecommand;
 import commands.Command;
 import models.map.AirTrafficMap;
 import models.map.MapCell;
-import models.flight.Flight;
+import models.flight.IFlight;
 import views.ConsoleLogger;
 import views.SimulatorView;
 
@@ -36,12 +36,12 @@ public class ViewCellContentsCommand implements Command {
 
         try {
             MapCell cell = airTrafficMap.getCell(row, col);
-            List<Flight> flights = cell.getFlights();
+            List<IFlight> flights = cell.getFlights();
             if (flights.isEmpty()) {
                 ConsoleLogger.logStandard("No flights in cell (" + row + ", " + col + ").");
             } else {
                 ConsoleLogger.logTitle("Flights in cell (" + row + ", " + col + "):");
-                for (Flight flight : flights) {
+                for (IFlight flight : flights) {
                     ConsoleLogger.logInfo(flight.getFlightNumber() + " - " + flight.getType() +
                             " (State: " + flight.getState() + ", Fuel: " + flight.getFuel() + ")");
                 }

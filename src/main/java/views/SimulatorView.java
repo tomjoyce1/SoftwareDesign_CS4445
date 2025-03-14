@@ -11,11 +11,26 @@ public class SimulatorView {
     }
 
     public void displayMenu() {
-        ConsoleLogger.logTitle("\n=== Main Menu for ISE International Airport ===");
-        ConsoleLogger.logOption(new String[]
-                {"Create new flight", "Control flight",
-                        "Update weather", "List all flights",
-                        "Check Flight Status", "View Flight Info", "View Air Traffic Map", "View Cell Contents", "Clear Scheduled Flights For Take Off"}, true);
+        ConsoleLogger.logTitle("\n=== Flight Operations ===");
+        ConsoleLogger.logStandard("1. Create new flight");
+        ConsoleLogger.logStandard("2. Control flight");
+        ConsoleLogger.logStandard("3. Clear Scheduled Flights For Take Off");
+    
+        ConsoleLogger.logTitle("\n=== Weather Operations ===");
+        ConsoleLogger.logStandard("4. Update weather");
+    
+        ConsoleLogger.logTitle("\n=== Flight Information ===");
+        ConsoleLogger.logStandard("5. List all flights");
+        ConsoleLogger.logStandard("6. Check Flight Status");
+        ConsoleLogger.logStandard("7. View Flight Info");
+    
+        ConsoleLogger.logTitle("\n=== Map Operations ===");
+        ConsoleLogger.logStandard("8. View Air Traffic Map");
+        ConsoleLogger.logStandard("9. View Cell Contents");
+    
+        ConsoleLogger.logTitle("\n=== Exit ===");
+        ConsoleLogger.logStandard("Q. Quit");
+        ConsoleLogger.logStandard("\nChoose action: ");
     }
 
     public String getUserInput() {
