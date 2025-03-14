@@ -28,7 +28,8 @@ public class ViewFlightInfo implements Command {
         }
 
         ConsoleLogger.logTitle("\n=== List of Flights ===");
-        flights.forEach(flight -> ConsoleLogger.logStandard("Flight Number: " + flight.getFlightNumber() + ", Flight Type: " + flight.getType()));
+        flights.forEach(flight -> ConsoleLogger.logStandard("Flight Number: " 
+                + flight.getFlightNumber() + ", Flight Type: " + flight.getType()));
 
         ConsoleLogger.logStandard("\nEnter flight number to view details: ");
         String flightNumber = view.getUserInput();
@@ -52,18 +53,15 @@ public class ViewFlightInfo implements Command {
         ConsoleLogger.logStandard("Flight Type: " + flight.getType());
         ConsoleLogger.logStandard("Fuel: " + flight.getFuel());
 
-        if (flight instanceof PassengerDecorator) {
-            PassengerDecorator passengerDecorator = (PassengerDecorator) flight;
+        if (flight instanceof PassengerDecorator passengerDecorator) {
             ConsoleLogger.logStandard("Passenger Count: " + passengerDecorator.getPassengerCount());
         }
 
-        if (flight instanceof FlightAgencyDecorator) {
-            FlightAgencyDecorator flightAgencyDecorator = (FlightAgencyDecorator) flight;
+        if (flight instanceof FlightAgencyDecorator flightAgencyDecorator) {
             ConsoleLogger.logStandard("Flight Agency: " + flightAgencyDecorator.getFlightAgency());
         }
 
-        if (flight instanceof CrewInfoDecorator) {
-            CrewInfoDecorator crewInfoDecorator = (CrewInfoDecorator) flight;
+        if (flight instanceof CrewInfoDecorator crewInfoDecorator) {
             ConsoleLogger.logStandard("Pilot Name: " + crewInfoDecorator.getPilotName());
             ConsoleLogger.logStandard("Crew Count: " + crewInfoDecorator.getCrewCount());
         }
