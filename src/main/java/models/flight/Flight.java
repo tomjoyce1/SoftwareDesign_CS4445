@@ -5,7 +5,6 @@ import models.states.FlightState;
 import models.states.InAirState;
 import models.states.OnRunwayState;
 import views.ConsoleLogger;
-import weatherpubsub.Subscriber;
 import weatherpubsub.WeatherBroker;
 
 public class Flight implements IFlight {
@@ -14,6 +13,7 @@ public class Flight implements IFlight {
     private FlightState state;
     private int fuel = 100;
     private boolean stormNotified = false;
+    private boolean scheduled = false;
     private MapCell currentAirportCell;
 
     public Flight(String flightNumber) {
@@ -34,7 +34,6 @@ public class Flight implements IFlight {
 
     @Override
     public String getType() {
-        // You could return "Base Flight" or override in a subclass:
         return "Base Flight";
     }
 
@@ -91,6 +90,11 @@ public class Flight implements IFlight {
     @Override
     public boolean isStormNotified() {
         return stormNotified;
+    }
+
+    @Override
+    public boolean isScheduled() {
+        return scheduled;
     }
 
     @Override

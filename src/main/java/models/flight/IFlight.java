@@ -21,6 +21,8 @@ public interface IFlight extends Subscriber {
 
     boolean isStormNotified();
 
+    boolean isScheduled();
+
     MapCell getCurrentAirportCell();
     void setCurrentAirportCell(MapCell cell);
 }

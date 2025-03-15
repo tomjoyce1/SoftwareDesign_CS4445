@@ -20,9 +20,9 @@ public class AirTrafficMap {
                 grid[i][j] = new MapCell(false);
             }
         }
-        setAirport(0, 0, "APT-A");
-        setAirport(6,8, "APT-B");
-        setAirport(9, 9, "APT-C");
+        setAirport(0, 0, "LIM");
+        setAirport(6,8, "DUB");
+        setAirport(9, 9, "COR");
     }
 
     public MapCell getCell(int row, int col) {

@@ -68,6 +68,11 @@ public abstract class FlightDecorator implements IFlight {
     }
 
     @Override
+    public boolean isScheduled() {
+        return decoratedFlight.isScheduled();
+    }
+
+    @Override
     public MapCell getCurrentAirportCell() {
         return decoratedFlight.getCurrentAirportCell();
     }

@@ -21,7 +21,6 @@ public class PassengerDecorator extends FlightDecorator {
 
     @Override
     public String getType() {
-        // e.g. "Passenger Flight" or add some suffix:
-        return super.getType() + " [Passengers]";
+        return super.getType();
     }
 }

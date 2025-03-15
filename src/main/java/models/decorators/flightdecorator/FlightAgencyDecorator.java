@@ -17,6 +17,6 @@ public class FlightAgencyDecorator extends FlightDecorator {
 
     @Override
     public String getType() {
-        return super.getType() + " (Agency: " + flightAgency + ")";
+        return super.getType();
     }
 }

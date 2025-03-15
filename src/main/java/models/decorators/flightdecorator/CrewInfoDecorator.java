@@ -29,10 +29,8 @@ public class CrewInfoDecorator extends FlightDecorator {
         this.crewCount = crewCount;
     }
 
-    // Example: override getType() if you want a custom label:
     @Override
     public String getType() {
-        // e.g. "Base Flight (with Crew Info)"
-        return super.getType() + " [Crew Info]";
+        return super.getType();
     }
 }
