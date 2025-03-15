@@ -21,7 +21,7 @@ public class Flight implements IFlight {
         this.state = new OnRunwayState();
         this.broker = WeatherBroker.getInstance();
 
-        // Optional: decide if you want to subscribe:
+        // optional: decide if you want to subscribe
         broker.subscribe("WEATHER.STORM", this);
         broker.subscribe("WEATHER.SUNNY", this);
         broker.subscribe("WEATHER.FOGGY", this);
@@ -98,6 +98,11 @@ public class Flight implements IFlight {
     }
 
     @Override
+    public void setScheduled(boolean scheduled) {
+        this.scheduled = scheduled;
+    }
+
+    @Override
     public MapCell getCurrentAirportCell() {
         return currentAirportCell;
     }
@@ -114,8 +119,7 @@ public class Flight implements IFlight {
         if ("WEATHER.STORM".equals(topic)) {
             stormNotified = true;
             if (state instanceof InAirState) {
-                ConsoleLogger.logWarning(getType() + " " + flightNumber
-                                         + " holding at current location due to storm");
+                ConsoleLogger.logWarning(getType() + " " + flightNumber + " holding at current location due to storm");
                 hold();
             }
         } else if ("WEATHER.SUNNY".equals(topic) || "WEATHER.FOGGY".equals(topic)) {

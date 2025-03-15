@@ -23,4 +23,9 @@ public class PassengerDecorator extends FlightDecorator {
     public String getType() {
         return super.getType();
     }
+
+    @Override
+    public void setScheduled(boolean scheduled) {
+        decoratedFlight.setScheduled(scheduled);
+    }
 }

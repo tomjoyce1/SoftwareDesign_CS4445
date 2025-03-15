@@ -11,7 +11,6 @@ public abstract class FlightDecorator implements IFlight {
         this.decoratedFlight = flight;
     }
 
-    // Delegate all IFlight methods by default:
     @Override
     public String getFlightNumber() {
         return decoratedFlight.getFlightNumber();
@@ -73,6 +72,11 @@ public abstract class FlightDecorator implements IFlight {
     }
 
     @Override
+    public void setScheduled(boolean scheduled) {
+        decoratedFlight.setScheduled(scheduled);
+    }
+
+    @Override
     public MapCell getCurrentAirportCell() {
         return decoratedFlight.getCurrentAirportCell();
     }
@@ -82,7 +86,6 @@ public abstract class FlightDecorator implements IFlight {
         decoratedFlight.setCurrentAirportCell(cell);
     }
 
-    // Also delegate Subscriber logic:
     @Override
     public void receive(String topic, String message) {
         decoratedFlight.receive(topic, message);

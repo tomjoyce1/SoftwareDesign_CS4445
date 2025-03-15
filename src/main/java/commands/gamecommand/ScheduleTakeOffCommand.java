@@ -23,7 +23,6 @@ public class ScheduleTakeOffCommand implements Command {
 
     @Override
     public void execute() {
-        // Avoid duplicates: check if already scheduled.
         boolean alreadyScheduled = scheduledFlights.stream()
                 .anyMatch(sf -> sf.getFlight().equals(flight));
         if (alreadyScheduled) {
@@ -31,7 +30,6 @@ public class ScheduleTakeOffCommand implements Command {
             return;
         }
         
-        // Use AirTrafficMap's findFlightPosition() instead of iterating manually.
         int[] currentPosition = airTrafficMap.findFlightPosition(flight);
         if (currentPosition == null) {
             ConsoleLogger.logError("Flight " + flight.getFlightNumber() + " is not stationed at an airport.");
@@ -40,7 +38,6 @@ public class ScheduleTakeOffCommand implements Command {
         int currentRow = currentPosition[0];
         int currentCol = currentPosition[1];
 
-        // Use the utility method for destination selection.
         int[] dest = utils.AirportSelectionUtil.selectAirport(airTrafficMap, view, currentRow, currentCol);
         if (dest == null) {
             return;
@@ -49,16 +46,14 @@ public class ScheduleTakeOffCommand implements Command {
         int destinationCol = dest[1];
         String destinationLabel = airTrafficMap.getCell(destinationRow, destinationCol).getAirportLabel();
 
-        // Check destination availability.
         if (!airTrafficMap.canPlaceFlightAt(flight, destinationRow, destinationCol)) {
             ConsoleLogger.logError("Flight " + flight.getFlightNumber() + " cannot be scheduled for takeoff because destination " 
                     + destinationLabel + " is locked.");
             return;
         }
     
-        // Create a ScheduledFlight and add it to the shared list.
-        ScheduledFlight scheduledFlight = new ScheduledFlight(
-                flight, currentRow, currentCol, destinationRow, destinationCol, destinationLabel);
+        ScheduledFlight scheduledFlight = new ScheduledFlight(flight, currentRow, currentCol, destinationRow, destinationCol, destinationLabel);
+        flight.setScheduled(true);
         scheduledFlights.add(scheduledFlight);
         ConsoleLogger.logSuccess("Flight " + flight.getFlightNumber() + " scheduled for takeoff to " + destinationLabel);
     }

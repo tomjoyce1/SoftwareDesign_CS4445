@@ -3,7 +3,6 @@ package models;
 import models.flight.IFlight;
 import models.map.AirTrafficMap;
 import models.map.takeoff.ScheduledFlight;
-import views.ConsoleLogger;
 import weatherpubsub.WeatherStation;
 import bookmarks.InterceptorDispatcher;
 import bookmarks.LoggingInterceptor;

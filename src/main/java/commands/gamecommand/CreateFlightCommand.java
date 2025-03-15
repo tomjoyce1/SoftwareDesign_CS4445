@@ -30,12 +30,19 @@ public class CreateFlightCommand implements Command {
     public void execute() {
         ConsoleLogger.logTitle("\n=== Create New Flight ===");
         ConsoleLogger.logStandard("Flight types: \n");
-        ConsoleLogger.logOption(Arrays.stream(FlightType.values())
+        String[] flightTypeOptions = Arrays.stream(FlightType.values())
                 .map(Enum::name)
-                .toArray(String[]::new));
+                .toArray(String[]::new);
+        ConsoleLogger.logOption(flightTypeOptions);
 
-        ConsoleLogger.logStandard("Enter flight type: ");
-        String typeStr = view.getUserInput();
+        ConsoleLogger.logStandard("Enter flight type index (e.g., 1): ");
+        Integer typeIndex = utils.InputParserUtil.parseInt(view.getUserInput());
+        if (typeIndex == null || typeIndex < 1 || typeIndex > FlightType.values().length) {
+            ConsoleLogger.logError("Invalid flight type selection!");
+            return;
+        }
+
+        FlightType type = FlightType.values()[typeIndex - 1];
 
         ConsoleLogger.logStandard("Enter flight number: ");
         String flightNumber = view.getUserInput();
@@ -47,15 +54,6 @@ public class CreateFlightCommand implements Command {
             }
         }
 
-        FlightType type;
-        try {
-            type = FlightType.valueOf(typeStr);
-        } catch (IllegalArgumentException e) {
-            ConsoleLogger.logError("Invalid flight type!");
-            return;
-        }
-
-        // *new prompts for further attributes 
         int initialPassengerCount = 0;
         if (type != FlightType.MILITARY && type != FlightType.CARGO) {
             ConsoleLogger.logStandard("Enter initial passenger count: ");
@@ -91,9 +89,8 @@ public class CreateFlightCommand implements Command {
         
 
         try {
-            type = FlightType.valueOf(typeStr);
             dispatcher.dispatch("Flight number is: " + flightNumber 
-                                + ", type is: " + typeStr 
+                                + ", type is: " + type.name() 
                                 + ", passenger count is: " + initialPassengerCount 
                                 + ", agency is: " + flightAgency 
                                 + ", pilot name is: " + pilotName 

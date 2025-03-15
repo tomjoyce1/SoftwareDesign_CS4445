@@ -27,7 +27,6 @@ public void execute() {
     ConsoleLogger.logStandard("Enter flight number to check status: ");
     String flightNumber = view.getUserInput();
 
-    // Use the helper method for flight lookup
     IFlight selectedFlight = utils.FlightLookupUtil.findFlightByNumber(flights, flightNumber);
 
     if (selectedFlight == null) {
@@ -35,10 +34,12 @@ public void execute() {
         return;
     }
 
+    String scheduledText = selectedFlight.isScheduled() ? "True" : "False";
     ConsoleLogger.logInfo(String.format("%s %s - Status: %s, Fuel: %d%n",
             selectedFlight.getType(),
             selectedFlight.getFlightNumber(),
             selectedFlight.getState(),
-            selectedFlight.getFuel()));
+            selectedFlight.getFuel(),
+            scheduledText));
     }
 }

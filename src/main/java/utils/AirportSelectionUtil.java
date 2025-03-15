@@ -35,7 +35,6 @@ public class AirportSelectionUtil {
         }
         ConsoleLogger.logStandard("Enter the number corresponding to the destination airport:");
 
-        // Replace in-line parsing with a call to InputParserUtil.
         Integer choice = utils.InputParserUtil.parseInt(view.getUserInput());
         if (choice == null) {
             return null;

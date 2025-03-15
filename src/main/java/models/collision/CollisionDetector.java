@@ -18,7 +18,7 @@ public class CollisionDetector {
     
     public boolean checkAndHandleCollisions(List<ScheduledFlight> scheduledFlights) {
         boolean collisionFound = false;
-        // iterate over all flight pairs.
+        // iterates over all flight pairs
         for (int i = 0; i < scheduledFlights.size(); i++) {
             for (int j = i + 1; j < scheduledFlights.size(); j++) {
                 ScheduledFlight sf1 = scheduledFlights.get(i);
@@ -40,7 +40,7 @@ public class CollisionDetector {
     }
     
     private boolean isColliding(ScheduledFlight sf1, ScheduledFlight sf2) {
-        // a simple collision is when both flights are in the same cell.
+        // simple collision when 2 of our flights are in the same cell
         return sf1.getCurrentRow() == sf2.getCurrentRow() &&
                sf1.getCurrentCol() == sf2.getCurrentCol();
     }

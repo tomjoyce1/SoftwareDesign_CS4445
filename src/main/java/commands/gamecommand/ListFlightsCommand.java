@@ -22,10 +22,12 @@ public class ListFlightsCommand implements Command {
         }
 
         for (IFlight flight : flights) {
-            ConsoleLogger.logInfo(String.format("%s %s - Status: %s%n",
+            String scheduledText = flight.isScheduled() ? "True" : "False";
+            ConsoleLogger.logInfo(String.format("%s %s - Status: %s - Scheduled: %s",
                     flight.getType(),
                     flight.getFlightNumber(),
-                    flight.getState()));
+                    flight.getState(),
+                    scheduledText));
         }
     }
 }

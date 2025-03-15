@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.util.Comparator;
 
+// pathfinder class finding shortest path between two cells using dijkstra's algorithm
+
 public class PathFinder {
     private final AirTrafficMap map;
 
@@ -25,7 +27,7 @@ public class PathFinder {
         }
         distances[startRow][startCol] = 0;
 
-        // PriorityQueue for Dijkstra's algorithm: {row, col, distance}
+        // priorirty queue for dijkstra's algorithm
         PriorityQueue<int[]> queue = new PriorityQueue<>(Comparator.comparingInt(a -> a[2]));
         queue.add(new int[]{startRow, startCol, 0});
 
