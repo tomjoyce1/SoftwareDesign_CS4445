@@ -17,8 +17,7 @@ import java.util.logging.LogRecord;
 import java.util.logging.StreamHandler;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class ControlFlightCommandTest {
 
@@ -87,7 +86,7 @@ class ControlFlightCommandTest {
         SimulatorModel model = Mockito.mock(SimulatorModel.class);
         ControlFlightCommand controlFlightCommand = new ControlFlightCommand(flights, view, dispatcher, airTrafficMap, model);
 
-        when(view.getUserInput()).thenReturn("FL001").thenReturn("1");
+        when(view.getUserInput()).thenReturn("FL001").thenReturn("1").thenReturn("1");
 
         controlFlightCommand.execute();
 

@@ -35,12 +35,24 @@ class SimulatorViewTest {
         view.displayMenu();
 
         String logOutput = testHandler.getLogMessages();
-        assertTrue(logOutput.contains("=== Main Menu for ISE International Airport ==="));
+        assertTrue(logOutput.contains("=== Flight Operations ==="));
         assertTrue(logOutput.contains("1. Create new flight"));
         assertTrue(logOutput.contains("2. Control flight"));
-        assertTrue(logOutput.contains("3. Update weather"));
-        assertTrue(logOutput.contains("4. List all flights"));
-        assertTrue(logOutput.contains("5. Check Flight Status"));
+        assertTrue(logOutput.contains("3. Clear Scheduled Flights For Take Off"));
+
+        assertTrue(logOutput.contains("=== Weather Operations ==="));
+        assertTrue(logOutput.contains("4. Update weather"));
+
+        assertTrue(logOutput.contains("=== Flight Information ==="));
+        assertTrue(logOutput.contains("5. List all flights"));
+        assertTrue(logOutput.contains("6. Check Flight Status"));
+        assertTrue(logOutput.contains("7. View Flight Info"));
+
+        assertTrue(logOutput.contains("=== Map Operations ==="));
+        assertTrue(logOutput.contains("8. View Air Traffic Map"));
+        assertTrue(logOutput.contains("9. View Cell Contents"));
+
+        assertTrue(logOutput.contains("=== Exit ==="));
         assertTrue(logOutput.contains("Q. Quit"));
         assertTrue(logOutput.contains("Choose action: "));
     }
