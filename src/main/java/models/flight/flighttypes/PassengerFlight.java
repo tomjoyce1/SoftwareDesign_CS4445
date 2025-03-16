@@ -11,5 +11,5 @@ public class PassengerFlight extends Flight {
     public PassengerFlight(String flightNumber) {
         super(flightNumber);
     }
-
+    
 }

@@ -40,7 +40,10 @@ public class FlightTakeOffManager {
         if (!airTrafficMap.canPlaceFlightAt(flight, destRow, destCol)) {
             return;
         }
-        flight.takeOff();
+        if (!flight.takeOff()) {
+            ConsoleLogger.logError("Takeoff aborted for flight " + flight.getFlightNumber() + " due to adverse weather conditions.");
+            return;
+        }
         List<int[]> path = pathCalculator.calculatePath(currentPos[0], currentPos[1], destRow, destCol);
         movementManager.moveFlightAlongPath(flight, path);
         landingManager.simulateLandingProcedure(flight, destRow, destCol);

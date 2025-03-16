@@ -1,7 +1,7 @@
 // package commandsTest.gameCommandTest;
 
 // import commands.gamecommand.ScheduleTakeOffCommand;
-// import models.flight.IFlight;
+// import models.flight.FlightInterface;
 // import models.map.AirTrafficMap;
 // import models.map.takeoff.ScheduledFlight;
 // import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +20,7 @@
 // public class ScheduleTakeOffCommandTest {
 
 //     @Mock
-//     private IFlight flight;
+//     private FlightInterface flight;
 //     @Mock
 //     private AirTrafficMap airTrafficMap;
 //     @Mock

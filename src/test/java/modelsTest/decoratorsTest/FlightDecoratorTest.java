@@ -11,7 +11,9 @@ class FlightDecoratorTest {
     @Test
     void decoratorDelegatesTakeOffCall() {
         DummyFlight dummy = new DummyFlight("FL123");
-        FlightDecorator decorator = new FlightDecorator(dummy) {};
+        FlightDecorator decorator = new FlightDecorator(dummy) {
+   
+        };
         decorator.takeOff();
         assertTrue(dummy.takeOffCalled);
     }
@@ -20,7 +22,9 @@ class FlightDecoratorTest {
     void decoratorDelegatesGetTypeCall() {
         DummyFlight dummy = new DummyFlight("FL123");
         dummy.type = "TestType";
-        FlightDecorator decorator = new FlightDecorator(dummy) {};
+        FlightDecorator decorator = new FlightDecorator(dummy) {
+
+        };
         assertEquals("TestType", decorator.getType());
     }
 
@@ -28,7 +32,9 @@ class FlightDecoratorTest {
     void decoratorDelegatesGetFuelCall() {
         DummyFlight dummy = new DummyFlight("FL123");
         dummy.fuel = 120;
-        FlightDecorator decorator = new FlightDecorator(dummy) {};
+        FlightDecorator decorator = new FlightDecorator(dummy) {
+  
+        };
         assertEquals(120, decorator.getFuel());
     }
 
@@ -36,7 +42,9 @@ class FlightDecoratorTest {
     void decoratorDelegatesConsumeFuelCall() {
         DummyFlight dummy = new DummyFlight("FL123");
         dummy.fuel = 100;
-        FlightDecorator decorator = new FlightDecorator(dummy) {};
+        FlightDecorator decorator = new FlightDecorator(dummy) {
+        
+        };
         decorator.consumeFuel();
         assertTrue(dummy.consumeFuelCalled);
         assertEquals(90, dummy.fuel);
@@ -46,7 +54,9 @@ class FlightDecoratorTest {
     void decoratorMultipleConsumeFuelCallsDecreaseFuelCorrectly() {
         DummyFlight dummy = new DummyFlight("FL123");
         dummy.fuel = 100;
-        FlightDecorator decorator = new FlightDecorator(dummy) {};
+        FlightDecorator decorator = new FlightDecorator(dummy) {
+
+        };
         decorator.consumeFuel();
         decorator.consumeFuel();
         assertEquals(80, dummy.fuel);
@@ -86,7 +96,7 @@ class FlightDecoratorTest {
 
         @Override
         public void setFuel(int fuel) {
-        this.fuel = fuel;
+            this.fuel = fuel;
         }
     }
 }

@@ -7,7 +7,6 @@ import java.util.List;
 
 public class FlightPathCalculator {
     private final AirTrafficMap airTrafficMap;
-
     public FlightPathCalculator(AirTrafficMap map) {
         this.airTrafficMap = map;
     }

@@ -9,6 +9,7 @@ import views.ConsoleLogger;
 import views.SimulatorView;
 import commands.flightcommand.TakeOffCommand;
 import commands.flightcommand.LandCommand;
+import commands.flightcommand.ScheduleTakeOffCommand;
 import commands.flightcommand.HoldCommand;
 
 import java.util.HashMap;

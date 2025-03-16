@@ -18,4 +18,14 @@ public class PassengerDecorator extends FlightDecorator {
     public void addPassengers(int count) {
         passengerCount += count;
     }
+
+    @Override
+    public String getType() {
+        return super.getType();
+    }
+
+    @Override
+    public void setScheduled(boolean scheduled) {
+        decoratedFlight.setScheduled(scheduled);
+    }
 }

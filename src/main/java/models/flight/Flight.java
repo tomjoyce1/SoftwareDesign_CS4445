@@ -20,7 +20,6 @@ public class Flight implements FlightInterface {
         this.state = new OnRunwayState();
         WeatherBroker broker = WeatherBroker.getInstance();
 
-        // optional: decide if you want to subscribe
         broker.subscribe("WEATHER.STORM", this);
         broker.subscribe("WEATHER.SUNNY", this);
         broker.subscribe("WEATHER.FOGGY", this);

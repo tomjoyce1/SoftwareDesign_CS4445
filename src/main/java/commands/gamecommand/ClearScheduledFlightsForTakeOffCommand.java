@@ -25,53 +25,52 @@ public class ClearScheduledFlightsForTakeOffCommand implements Command {
     }
 
     @Override
-    public void execute() {
-        ConsoleLogger.logInfo("Clearing scheduled flights, total scheduled: " + scheduledFlights.size());
-        if (scheduledFlights.isEmpty()) {
-            ConsoleLogger.logStandard("No scheduled flights to process.");
+public void execute() {
+    ConsoleLogger.logInfo("Clearing scheduled flights, total scheduled: " + scheduledFlights.size());
+    if (scheduledFlights.isEmpty()) {
+        ConsoleLogger.logStandard("No scheduled flights to process.");
+        return;
+    }
+    
+    for (ScheduledFlight sf : scheduledFlights) {
+        if (!sf.getFlight().takeOff()) {
+            ConsoleLogger.logWarning("Scheduled flight " + sf.getFlight().getFlightNumber() + " did not take off due to storm conditions.");
             return;
         }
-
-        processScheduledFlights();
-        simulateFlights();
-        scheduledFlights.clear();
-        ConsoleLogger.logSuccess("All scheduled flights have been processed.");
     }
 
-    private void processScheduledFlights() {
-        scheduledFlights.forEach(sf -> {
-            if (!sf.getFlight().takeOff()) {
-                ConsoleLogger.logWarning("Scheduled flight " + sf.getFlight().getFlightNumber() + " did not take off due to storm conditions.");
-            }
-        });
-    }
-
-    private void simulateFlights() {
-        CollisionDetector collisionDetector = new CollisionDetector(airTrafficMap);
-        boolean continueSimulation = true;
-
-        while (continueSimulation) {
-            collisionDetector.checkAndHandleCollisions(scheduledFlights);
-            scheduledFlights.removeIf(sf -> sf.getFlight().getState().equals("Crashed"));
-
-            if (scheduledFlights.isEmpty()) {
-                ConsoleLogger.logWarning("All scheduled flights have either crashed or completed their simulation.");
-                continueSimulation = false;
-            } else {
-                boolean allFlightsUpdated = flightSimulator.updateScheduledFlights(scheduledFlights);
-                if (allFlightsUpdated) {
-                    scheduledFlights.forEach(sf -> landingManager.simulateLandingProcedure(sf.getFlight(), sf.getDestinationRow(), sf.getDestinationCol()));
-                    continueSimulation = false;
-                } else {
-                    airTrafficMap.printMap();
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                        continueSimulation = false;
-                    }
-                }
-            }
+    CollisionDetector collisionDetector = new CollisionDetector(airTrafficMap);
+    
+    while (true) {
+        collisionDetector.checkAndHandleCollisions(scheduledFlights);
+        scheduledFlights.removeIf(sf -> sf.getFlight().getState().equals("Crashed"));
+        
+        if (scheduledFlights.isEmpty()) {
+            ConsoleLogger.logWarning("All scheduled flights have either crashed or completed their simulation.");
+            break;
         }
+        
+        boolean allArrived = flightSimulator.updateScheduledFlights(scheduledFlights);
+        if (allArrived) {
+            for (ScheduledFlight sf : scheduledFlights) {
+                landingManager.simulateLandingProcedure(sf.getFlight(), sf.getDestinationRow(), sf.getDestinationCol());
+            }
+            break;
+        }
+        
+        airTrafficMap.printMap();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            break;
+        }
+    } 
+
+    for (ScheduledFlight sf : scheduledFlights) {
+        sf.getFlight().setScheduled(false);
+    }
+    scheduledFlights.clear();
+    ConsoleLogger.logSuccess("All scheduled flights have been processed.");
     }
 }
