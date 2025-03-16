@@ -1,19 +1,19 @@
 package models.map;
 
-import models.flight.IFlight;
+import models.flight.FlightInterface;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MapCell {
     private boolean isAirport;
     private String airportLabel;
-    private final List<IFlight> flights;
+    private final List<FlightInterface> flights = new ArrayList<>();
     private boolean locked = false;
-    private IFlight lockedBy = null;
+    private FlightInterface lockedBy = null;
 
     public MapCell(boolean isAirport) {
         this.isAirport = isAirport;
-        this.flights = new ArrayList<>();
         this.airportLabel = "";
     }
 
@@ -33,32 +33,32 @@ public class MapCell {
         this.airportLabel = airportLabel;
     }
 
-    public List<IFlight> getFlights() {
+    public List<FlightInterface> getFlights() {
         return flights;
     }
 
-    public void addFlight(IFlight flight) {
+    public void addFlight(FlightInterface flight) {
         flights.add(flight);
         flight.setCurrentAirportCell(this);
     }
 
-    public void removeFlight(IFlight flight) {
+    public void removeFlight(FlightInterface flight) {
         flights.remove(flight);
     }
 
     public boolean isLocked() {
         return locked;
     }
-    
+
     public void setLocked(boolean locked) {
         this.locked = locked;
     }
 
-    public IFlight getLockedBy() {
+    public FlightInterface getLockedBy() {
         return lockedBy;
     }
 
-    public void setLockedBy(IFlight flight) {
+    public void setLockedBy(FlightInterface flight) {
         this.lockedBy = flight;
         this.locked = (flight != null);
     }

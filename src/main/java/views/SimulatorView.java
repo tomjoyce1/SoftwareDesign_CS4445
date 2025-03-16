@@ -29,7 +29,7 @@ public class SimulatorView {
         ConsoleLogger.logStandard("9. View Cell Contents");
     
         ConsoleLogger.logTitle("\n=== Exit ===");
-        ConsoleLogger.logStandard("Q. Quit");
+        ConsoleLogger.logWarning("Q. Quit");
         ConsoleLogger.logStandard("\nChoose action: ");
     }
 

@@ -1,7 +1,7 @@
 package commandsTest.gameCommandTest;
 
 import commands.gamecommand.CheckFlightStatusCommand;
-import models.flight.IFlight;
+import models.flight.FlightInterface;
 import views.SimulatorView;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,7 @@ import java.util.List;
 import static org.mockito.Mockito.*;
 
 class CheckFlightStatusCommandTest {
-    private List<IFlight> flights;
+    private List<FlightInterface> flights;
     private SimulatorView view;
     private CheckFlightStatusCommand checkFlightStatusCommand;
 
@@ -32,7 +32,7 @@ class CheckFlightStatusCommandTest {
 
     @Test
     void testExecuteWithFlightFound() {
-        IFlight flight = Mockito.mock(IFlight.class);
+        FlightInterface flight = Mockito.mock(FlightInterface.class);
         when(flight.getFlightNumber()).thenReturn("FL123");
         when(flight.getType()).thenReturn("TypeA");
         when(flight.getState()).thenReturn("OnRunway");
@@ -49,7 +49,7 @@ class CheckFlightStatusCommandTest {
 
     @Test
     void testExecuteWithFlightNotFound() {
-        IFlight flight = Mockito.mock(IFlight.class);
+        FlightInterface flight = Mockito.mock(FlightInterface.class);
         when(flight.getFlightNumber()).thenReturn("FL123");
         flights.add(flight);
 

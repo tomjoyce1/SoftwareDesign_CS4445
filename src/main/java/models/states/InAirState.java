@@ -6,7 +6,7 @@ import views.ConsoleLogger;
 public class InAirState implements FlightState {
     @Override
     public void takeOff(Flight flight) {
-        ConsoleLogger.logWarning("Already in the clouds");
+        ConsoleLogger.logWarning("WARNING: Already in the clouds");
     }
 
     @Override

@@ -4,7 +4,7 @@ import models.map.MapCell;
 import models.states.FlightState;
 import weatherpubsub.Subscriber;
 
-public interface IFlight extends Subscriber {
+public interface FlightInterface extends Subscriber {
     String getFlightNumber();
     String getType();
 

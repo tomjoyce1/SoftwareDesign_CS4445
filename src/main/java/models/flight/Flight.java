@@ -7,9 +7,8 @@ import models.states.OnRunwayState;
 import views.ConsoleLogger;
 import weatherpubsub.WeatherBroker;
 
-public class Flight implements IFlight {
+public class Flight implements FlightInterface {
     private final String flightNumber;
-    private final WeatherBroker broker;
     private FlightState state;
     private int fuel = 100;
     private boolean stormNotified = false;
@@ -19,7 +18,7 @@ public class Flight implements IFlight {
     public Flight(String flightNumber) {
         this.flightNumber = flightNumber;
         this.state = new OnRunwayState();
-        this.broker = WeatherBroker.getInstance();
+        WeatherBroker broker = WeatherBroker.getInstance();
 
         // optional: decide if you want to subscribe
         broker.subscribe("WEATHER.STORM", this);
@@ -51,10 +50,6 @@ public class Flight implements IFlight {
     @Override
     public void land() {
         state.land(this);
-    }
-
-    protected boolean shouldSubscribeToWeather() {
-        return true;
     }
 
     @Override

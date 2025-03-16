@@ -4,7 +4,7 @@ import commands.Command;
 import models.decorators.flightdecorator.CrewInfoDecorator;
 import models.decorators.flightdecorator.FlightAgencyDecorator;
 import models.decorators.flightdecorator.PassengerDecorator;
-import models.flight.IFlight;
+import models.flight.FlightInterface;
 import views.ConsoleLogger;
 import views.SimulatorView;
 
@@ -12,10 +12,10 @@ import java.util.List;
 
 public class ViewFlightInfo implements Command {
 
-    private final List<IFlight> flights;
+    private final List<FlightInterface> flights;
     private final SimulatorView view;
 
-    public ViewFlightInfo(List<IFlight> flights, SimulatorView view) {
+    public ViewFlightInfo(List<FlightInterface> flights, SimulatorView view) {
         this.flights = flights;
         this.view = view;
     }
@@ -28,13 +28,13 @@ public class ViewFlightInfo implements Command {
         }
 
         ConsoleLogger.logTitle("\n=== List of Flights ===");
-        flights.forEach(flight -> ConsoleLogger.logStandard("Flight Number: " 
+        flights.forEach(flight -> ConsoleLogger.logStandard("Flight Number: "
                 + flight.getFlightNumber() + ", Flight Type: " + flight.getType()));
 
         ConsoleLogger.logStandard("\nEnter flight number to view details: ");
         String flightNumber = view.getUserInput();
 
-        IFlight flight = flights.stream()
+        FlightInterface flight = flights.stream()
                 .filter(f -> f.getFlightNumber().equals(flightNumber))
                 .findFirst()
                 .orElse(null);
@@ -47,7 +47,7 @@ public class ViewFlightInfo implements Command {
         displayFlightInfo(flight);
     }
 
-    private void displayFlightInfo(IFlight flight) {
+    private void displayFlightInfo(FlightInterface flight) {
         ConsoleLogger.logTitle("\n=== Flight Information ===");
         ConsoleLogger.logStandard("Flight Number: " + flight.getFlightNumber());
         ConsoleLogger.logStandard("Flight Type: " + flight.getType());

@@ -1,7 +1,8 @@
 package models.map;
 
-import models.flight.IFlight;
+import models.flight.FlightInterface;
 import views.ConsoleLogger;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class AirTrafficMap {
             }
         }
         setAirport(0, 0, "LIM");
-        setAirport(6,8, "DUB");
+        setAirport(6, 8, "DUB");
         setAirport(9, 9, "COR");
     }
 
@@ -38,19 +39,8 @@ public class AirTrafficMap {
         cell.setAirportLabel(airportLabel);
     }
 
-    public void placeFlight(int row, int col, IFlight flight) {
-        MapCell cell = getCell(row, col);
-        cell.addFlight(flight);
-    }
-
-    public void removeFlight(int row, int col, IFlight flight) {
-        MapCell cell = getCell(row, col);
-        if (cell.isLocked()) {
-            ConsoleLogger.logError("Unable to clear access to " + cell.getAirportLabel() 
-                + " until Flight " + flight.getFlightNumber() + " has landed.");
-            return;
-        }
-        cell.removeFlight(flight);
+    public void placeFlight(int row, int col, FlightInterface flight) {
+        getCell(row, col).addFlight(flight);
     }
 
     public int getRows() {
@@ -69,20 +59,19 @@ public class AirTrafficMap {
                 if (cell.isAirport()) {
                     rowOutput.append("[").append(cell.getAirportLabel()).append("]");
                 } else if (!cell.getFlights().isEmpty()) {
-                    String flightsDisplay = cell.getFlights().stream()
-                            .map(IFlight::getFlightNumber)
-                            .reduce((a, b) -> a + "," + b)
-                            .orElse("");
+                    String flightsDisplay = String.join(",", cell.getFlights().stream()
+                            .map(FlightInterface::getFlightNumber)
+                            .toArray(String[]::new));
                     rowOutput.append("[").append(flightsDisplay).append("]");
                 } else {
                     rowOutput.append("[   ]");
                 }
             }
-            System.out.println(rowOutput.toString());
+            ConsoleLogger.logStandard(rowOutput.toString());
         }
     }
 
-    public int[] findFlightPosition(IFlight flight) {
+    public int[] findFlightPosition(FlightInterface flight) {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 MapCell cell = getCell(i, j);
@@ -91,7 +80,7 @@ public class AirTrafficMap {
                 }
             }
         }
-        return null;
+        return new int[0];
     }
 
     public List<int[]> getAvailableDestinations(int excludeRow, int excludeCol) {
@@ -108,14 +97,15 @@ public class AirTrafficMap {
         return available;
     }
 
-    public boolean canPlaceFlightAt(IFlight flight, int row, int col) {
+    public boolean canPlaceFlightAt(FlightInterface flight, int row, int col) {
         MapCell cell = getCell(row, col);
-        if (cell.isLocked() && cell.getLockedBy() != null && !cell.getLockedBy().equals(flight)) {
-            if (cell.getLockedBy().getState().equals("Holding")) {
-                ConsoleLogger.logError("Unable to take off to " + cell.getAirportLabel() + " because Flight " + cell.getLockedBy().getFlightNumber() + " is holding.");
-                return false;
-            }
+        FlightInterface lockedBy = cell.getLockedBy();
+
+        if (cell.isLocked() && lockedBy != null && !lockedBy.equals(flight) && "Holding".equals(lockedBy.getState())) {
+            ConsoleLogger.logError("Unable to take off to " + cell.getAirportLabel() + " because Flight " + lockedBy.getFlightNumber() + " is holding.");
+            return false;
         }
+
         return true;
     }
 }

@@ -13,12 +13,12 @@ public class OnRunwayState implements FlightState {
 
     @Override
     public void land(Flight flight) {
-        ConsoleLogger.logWarning("Already on the ground");
+        ConsoleLogger.logWarning("WARNING: Already on the ground");
     }
 
     @Override
     public void hold(Flight flight) {
-        ConsoleLogger.logWarning("Cannot hold while on ground");
+        ConsoleLogger.logWarning("WARNING: Cannot hold while on ground");
     }
 
     @Override

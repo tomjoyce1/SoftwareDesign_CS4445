@@ -1,20 +1,22 @@
 package commands.gamecommand;
 
 import commands.Command;
-import models.flight.IFlight;
+import models.flight.FlightInterface;
 import models.map.AirTrafficMap;
 import models.map.takeoff.ScheduledFlight;
 import views.ConsoleLogger;
 import views.SimulatorView;
+
 import java.util.List;
 
 public class ScheduleTakeOffCommand implements Command {
-    private final IFlight flight;
+    private final FlightInterface flight;
     private final AirTrafficMap airTrafficMap;
     private final SimulatorView view;
     private final List<ScheduledFlight> scheduledFlights;
+    private static final String FLIGHTPREFIX = "Flight ";
 
-    public ScheduleTakeOffCommand(IFlight flight, AirTrafficMap airTrafficMap, SimulatorView view, List<ScheduledFlight> scheduledFlights) {
+    public ScheduleTakeOffCommand(FlightInterface flight, AirTrafficMap airTrafficMap, SimulatorView view, List<ScheduledFlight> scheduledFlights) {
         this.flight = flight;
         this.airTrafficMap = airTrafficMap;
         this.view = view;
@@ -23,16 +25,15 @@ public class ScheduleTakeOffCommand implements Command {
 
     @Override
     public void execute() {
-        boolean alreadyScheduled = scheduledFlights.stream()
-                .anyMatch(sf -> sf.getFlight().equals(flight));
+        boolean alreadyScheduled = scheduledFlights.stream().anyMatch(sf -> sf.getFlight().equals(flight));
         if (alreadyScheduled) {
-            ConsoleLogger.logWarning("Flight " + flight.getFlightNumber() + " is already scheduled for takeoff.");
+            ConsoleLogger.logWarning(FLIGHTPREFIX+ flight.getFlightNumber() + " is already scheduled for takeoff.");
             return;
         }
-        
+
         int[] currentPosition = airTrafficMap.findFlightPosition(flight);
         if (currentPosition == null) {
-            ConsoleLogger.logError("Flight " + flight.getFlightNumber() + " is not stationed at an airport.");
+            ConsoleLogger.logError(FLIGHTPREFIX + flight.getFlightNumber() + " is not stationed at an airport.");
             return;
         }
         int currentRow = currentPosition[0];
@@ -47,14 +48,13 @@ public class ScheduleTakeOffCommand implements Command {
         String destinationLabel = airTrafficMap.getCell(destinationRow, destinationCol).getAirportLabel();
 
         if (!airTrafficMap.canPlaceFlightAt(flight, destinationRow, destinationCol)) {
-            ConsoleLogger.logError("Flight " + flight.getFlightNumber() + " cannot be scheduled for takeoff because destination " 
-                    + destinationLabel + " is locked.");
+            ConsoleLogger.logError(FLIGHTPREFIX + flight.getFlightNumber() + " cannot be scheduled for takeoff because destination " + destinationLabel + " is locked.");
             return;
         }
-    
-        ScheduledFlight scheduledFlight = new ScheduledFlight(flight, currentRow, currentCol, destinationRow, destinationCol, destinationLabel);
+
+        ScheduledFlight scheduledFlight = new ScheduledFlight(flight, destinationRow, destinationCol);
         flight.setScheduled(true);
         scheduledFlights.add(scheduledFlight);
-        ConsoleLogger.logSuccess("Flight " + flight.getFlightNumber() + " scheduled for takeoff to " + destinationLabel);
+        ConsoleLogger.logSuccess(FLIGHTPREFIX + flight.getFlightNumber() + " scheduled for takeoff to " + destinationLabel);
     }
 }

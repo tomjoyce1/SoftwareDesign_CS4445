@@ -18,7 +18,7 @@ public class LandingModeState implements FlightState {
 
     @Override
     public void hold(Flight flight) {
-        ConsoleLogger.logWarning("Aborting landing attempt, returning to previous altitude");
+        ConsoleLogger.logWarning("WARNING: Aborting landing attempt, returning to previous altitude");
         flight.setState(new InAirState());
     }
 

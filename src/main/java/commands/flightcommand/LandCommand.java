@@ -1,12 +1,12 @@
 package commands.flightcommand;
 
 import commands.Command;
-import models.flight.IFlight;
+import models.flight.FlightInterface;
 
 public class LandCommand implements Command {
-    private final IFlight flight;
+    private final FlightInterface flight;
 
-    public LandCommand(IFlight flight) {
+    public LandCommand(FlightInterface flight) {
         this.flight = flight;
     }
 

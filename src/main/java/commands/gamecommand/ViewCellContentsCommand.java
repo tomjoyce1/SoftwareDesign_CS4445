@@ -3,7 +3,7 @@ package commands.gamecommand;
 import commands.Command;
 import models.map.AirTrafficMap;
 import models.map.MapCell;
-import models.flight.IFlight;
+import models.flight.FlightInterface;
 import views.ConsoleLogger;
 import views.SimulatorView;
 
@@ -20,28 +20,17 @@ public class ViewCellContentsCommand implements Command {
 
     @Override
     public void execute() {
-        ConsoleLogger.logStandard("Enter cell row (0 to " + (airTrafficMap.getRows() - 1) + "): ");
-        String rowInput = view.getUserInput();
-        Integer row = utils.InputParserUtil.parseInt(rowInput);
-        if (row == null) {
-            return;
-        }
-
-        ConsoleLogger.logStandard("Enter cell column (0 to " + (airTrafficMap.getCols() - 1) + "): ");
-        String colInput = view.getUserInput();
-        Integer col = utils.InputParserUtil.parseInt(colInput);
-        if (col == null) {
-            return;
-}
+        int row = getUserInputAsInt("Enter cell row (0 to " + (airTrafficMap.getRows() - 1) + "): ");
+        int col = getUserInputAsInt("Enter cell column (0 to " + (airTrafficMap.getCols() - 1) + "): ");
 
         try {
             MapCell cell = airTrafficMap.getCell(row, col);
-            List<IFlight> flights = cell.getFlights();
+            List<FlightInterface> flights = cell.getFlights();
             if (flights.isEmpty()) {
                 ConsoleLogger.logStandard("No flights in cell (" + row + ", " + col + ").");
             } else {
                 ConsoleLogger.logTitle("Flights in cell (" + row + ", " + col + "):");
-                for (IFlight flight : flights) {
+                for (FlightInterface flight : flights) {
                     ConsoleLogger.logInfo(flight.getFlightNumber() + " - " + flight.getType() +
                             " (State: " + flight.getState() + ", Fuel: " + flight.getFuel() + ")");
                 }
@@ -49,5 +38,10 @@ public class ViewCellContentsCommand implements Command {
         } catch (IllegalArgumentException e) {
             ConsoleLogger.logError("Error: " + e.getMessage());
         }
+    }
+
+    private int getUserInputAsInt(String prompt) {
+        ConsoleLogger.logStandard(prompt);
+        return Integer.parseInt(view.getUserInput());
     }
 }

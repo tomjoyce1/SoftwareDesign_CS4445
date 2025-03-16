@@ -5,15 +5,16 @@ import models.map.MapCell;
 import views.ConsoleLogger;
 
 public class HoldingState implements FlightState {
+    private static final String FLIGHTPREFIX = "Flight ";
 
     @Override
     public void takeOff(Flight flight) {
-        ConsoleLogger.logWarning("Flight " + flight.getFlightNumber() + " is holding and cannot take off until it lands.");
+        ConsoleLogger.logWarning(FLIGHTPREFIX + flight.getFlightNumber() + " is holding and cannot take off until it lands.");
     }
 
     @Override
     public void land(Flight flight) {
-        ConsoleLogger.logSuccess("Flight " + flight.getFlightNumber() + " is now landing.");
+        ConsoleLogger.logSuccess(FLIGHTPREFIX + flight.getFlightNumber() + " is now landing.");
         MapCell cell = flight.getCurrentAirportCell();
         if (cell != null) {
             cell.setLocked(false);
@@ -23,7 +24,7 @@ public class HoldingState implements FlightState {
 
     @Override
     public void hold(Flight flight) {
-        ConsoleLogger.logInfo("Flight " + flight.getFlightNumber() + " remains holding.");
+        ConsoleLogger.logInfo(FLIGHTPREFIX + flight.getFlightNumber() + " remains holding.");
     }
 
     @Override

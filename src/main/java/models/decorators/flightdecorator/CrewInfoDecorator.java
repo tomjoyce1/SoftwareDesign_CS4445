@@ -1,13 +1,13 @@
 package models.decorators.flightdecorator;
 
 import models.decorators.FlightDecorator;
-import models.flight.IFlight;
+import models.flight.FlightInterface;
 
 public class CrewInfoDecorator extends FlightDecorator {
     private String pilotName;
     private int crewCount;
 
-    public CrewInfoDecorator(IFlight flight, String pilotName, int crewCount) {
+    public CrewInfoDecorator(FlightInterface flight, String pilotName, int crewCount) {
         super(flight);
         this.pilotName = pilotName;
         this.crewCount = crewCount;
@@ -27,15 +27,5 @@ public class CrewInfoDecorator extends FlightDecorator {
 
     public void setCrewCount(int crewCount) {
         this.crewCount = crewCount;
-    }
-
-    @Override
-    public String getType() {
-        return super.getType();
-    }
-
-    @Override
-    public void setScheduled(boolean scheduled) {
-        decoratedFlight.setScheduled(scheduled);
     }
 }

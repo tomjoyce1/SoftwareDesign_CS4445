@@ -1,6 +1,6 @@
 package models;
 
-import models.flight.IFlight;
+import models.flight.FlightInterface;
 import models.map.AirTrafficMap;
 import models.map.takeoff.ScheduledFlight;
 import weatherpubsub.WeatherStation;
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class SimulatorModel {
     private final WeatherStation weatherStation;
-    private final List<IFlight> flights;
+    private final List<FlightInterface> flights;
     private final InterceptorDispatcher dispatcher;
     private final AirTrafficMap airTrafficMap;
     private final List<ScheduledFlight> scheduledFlights = new ArrayList<>();
@@ -29,7 +29,7 @@ public class SimulatorModel {
         return weatherStation;
     }
 
-    public List<IFlight> getFlights() {
+    public List<FlightInterface> getFlights() {
         return flights;
     }
 

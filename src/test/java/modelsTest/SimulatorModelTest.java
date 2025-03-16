@@ -2,7 +2,7 @@ package modelsTest;
 
 import models.SimulatorModel;
 import models.flight.Flight;
-import models.flight.IFlight;
+import models.flight.FlightInterface;
 import models.states.FlightState;
 import org.junit.jupiter.api.Test;
 
@@ -42,7 +42,7 @@ class SimulatorModelTest {
     @Test
     void simulatorModelFlightsListIsInitiallyEmpty() {
         SimulatorModel model = new SimulatorModel();
-        List<IFlight> flights = model.getFlights();
+        List<FlightInterface> flights = model.getFlights();
         assertNotNull(flights);
         assertTrue(flights.isEmpty());
     }
@@ -52,7 +52,7 @@ class SimulatorModelTest {
         SimulatorModel model = new SimulatorModel();
         DummyFlight flight = new DummyFlight("FL-TEST-01");
         model.getFlights().add(flight);
-        List<IFlight> flights = model.getFlights();
+        List<FlightInterface> flights = model.getFlights();
         assertEquals(1, flights.size());
         assertEquals("Dummy", flights.getFirst().getType());
     }

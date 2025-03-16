@@ -1,27 +1,17 @@
 package models.decorators.flightdecorator;
 
 import models.decorators.FlightDecorator;
-import models.flight.IFlight;
+import models.flight.FlightInterface;
 
 public class FlightAgencyDecorator extends FlightDecorator {
-    private String flightAgency;
+    private final String flightAgency;
 
-    public FlightAgencyDecorator(IFlight flight, String flightAgency) {
+    public FlightAgencyDecorator(FlightInterface flight, String flightAgency) {
         super(flight);
         this.flightAgency = flightAgency;
     }
 
     public String getFlightAgency() {
         return flightAgency;
-    }
-
-    @Override
-    public String getType() {
-        return super.getType();
-    }
-
-    @Override
-    public void setScheduled(boolean scheduled) {
-        decoratedFlight.setScheduled(scheduled);
     }
 }

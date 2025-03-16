@@ -1,13 +1,13 @@
 package models.decorators;
 
-import models.flight.IFlight;
+import models.flight.FlightInterface;
 import models.map.MapCell;
 import models.states.FlightState;
 
-public abstract class FlightDecorator implements IFlight {
-    protected final IFlight decoratedFlight;
+public abstract class FlightDecorator implements FlightInterface {
+    protected final FlightInterface decoratedFlight;
 
-    protected FlightDecorator(IFlight flight) {
+    protected FlightDecorator(FlightInterface flight) {
         this.decoratedFlight = flight;
     }
 
