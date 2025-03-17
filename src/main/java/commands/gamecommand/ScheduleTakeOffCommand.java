@@ -52,7 +52,7 @@ public class ScheduleTakeOffCommand implements Command {
             return;
         }
 
-        ScheduledFlight scheduledFlight = new ScheduledFlight(flight, destinationRow, destinationCol);
+        ScheduledFlight scheduledFlight = new ScheduledFlight(flight, currentCol, currentRow, destinationRow, destinationCol, destinationLabel);
         flight.setScheduled(true);
         scheduledFlights.add(scheduledFlight);
         ConsoleLogger.logSuccess(FLIGHTPREFIX + flight.getFlightNumber() + " scheduled for takeoff to " + destinationLabel);

@@ -13,6 +13,8 @@ public class ScheduleTakeOffCommand implements Command {
     private final AirTrafficMap airTrafficMap;
     private final SimulatorView view;
     private final List<ScheduledFlight> scheduledFlights;
+    private static final String FLIGHTPREFIX = "Flight ";
+
 
     public ScheduleTakeOffCommand(FlightInterface flight, AirTrafficMap airTrafficMap, SimulatorView view, List<ScheduledFlight> scheduledFlights) {
         this.flight = flight;
@@ -26,13 +28,13 @@ public class ScheduleTakeOffCommand implements Command {
         boolean alreadyScheduled = scheduledFlights.stream()
                 .anyMatch(sf -> sf.getFlight().equals(flight));
         if (alreadyScheduled) {
-            ConsoleLogger.logWarning("Flight " + flight.getFlightNumber() + " is already scheduled for takeoff.");
+            ConsoleLogger.logWarning(FLIGHTPREFIX + flight.getFlightNumber() + " is already scheduled for takeoff.");
             return;
         }
         
         int[] currentPosition = airTrafficMap.findFlightPosition(flight);
         if (currentPosition == null) {
-            ConsoleLogger.logError("Flight " + flight.getFlightNumber() + " is not stationed at an airport.");
+            ConsoleLogger.logError(FLIGHTPREFIX + flight.getFlightNumber() + " is not stationed at an airport.");
             return;
         }
         int currentRow = currentPosition[0];
@@ -47,14 +49,13 @@ public class ScheduleTakeOffCommand implements Command {
         String destinationLabel = airTrafficMap.getCell(destinationRow, destinationCol).getAirportLabel();
 
         if (!airTrafficMap.canPlaceFlightAt(flight, destinationRow, destinationCol)) {
-            ConsoleLogger.logError("Flight " + flight.getFlightNumber() + " cannot be scheduled for takeoff because destination " 
+            ConsoleLogger.logError(FLIGHTPREFIX + flight.getFlightNumber() + " cannot be scheduled for takeoff because destination " 
                     + destinationLabel + " is locked.");
             return;
         }
     
-        ScheduledFlight scheduledFlight = new ScheduledFlight(flight,destinationRow, destinationCol);
-        flight.setScheduled(true);
+        ScheduledFlight scheduledFlight = new ScheduledFlight(flight, currentRow, currentCol, destinationRow, destinationCol, destinationLabel);        flight.setScheduled(true);
         scheduledFlights.add(scheduledFlight);
-        ConsoleLogger.logSuccess("Flight " + flight.getFlightNumber() + " scheduled for takeoff to " + destinationLabel);
+        ConsoleLogger.logSuccess(FLIGHTPREFIX + flight.getFlightNumber() + " scheduled for takeoff to " + destinationLabel);
     }
 }

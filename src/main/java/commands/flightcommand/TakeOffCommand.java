@@ -16,7 +16,7 @@ public class TakeOffCommand implements Command {
         this.airTrafficMap = airTrafficMap;
         this.view = view;
     }
-
+    
     @Override
     public void execute() {
         FlightSimulator simulator = new FlightSimulator(airTrafficMap, view);
