@@ -41,7 +41,7 @@ public class ConsoleLogger {
 
     public static void logWarning(String message) {
         if (logger.isLoggable(Level.WARNING)) {
-            logger.log(Level.WARNING, String.format(FORMAT, ConsoleColour.YELLOW.getCode(), "WARNING: " + message, ConsoleColour.RESET.getCode()));
+            logger.log(Level.WARNING, String.format(FORMAT, ConsoleColour.YELLOW.getCode(), message, ConsoleColour.RESET.getCode()));
         }
     }
 

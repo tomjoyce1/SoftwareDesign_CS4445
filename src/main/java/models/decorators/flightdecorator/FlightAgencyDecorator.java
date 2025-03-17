@@ -1,12 +1,12 @@
 package models.decorators.flightdecorator;
 
 import models.decorators.FlightDecorator;
-import models.flight.Flight;
+import models.flight.FlightInterface;
 
 public class FlightAgencyDecorator extends FlightDecorator {
-    private String flightAgency;
+    private final String flightAgency;
 
-    public FlightAgencyDecorator(Flight flight, String flightAgency) {
+    public FlightAgencyDecorator(FlightInterface flight, String flightAgency) {
         super(flight);
         this.flightAgency = flightAgency;
     }

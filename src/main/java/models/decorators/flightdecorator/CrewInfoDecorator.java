@@ -1,13 +1,13 @@
 package models.decorators.flightdecorator;
 
-import models.flight.Flight;
 import models.decorators.FlightDecorator;
+import models.flight.FlightInterface;
 
 public class CrewInfoDecorator extends FlightDecorator {
     private String pilotName;
     private int crewCount;
 
-    public CrewInfoDecorator(Flight flight, String pilotName, int crewCount) {
+    public CrewInfoDecorator(FlightInterface flight, String pilotName, int crewCount) {
         super(flight);
         this.pilotName = pilotName;
         this.crewCount = crewCount;

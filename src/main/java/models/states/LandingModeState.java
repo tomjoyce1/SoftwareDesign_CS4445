@@ -6,8 +6,9 @@ import views.ConsoleLogger;
 public class LandingModeState implements FlightState {
 
     @Override
-    public void takeOff(Flight flight) {
+    public boolean takeOff(Flight flight) {
         ConsoleLogger.logError("Cannot take off while landing. Do you have a pilot's licence?");
+        return false;
     }
 
     @Override
@@ -18,8 +19,8 @@ public class LandingModeState implements FlightState {
 
     @Override
     public void hold(Flight flight) {
-        ConsoleLogger.logWarning("Aborting landing attempt, returning to previous altitude");
-        flight.setState(new InAirState());
+        ConsoleLogger.logWarning("WARNING: Aborting landing attempt, returning to previous altitude");
+        flight.setState(new HoldingState());
     }
 
     @Override

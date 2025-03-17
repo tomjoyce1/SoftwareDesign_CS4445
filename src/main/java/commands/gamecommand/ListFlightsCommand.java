@@ -1,15 +1,15 @@
 package commands.gamecommand;
 
 import commands.Command;
-import models.flight.Flight;
+import models.flight.FlightInterface;
 import views.ConsoleLogger;
 
 import java.util.List;
 
 public class ListFlightsCommand implements Command {
-    private final List<Flight> flights;
+    private final List<FlightInterface> flights;
 
-    public ListFlightsCommand(List<Flight> flights) {
+    public ListFlightsCommand(List<FlightInterface> flights) {
         this.flights = flights;
     }
 
@@ -21,11 +21,13 @@ public class ListFlightsCommand implements Command {
             return;
         }
 
-        for (Flight flight : flights) {
-            ConsoleLogger.logInfo(String.format("%s %s - Status: %s%n",
+        for (FlightInterface flight : flights) {
+            String scheduledText = flight.isScheduled() ? "True" : "False";
+            ConsoleLogger.logInfo(String.format("%s %s - Status: %s - Scheduled: %s",
                     flight.getType(),
                     flight.getFlightNumber(),
-                    flight.getState()));
+                    flight.getState(),
+                    scheduledText));
         }
     }
 }
