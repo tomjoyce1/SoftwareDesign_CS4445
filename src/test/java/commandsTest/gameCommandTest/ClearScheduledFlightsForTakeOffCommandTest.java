@@ -1,140 +1,98 @@
-// package commandsTest.gameCommandTest;
+package commandsTest.gameCommandTest;
 
-// import static org.mockito.ArgumentMatchers.anyList;
-// import static org.mockito.Mockito.*;
+import commands.gamecommand.ClearScheduledFlightsForTakeOffCommand;
+import models.flight.FlightInterface;
+import models.map.AirTrafficMap;
+import models.map.MapCell;
+import models.map.takeoff.ScheduledFlight;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import views.SimulatorView;
 
-// import commands.Command;
-// import commands.gamecommand.ClearScheduledFlightsForTakeOffCommand;
-// import models.map.AirTrafficMap;
-// import models.map.takeoff.FlightSimulator;
-// import models.map.takeoff.ScheduledFlight;
-// import models.collision.CollisionDetector;
-// import models.flight.FlightInterface;
-// import org.junit.jupiter.api.AfterEach;
-// import org.junit.jupiter.api.BeforeEach;
-// import org.junit.jupiter.api.Test;
-// import org.mockito.MockedConstruction;
-// import org.mockito.MockitoAnnotations;
-// import views.SimulatorView;
+import java.util.ArrayList;
+import java.util.List;
 
-// import java.util.ArrayList;
-// import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
 
-// public class ClearScheduledFlightsForTakeOffCommandTest {
+class ClearScheduledFlightsForTakeOffCommandTest {
 
-//     private AutoCloseable mocks;
+    @Mock
+    private AirTrafficMap airTrafficMap;
+    @Mock
+    private SimulatorView view;
+    @Mock
+    private ScheduledFlight scheduledFlight;
 
-//     @BeforeEach
-//     public void setUp() {
-//         mocks = MockitoAnnotations.openMocks(this);
-//     }
-    
-//     @AfterEach
-//     public void tearDown() throws Exception {
-//         if (mocks != null) {
-//             mocks.close();
-//         }
-//     }
+    private List<ScheduledFlight> scheduledFlights;
+    private ClearScheduledFlightsForTakeOffCommand command;
 
-//     @Test
-//     public void testExecuteEmptyScheduledFlights() {
-//         AirTrafficMap airTrafficMap = mock(AirTrafficMap.class);
-//         SimulatorView view = mock(SimulatorView.class);
-//         List<ScheduledFlight> scheduledFlights = new ArrayList<>();
-        
-//         Command command = new ClearScheduledFlightsForTakeOffCommand(airTrafficMap, scheduledFlights, view);
-//         command.execute();
-        
-//         assert(scheduledFlights.isEmpty());
-//     }
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        scheduledFlights = new ArrayList<>();
+        command = new ClearScheduledFlightsForTakeOffCommand(airTrafficMap, scheduledFlights, view);
+    }
 
-//     @Test
-//     public void testExecuteWithImmediateArrival() {
-//         AirTrafficMap airTrafficMap = mock(AirTrafficMap.class);
-//         SimulatorView view = mock(SimulatorView.class);
-//         List<ScheduledFlight> scheduledFlights = new ArrayList<>();
+    @Test
+    void executeWithFlightNotTakingOffLogsWarning() {
+        FlightInterface flight = mock(FlightInterface.class);
+        when(scheduledFlight.getFlight()).thenReturn(flight);
+        when(flight.takeOff()).thenReturn(false);
+        when(flight.getFlightNumber()).thenReturn("123");
+        when(flight.getState()).thenReturn("Grounded");
 
-//         ScheduledFlight flight1 = mock(ScheduledFlight.class);
-//         FlightStub flight = mock(FlightStub.class);
-//         when(flight.takeOff()).thenReturn(true);
-//         when(flight.getFlightNumber()).thenReturn("FL123");
-//         when(flight.getState()).thenReturn("InFlight");
+        scheduledFlights.add(scheduledFlight);
 
-//         when(flight1.getFlight()).thenReturn(flight);
-//         when(flight1.getDestinationRow()).thenReturn(5);
-//         when(flight1.getDestinationCol()).thenReturn(10);
-//         scheduledFlights.add(flight1);
+        command.execute();
 
-//         try (MockedConstruction<FlightSimulator> flightSimConstruction = 
-//                 mockConstruction(FlightSimulator.class, (mock, context) -> {
-//                     when(mock.updateScheduledFlights(anyList())).thenReturn(true);
-//                 });
-//              MockedConstruction<CollisionDetector> collisionConstruction = 
-//                 mockConstruction(CollisionDetector.class, (mock, context) -> {
-//                     when(mock.checkAndHandleCollisions(anyList())).thenReturn(false);
-//                 })
-//         ) {
-//             Command command = new ClearScheduledFlightsForTakeOffCommand(airTrafficMap, scheduledFlights, view);
-//             command.execute();
-            
-//             List<FlightSimulator> flightSimInstances = flightSimConstruction.constructed();
-//             FlightSimulator flightSim = flightSimInstances.get(0);
-//             verify(flightSim, times(1)).simulateLandingProcedure(flight, 5, 10);
-            
-//             assert(scheduledFlights.isEmpty());
-//         }
-//     }
+        assertFalse(scheduledFlights.isEmpty());
+    }
 
-//     @Test
-//     public void testExecuteWithDelayedArrivalAndCrashRemoval() {
-//         AirTrafficMap airTrafficMap = mock(AirTrafficMap.class);
-//         SimulatorView view = mock(SimulatorView.class);
-//         List<ScheduledFlight> scheduledFlights = new ArrayList<>();
+    @Test
+    void executeWithScheduledFlightsProcessesAndClearsFlights() {
+        FlightInterface flight = mock(FlightInterface.class);
+        when(scheduledFlight.getFlight()).thenReturn(flight);
+        when(flight.takeOff()).thenReturn(true);
+        when(flight.getFlightNumber()).thenReturn("123");
+        when(flight.getState()).thenReturn("Grounded");
 
-//         ScheduledFlight flight1 = mock(ScheduledFlight.class);
-//         FlightStub flightA = mock(FlightStub.class);
-//         when(flightA.takeOff()).thenReturn(true);
-//         when(flightA.getFlightNumber()).thenReturn("FL001");
-//         when(flightA.getState()).thenReturn("InFlight", "Crashed");
-//         when(flight1.getFlight()).thenReturn(flightA);
-//         when(flight1.getDestinationRow()).thenReturn(2);
-//         when(flight1.getDestinationCol()).thenReturn(3);
-//         scheduledFlights.add(flight1);
+        MapCell cell = mock(MapCell.class);
+        when(airTrafficMap.getCell(anyInt(), anyInt())).thenReturn(cell);
+        when(cell.getAirportLabel()).thenReturn("Airport");
 
-//         ScheduledFlight flight2 = mock(ScheduledFlight.class);
-//         FlightStub flightB = mock(FlightStub.class);
-//         when(flightB.takeOff()).thenReturn(false);
-//         when(flightB.getFlightNumber()).thenReturn("FL002");
-//         when(flightB.getState()).thenReturn("InFlight");
-//         when(flight2.getFlight()).thenReturn(flightB);
-//         when(flight2.getDestinationRow()).thenReturn(7);
-//         when(flight2.getDestinationCol()).thenReturn(8);
-//         scheduledFlights.add(flight2);
+        scheduledFlights.add(scheduledFlight);
 
-//         try (MockedConstruction<FlightSimulator> flightSimConstruction = 
-//                 mockConstruction(FlightSimulator.class, (mock, context) -> {
-//                     when(mock.updateScheduledFlights(anyList())).thenReturn(false, true);
-//                 });
-//              MockedConstruction<CollisionDetector> collisionConstruction = 
-//                 mockConstruction(CollisionDetector.class, (mock, context) -> {
-//                     when(mock.checkAndHandleCollisions(anyList())).thenReturn(false);
-//                 })
-//         ) {
-//             Command command = new ClearScheduledFlightsForTakeOffCommand(airTrafficMap, scheduledFlights, view);
-//             command.execute();
-            
-//             List<FlightSimulator> flightSimInstances = flightSimConstruction.constructed();
-//             FlightSimulator flightSim = flightSimInstances.get(0);
-            
-//             verify(flightSim, times(1)).simulateLandingProcedure(flightB, 7, 8);
-            
-//             assert(scheduledFlights.isEmpty());
-//         }
-//     }
-    
-//     private interface FlightStub extends FlightInterface {
-//         boolean takeOff();
-//         String getFlightNumber();
-//         String getState();
-//     }
-// }
+        command.execute();
+
+        assertTrue(scheduledFlights.isEmpty());
+    }
+
+    @Test
+    void executeWithMultipleFlightsProcessesAllCorrectly() {
+        ScheduledFlight flight1 = mock(ScheduledFlight.class);
+        ScheduledFlight flight2 = mock(ScheduledFlight.class);
+        FlightInterface flightInterface1 = mock(FlightInterface.class);
+        FlightInterface flightInterface2 = mock(FlightInterface.class);
+
+        when(flight1.getFlight()).thenReturn(flightInterface1);
+        when(flight2.getFlight()).thenReturn(flightInterface2);
+        when(flightInterface1.takeOff()).thenReturn(true);
+        when(flightInterface2.takeOff()).thenReturn(true);
+        when(flightInterface1.getState()).thenReturn("Flying");
+        when(flightInterface2.getState()).thenReturn("Flying");
+
+        MapCell cell = mock(MapCell.class);
+        when(airTrafficMap.getCell(anyInt(), anyInt())).thenReturn(cell);
+
+        scheduledFlights.add(flight1);
+        scheduledFlights.add(flight2);
+
+        command.execute();
+
+        assertTrue(scheduledFlights.isEmpty());
+    }
+}

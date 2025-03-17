@@ -29,11 +29,13 @@ public class ScheduleTakeOffCommand implements Command {
                 .anyMatch(sf -> sf.getFlight().equals(flight));
         if (alreadyScheduled) {
             ConsoleLogger.logWarning(FLIGHTPREFIX + flight.getFlightNumber() + " is already scheduled for takeoff.");
+            ConsoleLogger.logWarning(FLIGHTPREFIX + flight.getFlightNumber() + " is already scheduled for takeoff.");
             return;
         }
         
         int[] currentPosition = airTrafficMap.findFlightPosition(flight);
         if (currentPosition == null) {
+            ConsoleLogger.logError(FLIGHTPREFIX + flight.getFlightNumber() + " is not stationed at an airport.");
             ConsoleLogger.logError(FLIGHTPREFIX + flight.getFlightNumber() + " is not stationed at an airport.");
             return;
         }
@@ -56,6 +58,7 @@ public class ScheduleTakeOffCommand implements Command {
     
         ScheduledFlight scheduledFlight = new ScheduledFlight(flight, currentRow, currentCol, destinationRow, destinationCol, destinationLabel);        flight.setScheduled(true);
         scheduledFlights.add(scheduledFlight);
+        ConsoleLogger.logSuccess(FLIGHTPREFIX + flight.getFlightNumber() + " scheduled for takeoff to " + destinationLabel);
         ConsoleLogger.logSuccess(FLIGHTPREFIX + flight.getFlightNumber() + " scheduled for takeoff to " + destinationLabel);
     }
 }

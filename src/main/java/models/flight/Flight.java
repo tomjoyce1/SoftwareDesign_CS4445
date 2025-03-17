@@ -1,10 +1,13 @@
 package models.flight;
 
+import models.map.AirTrafficMap;
 import models.map.MapCell;
+import models.map.takeoff.FlightSimulator;
 import models.states.FlightState;
 import models.states.InAirState;
 import models.states.OnRunwayState;
 import views.ConsoleLogger;
+import views.SimulatorView;
 import weatherpubsub.WeatherBroker;
 
 public class Flight implements FlightInterface {
@@ -14,9 +17,15 @@ public class Flight implements FlightInterface {
     private boolean stormNotified = false;
     private boolean scheduled = false;
     private MapCell currentAirportCell;
+    private final FlightInterface flightInterface;
+    private final AirTrafficMap airTrafficMap;
+    private final SimulatorView view;
 
-    public Flight(String flightNumber) {
+    public Flight(String flightNumber, FlightInterface flightInterface, AirTrafficMap airTrafficMap, SimulatorView view) {
         this.flightNumber = flightNumber;
+        this.flightInterface = flightInterface;
+        this.airTrafficMap = airTrafficMap;
+        this.view = view;
         this.state = new OnRunwayState();
         WeatherBroker broker = WeatherBroker.getInstance();
 
@@ -41,8 +50,10 @@ public class Flight implements FlightInterface {
             ConsoleLogger.logError(getType() + " " + flightNumber + " cannot take off due to storm conditions.");
             return false;
         }
+        FlightSimulator simulator = new FlightSimulator(airTrafficMap, view);
         state.takeOff(this);
         consumeFuel();
+        simulator.simulateTakeOff(flightInterface, -1, -1);
         return true;
     }
 

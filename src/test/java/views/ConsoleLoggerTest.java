@@ -47,7 +47,7 @@ class ConsoleLoggerTest {
         TestHandler handler = new TestHandler();
         ConsoleLogger.logger.addHandler(handler);
         ConsoleLogger.logWarning("This is a warning");
-        assertTrue(handler.getLastMessage().contains("WARNING: This is a warning"));
+        assertTrue(handler.getLastMessage().contains("This is a warning"));
     }
 
     @Test

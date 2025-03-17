@@ -4,7 +4,7 @@ import models.decorators.FlightDecorator;
 import models.flight.FlightInterface;
 
 public class FlightAgencyDecorator extends FlightDecorator {
-    private String flightAgency;
+    private final String flightAgency;
 
     public FlightAgencyDecorator(FlightInterface flight, String flightAgency) {
         super(flight);
@@ -13,15 +13,5 @@ public class FlightAgencyDecorator extends FlightDecorator {
 
     public String getFlightAgency() {
         return flightAgency;
-    }
-
-    @Override
-    public String getType() {
-        return super.getType();
-    }
-
-    @Override
-    public void setScheduled(boolean scheduled) {
-        decoratedFlight.setScheduled(scheduled);
     }
 }

@@ -2,61 +2,65 @@ package commandsTest.gameCommandTest;
 
 import commands.gamecommand.CheckFlightStatusCommand;
 import models.flight.FlightInterface;
-import views.SimulatorView;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import views.SimulatorView;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
 
 class CheckFlightStatusCommandTest {
-    private List<FlightInterface> flights;
+
+    @Mock
     private SimulatorView view;
-    private CheckFlightStatusCommand checkFlightStatusCommand;
+    @Mock
+    private FlightInterface flight;
+    private List<FlightInterface> flights;
 
     @BeforeEach
     void setUp() {
-        flights = new ArrayList<>();
-        view = Mockito.mock(SimulatorView.class);
-        checkFlightStatusCommand = new CheckFlightStatusCommand(flights, view);
+        MockitoAnnotations.openMocks(this);
+        flights = Collections.singletonList(flight);
     }
 
     @Test
-    void testExecuteWithNoFlights() {
-        checkFlightStatusCommand.execute();
+    void executeNoFlightsAvailableLogsError() {
+        new CheckFlightStatusCommand(Collections.emptyList(), view).execute();
         verify(view, never()).getUserInput();
+        verify(flight, never()).getFlightNumber();
     }
 
     @Test
-    void testExecuteWithFlightFound() {
-        FlightInterface flight = Mockito.mock(FlightInterface.class);
-        when(flight.getFlightNumber()).thenReturn("FL123");
-        when(flight.getType()).thenReturn("TypeA");
-        when(flight.getState()).thenReturn("OnRunway");
+    void executeFlightFoundLogsFlightStatus() {
+        when(view.getUserInput()).thenReturn("123");
+        when(flight.getFlightNumber()).thenReturn("123");
+        when(flight.isScheduled()).thenReturn(true);
+        when(flight.getType()).thenReturn("Type");
+        when(flight.getState()).thenReturn("State");
         when(flight.getFuel()).thenReturn(100);
-        flights.add(flight);
 
-        when(view.getUserInput()).thenReturn("FL123");
-
-        checkFlightStatusCommand.execute();
+        new CheckFlightStatusCommand(flights, view).execute();
 
         verify(view).getUserInput();
-
+        verify(flight, atLeastOnce()).getFlightNumber();
+        verify(flight, atLeastOnce()).isScheduled();
+        verify(flight, atLeastOnce()).getType();
+        verify(flight, atLeastOnce()).getState();
+        verify(flight, atLeastOnce()).getFuel();
     }
 
     @Test
-    void testExecuteWithFlightNotFound() {
-        FlightInterface flight = Mockito.mock(FlightInterface.class);
-        when(flight.getFlightNumber()).thenReturn("FL123");
-        flights.add(flight);
+    void executeFlightNotFoundLogsError() {
+        when(view.getUserInput()).thenReturn("999");
+        when(flight.getFlightNumber()).thenReturn("123");
 
-        when(view.getUserInput()).thenReturn("FL999");
-
-        checkFlightStatusCommand.execute();
+        new CheckFlightStatusCommand(flights, view).execute();
 
         verify(view).getUserInput();
+        verify(flight, atLeastOnce()).getFlightNumber();
     }
 }

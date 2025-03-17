@@ -14,14 +14,15 @@ public class FlightFactory {
 
     public static FlightInterface createFlight(FlightType type, String flightNumber) {
         return switch (type) {
-            case PRIVATE -> new PrivateFlight(flightNumber);
-            case PASSENGER -> new PassengerFlight(flightNumber);
-            case MILITARY -> new MilitaryFlight(flightNumber);
-            case CARGO -> new CargoFlight(flightNumber);
+            case PRIVATE -> new PrivateFlight(flightNumber, null, null, null);
+            case PASSENGER -> new PassengerFlight(flightNumber, null, null, null);
+            case MILITARY -> new MilitaryFlight(flightNumber, null, null, null);
+            case CARGO -> new CargoFlight(flightNumber, null, null, null);
         };
     }
 
-    public static FlightInterface createDecoratedFlight(FlightType type, String flightNumber, int initialPassengers, String flightAgency, String pilotName, int crewCount) {
+    public static FlightInterface createDecoratedFlight(FlightType type, String flightNumber, int initialPassengers,
+                                                        String flightAgency, String pilotName, int crewCount) {
         FlightInterface flight = createFlight(type, flightNumber);
         if (type != FlightType.MILITARY && type != FlightType.CARGO) {
             flight = new PassengerDecorator(flight, initialPassengers);
