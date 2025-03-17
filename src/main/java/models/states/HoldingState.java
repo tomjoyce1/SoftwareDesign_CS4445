@@ -8,8 +8,9 @@ public class HoldingState implements FlightState {
     private static final String FLIGHTPREFIX = "Flight ";
 
     @Override
-    public void takeOff(Flight flight) {
+    public boolean takeOff(Flight flight) {
         ConsoleLogger.logWarning(FLIGHTPREFIX + flight.getFlightNumber() + " is holding and cannot take off until it lands.");
+        return false;
     }
 
     @Override

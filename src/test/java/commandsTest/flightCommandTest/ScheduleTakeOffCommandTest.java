@@ -30,7 +30,7 @@ class ScheduleTakeOffCommandTest {
 
     @Test
     void execute_flightAlreadyScheduled() {
-        ScheduledFlight scheduledFlight = new ScheduledFlight(flight, 1, 1);
+        ScheduledFlight scheduledFlight = new ScheduledFlight(flight, 1, 1, 1, 1, "Test");
         scheduledFlights.add(scheduledFlight);
         when(flight.getFlightNumber()).thenReturn("123");
 

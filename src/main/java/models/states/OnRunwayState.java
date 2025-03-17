@@ -6,9 +6,10 @@ import views.ConsoleLogger;
 public class OnRunwayState implements FlightState {
 
     @Override
-    public void takeOff(Flight flight) {
+    public boolean takeOff(Flight flight) {
         ConsoleLogger.logSuccess("Taxiing to take off");
         flight.setState(new InAirState());
+        return true;
     }
 
     @Override

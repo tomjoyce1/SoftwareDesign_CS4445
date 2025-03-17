@@ -15,6 +15,7 @@ import commands.gamecommand.ControlFlightCommand;
 import commands.gamecommand.CreateFlightCommand;
 import commands.gamecommand.ListFlightsCommand;
 import commands.gamecommand.QuitCommand;
+import commands.gamecommand.RemoveCrashedFlightsCommand;
 import commands.gamecommand.UpdateWeatherCommand;
 import commands.gamecommand.ViewCellContentsCommand;
 import commands.gamecommand.ViewFlightInfo;
@@ -36,12 +37,13 @@ public class SimulatorController {
         commands.put("1", new CreateFlightCommand(model.getFlights(), view, model.getDispatcher(), model.getAirTrafficMap()));
         commands.put("2", new ControlFlightCommand(model.getFlights(), view, model.getDispatcher(), model.getAirTrafficMap(), model));
         commands.put("3", new ClearScheduledFlightsForTakeOffCommand(model.getAirTrafficMap(), model.getScheduledFlights(), view));
-        commands.put("4", new UpdateWeatherCommand(model.getWeatherStation(), view, model.getDispatcher()));
-        commands.put("5", new ListFlightsCommand(model.getFlights()));
-        commands.put("6", new CheckFlightStatusCommand(model.getFlights(), view));
-        commands.put("7", new ViewFlightInfo(model.getFlights(), view));
-        commands.put("8", new ViewMapCommand(model.getAirTrafficMap()));
-        commands.put("9", new ViewCellContentsCommand(model.getAirTrafficMap(), view));
+        commands.put("4", new RemoveCrashedFlightsCommand(model));
+        commands.put("5", new UpdateWeatherCommand(model.getWeatherStation(), view, model.getDispatcher()));
+        commands.put("6", new ListFlightsCommand(model.getFlights()));
+        commands.put("7", new CheckFlightStatusCommand(model.getFlights(), view));
+        commands.put("8", new ViewFlightInfo(model.getFlights(), view));
+        commands.put("9", new ViewMapCommand(model.getAirTrafficMap()));
+        commands.put("10", new ViewCellContentsCommand(model.getAirTrafficMap(), view));
         commands.put("Q", new QuitCommand());
     }
 

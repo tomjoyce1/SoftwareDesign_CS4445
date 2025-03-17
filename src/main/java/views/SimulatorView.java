@@ -15,18 +15,20 @@ public class SimulatorView {
         ConsoleLogger.logStandard("1. Create new flight");
         ConsoleLogger.logStandard("2. Control flight");
         ConsoleLogger.logStandard("3. Clear Scheduled Flights For Take Off");
+        ConsoleLogger.logStandard("4. Remove Crashed Flights");
+
     
         ConsoleLogger.logTitle("\n=== Weather Operations ===");
-        ConsoleLogger.logStandard("4. Update weather");
+        ConsoleLogger.logStandard("5. Update weather");
     
         ConsoleLogger.logTitle("\n=== Flight Information ===");
-        ConsoleLogger.logStandard("5. List all flights");
-        ConsoleLogger.logStandard("6. Check Flight Status");
-        ConsoleLogger.logStandard("7. View Flight Info");
+        ConsoleLogger.logStandard("6. List all flights");
+        ConsoleLogger.logStandard("7. Check Flight Status");
+        ConsoleLogger.logStandard("8. View Flight Info");
     
         ConsoleLogger.logTitle("\n=== Map Operations ===");
-        ConsoleLogger.logStandard("8. View Air Traffic Map");
-        ConsoleLogger.logStandard("9. View Cell Contents");
+        ConsoleLogger.logStandard("9. View Air Traffic Map");
+        ConsoleLogger.logStandard("10. View Cell Contents");
     
         ConsoleLogger.logTitle("\n=== Exit ===");
         ConsoleLogger.logStandard("Q. Quit");

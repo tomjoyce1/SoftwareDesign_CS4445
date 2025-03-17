@@ -1,33 +1,26 @@
 package models.flight;
 
-import models.map.AirTrafficMap;
 import models.map.MapCell;
-import models.map.takeoff.FlightSimulator;
 import models.states.FlightState;
 import models.states.InAirState;
 import models.states.OnRunwayState;
 import views.ConsoleLogger;
-import views.SimulatorView;
 import weatherpubsub.WeatherBroker;
 
 public class Flight implements FlightInterface {
     private final String flightNumber;
+    private final WeatherBroker broker;
     private FlightState state;
     private int fuel = 100;
     private boolean stormNotified = false;
     private boolean scheduled = false;
     private MapCell currentAirportCell;
-    private final FlightInterface flightInterface;
-    private final AirTrafficMap airTrafficMap;
-    private final SimulatorView view;
 
-    public Flight(String flightNumber, FlightInterface flightInterface, AirTrafficMap airTrafficMap, SimulatorView view) {
+
+    public Flight(String flightNumber) {
         this.flightNumber = flightNumber;
-        this.flightInterface = flightInterface;
-        this.airTrafficMap = airTrafficMap;
-        this.view = view;
         this.state = new OnRunwayState();
-        WeatherBroker broker = WeatherBroker.getInstance();
+        this.broker = WeatherBroker.getInstance();
 
         broker.subscribe("WEATHER.STORM", this);
         broker.subscribe("WEATHER.SUNNY", this);
@@ -46,15 +39,17 @@ public class Flight implements FlightInterface {
 
     @Override
     public boolean takeOff() {
-        if (stormNotified) {
-            ConsoleLogger.logError(getType() + " " + flightNumber + " cannot take off due to storm conditions.");
+        if(!isOperable()) {
             return false;
         }
-        FlightSimulator simulator = new FlightSimulator(airTrafficMap, view);
-        state.takeOff(this);
+        if (!isTakeOffPermitted()) {
+            return false;
+        }
+        boolean success = state.takeOff(this);
+        if(success) {
         consumeFuel();
-        simulator.simulateTakeOff(flightInterface, -1, -1);
-        return true;
+        }
+        return success;
     }
 
     @Override
@@ -130,5 +125,25 @@ public class Flight implements FlightInterface {
         } else if ("WEATHER.SUNNY".equals(topic) || "WEATHER.FOGGY".equals(topic)) {
             stormNotified = false;
         }
+    }
+
+    private boolean isTakeOffPermitted() {
+        if (stormNotified) {
+            ConsoleLogger.logError(getType() + " " + flightNumber + " cannot take off due to storm conditions.");
+            return false;
+        }
+        if (fuel <= 80) {
+            ConsoleLogger.logError(getType() + " " + flightNumber + " cannot take off due to insufficient fuel (Fuel level: " + fuel + ").");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isOperable() {
+        if ("Crashed".equals(getState())) {
+            ConsoleLogger.logError(getType() + " " + flightNumber + " has crashed and cannot perform further operations.");
+            return false;
+        }
+        return true;
     }
 }

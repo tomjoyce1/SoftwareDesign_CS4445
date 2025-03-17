@@ -3,7 +3,7 @@ package models.states;
 import models.flight.Flight;
 
 public interface FlightState {
-    void takeOff(Flight flight);
+    boolean takeOff(Flight flight);
 
     void land(Flight flight);
 

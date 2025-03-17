@@ -9,6 +9,7 @@ import views.ConsoleLogger;
 import views.SimulatorView;
 import commands.flightcommand.TakeOffCommand;
 import commands.flightcommand.LandCommand;
+import commands.flightcommand.RefuelPlaneCommand;
 import commands.flightcommand.ScheduleTakeOffCommand;
 import commands.flightcommand.HoldCommand;
 
@@ -51,7 +52,7 @@ public class ControlFlightCommand implements Command {
         }
 
         ConsoleLogger.logTitle("\n=== Flight Controls ===");
-        ConsoleLogger.logOption(new String[]{"Take off", "Land", "Hold", "Schedule Take Off"});
+        ConsoleLogger.logOption(new String[]{"Take off", "Land", "Hold", "Schedule Take Off", "Refuel"});
 
         String action = view.getUserInput();
         dispatcher.dispatch("Controlling " + flightNumber + action);
@@ -66,9 +67,10 @@ public class ControlFlightCommand implements Command {
     }
 
     private void setUpFlightCommands(FlightInterface selectedFlight) {
-        commands.put("1", new TakeOffCommand(selectedFlight));
+        commands.put("1", new TakeOffCommand(selectedFlight, airTrafficMap, view));
         commands.put("2", new LandCommand(selectedFlight));
         commands.put("3", new HoldCommand(selectedFlight));
         commands.put("4", new ScheduleTakeOffCommand(selectedFlight, airTrafficMap, view, model.getScheduledFlights()));
+        commands.put("5", new RefuelPlaneCommand(selectedFlight));
     }
 }

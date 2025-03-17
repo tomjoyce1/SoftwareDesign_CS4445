@@ -23,6 +23,10 @@ public class FlightTakeOffManager {
     }
 
     public void simulateTakeOff(FlightInterface flight, int destRow, int destCol) {
+        if ("Crashed".equals(flight.getState())) {
+            ConsoleLogger.logError("Flight " + flight.getFlightNumber() + " has crashed and cannot take off.");
+            return;
+        }
         int[] currentPos = airTrafficMap.findFlightPosition(flight);
         if (currentPos == null) {
             ConsoleLogger.logError("Flight " + flight.getFlightNumber() + " is not at an airport.");
@@ -41,7 +45,6 @@ public class FlightTakeOffManager {
             return;
         }
         if (!flight.takeOff()) {
-            ConsoleLogger.logError("Takeoff aborted for flight " + flight.getFlightNumber() + " due to adverse weather conditions.");
             return;
         }
         List<int[]> path = pathCalculator.calculatePath(currentPos[0], currentPos[1], destRow, destCol);

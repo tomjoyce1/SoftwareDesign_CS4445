@@ -7,8 +7,9 @@ public class CrashedState implements FlightState {
     private static final String FLIGHTPREFIX = "Flight ";
 
     @Override
-    public void takeOff(Flight flight) {
+    public boolean takeOff(Flight flight) {
         ConsoleLogger.logError(FLIGHTPREFIX + flight.getFlightNumber() + " has crashed and cannot take off.");
+        return false;
     }
 
     @Override

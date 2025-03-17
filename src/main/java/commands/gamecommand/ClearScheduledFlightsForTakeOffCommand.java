@@ -34,7 +34,6 @@ public void execute() {
     
     for (ScheduledFlight sf : scheduledFlights) {
         if (!sf.getFlight().takeOff()) {
-            ConsoleLogger.logWarning("Scheduled flight " + sf.getFlight().getFlightNumber() + " did not take off due to storm conditions.");
             return;
         }
     }
@@ -44,6 +43,7 @@ public void execute() {
     while (true) {
         collisionDetector.checkAndHandleCollisions(scheduledFlights);
         scheduledFlights.removeIf(sf -> sf.getFlight().getState().equals("Crashed"));
+        
         
         if (scheduledFlights.isEmpty()) {
             ConsoleLogger.logWarning("All scheduled flights have either crashed or completed their simulation.");

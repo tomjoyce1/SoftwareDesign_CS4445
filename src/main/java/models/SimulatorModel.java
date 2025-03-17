@@ -44,4 +44,8 @@ public class SimulatorModel {
     public List<ScheduledFlight> getScheduledFlights() {
         return scheduledFlights;
     }
+
+    public void removeCrashedFlights() {
+        flights.removeIf(flight -> "Crashed".equals(flight.getState()));
+    }
 }

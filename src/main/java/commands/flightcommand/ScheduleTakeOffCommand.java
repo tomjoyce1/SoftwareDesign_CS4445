@@ -25,6 +25,10 @@ public class ScheduleTakeOffCommand implements Command {
 
     @Override
     public void execute() {
+        if ("Crashed".equals(flight.getState())) {
+            ConsoleLogger.logError("Flight " + flight.getFlightNumber() + " has crashed and cannot take off.");
+            return;
+        }
         boolean alreadyScheduled = scheduledFlights.stream()
                 .anyMatch(sf -> sf.getFlight().equals(flight));
         if (alreadyScheduled) {
@@ -58,7 +62,6 @@ public class ScheduleTakeOffCommand implements Command {
     
         ScheduledFlight scheduledFlight = new ScheduledFlight(flight, currentRow, currentCol, destinationRow, destinationCol, destinationLabel);        flight.setScheduled(true);
         scheduledFlights.add(scheduledFlight);
-        ConsoleLogger.logSuccess(FLIGHTPREFIX + flight.getFlightNumber() + " scheduled for takeoff to " + destinationLabel);
         ConsoleLogger.logSuccess(FLIGHTPREFIX + flight.getFlightNumber() + " scheduled for takeoff to " + destinationLabel);
     }
 }
